@@ -49,7 +49,7 @@ Open the `.env` and edit the values listed within.
 
 ### Chat Command Plugin Example
 These plugins go into the `/plugins/` Folder.
-`
+```js
 module.exports = {
 	name: 'name',
 	description: 'Description',
@@ -57,13 +57,13 @@ module.exports = {
 		bot.sendMessage(`Send a Message Here <3`);
 	},
 };
-`
+```
 ### Event Plugin Example
 These plugins go into the `/events/` Folder. Named like `Name.EventType.js`
 Valid event Types: json or text
 Example of JSON event name: `viewercount.json.js`
 Example of Text event name: `welcomer.text.js`
-`
+```js
 module.exports = {
 	event: 'event here',
 	description: 'Description',
@@ -71,7 +71,7 @@ module.exports = {
 		bot.sendMessage(`Send a Message Here <3`);
 	},
 };
-`
+```
 
 ## Contributing
 
