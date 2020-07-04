@@ -48,7 +48,7 @@ Open the `.env` and edit the values listed within.
 > All develops are welcome to make Pull Requests with Plugin's you've created!
 
 ### Chat Command Plugin Example
-These plugins go into the `/plugins/` Folder.
+>These plugins go into the `/plugins/` Folder.
 ```js
 module.exports = {
 	name: 'name',
@@ -59,10 +59,10 @@ module.exports = {
 };
 ```
 ### Event Plugin Example
-These plugins go into the `/events/` Folder. Named like `Name.EventType.js`
-Valid event Types: json or text
-Example of JSON event name: `viewercount.json.js`
-Example of Text event name: `welcomer.text.js`
+>These plugins go into the `/events/` Folder. Named like `Name.EventType.js`
+>Valid event Types: json or text
+>Example of JSON event name: `viewercount.json.js`
+>Example of Text event name: `welcomer.text.js`
 ```js
 module.exports = {
 	event: 'event here',
