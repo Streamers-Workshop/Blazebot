@@ -68,7 +68,7 @@ bot.on("chatMessage", (message) => {
       return bot.sendMessage('You don\'t have permission to use this command.');
     }
     if (command.args && !args.length) {
-      let reply = `You didn't provide any arguments, ${message.user}!`;
+      let reply = `You didn't provide any arguments, ${message.user.name}!`;
 
       if (command.usage) {
         reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
