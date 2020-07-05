@@ -1,6 +1,6 @@
 const fs = require('fs'), path = require('path'), util = require('util');
 
-require('dotenv').config({ path: path.join(__dirname, ".env-dev") });
+require('dotenv').config({ path: path.join(__dirname, ".env") });
 
 var trovojs = require('trovo.js');
 
