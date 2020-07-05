@@ -4,6 +4,7 @@ console.log('loaded create');
 module.exports = {
 	name: 'create',
 	description: 'creates a text command',
+	allowedRoles: ['CREATOR', 'MODERATOR'],
 	execute(message, args, user, bot) {
         args = args.join(' ')
         new_command = args.substr(0,args.indexOf(' '))
@@ -19,6 +20,7 @@ console.log('loaded ${new_command}'); \r\
 module.exports = { \r\
     name: '${new_command}', \r\
     description: '', \r\
+    allowedRoles: ['EVERYONE'], \r\
     execute(message, args, user, bot) { \r\
         bot.sendMessage('${command_output}'); \r\
     }, \r\
