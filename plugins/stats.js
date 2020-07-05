@@ -4,7 +4,7 @@ const config = require('./stats.Settings.json');
 const urlEncodedName = encodeURIComponent(config.playerName)
 const userUrl = `https://api.tracker.gg/api/v2/warzone/standard/profile/${config.platform}/${urlEncodedName}`
 module.exports = {
-	name: 'stats',
+	name: 'warzone-stats',
   description: 'Replies with warzone stat information',
   credits: "Created by Teabagz check out my channel https://trovo.live/Bagz",
 	execute(message, args, user, bot) {
