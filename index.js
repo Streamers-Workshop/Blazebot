@@ -47,7 +47,9 @@ bot.on("chatMessage", (message) => {
     const command = bot.text_events.get(message.content);
 
     if (!command) return;
-
+    if (!checkUserAllowedForCommand(command, message.user)) {
+      return bot.sendMessage('You don\'t have permission to use this command.');
+    }
     try {
       command.execute(message.user, message.content, bot);
     } catch (err) {
@@ -62,9 +64,11 @@ bot.on("chatMessage", (message) => {
     const command = bot.commands.get(commandName);
 
     if (!command) return;
-
+    if (!checkUserAllowedForCommand(command, message.user)) {
+      return bot.sendMessage('You don\'t have permission to use this command.');
+    }
     if (command.args && !args.length) {
-      let reply = `You didn't provide any arguments, ${message.user}!`;
+      let reply = `You didn't provide any arguments, ${message.user.name}!`;
 
       if (command.usage) {
         reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
@@ -108,5 +112,13 @@ bot.on("chatMessage", (message) => {
 
   }
 })
+const checkUserAllowedForCommand = function(command, user) {
+  if (!command.allowedRoles.includes(user.role)){
+    if (!(command.allowedRoles.includes('EVERYONE'))){
+      return false;
+    }
+  }
+  return true;
+};
 
 bot.login(process.env.TROVO_PAGE, process.env.TROVO_EMAIL, process.env.TROVO_PASSWORD);

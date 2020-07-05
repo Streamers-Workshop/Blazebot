@@ -7,6 +7,7 @@ module.exports = {
 	name: 'warzone-stats',
   description: 'Replies with warzone stat information',
   credits: "Created by Teabagz check out my channel https://trovo.live/Bagz",
+  allowedRoles: ['EVERYONE'], 
 	execute(message, args, user, bot) {
     https.get(userUrl, (resp) => {
     let data = '';
@@ -25,7 +26,7 @@ module.exports = {
       const wins = brStats.stats.wins.displayValue;
       const top10 = brStats.stats.top10.displayValue;
       const avgLife = brStats.stats.averageLife.displayValue;
-      bot.sendMessage(`${user} here are my warzone stats\rKills: ${kills} Deaths: ${deaths}\rKDR: ${kdr}\r
+      bot.sendMessage(`${user.name} here are my warzone stats\rKills: ${kills} Deaths: ${deaths}\rKDR: ${kdr}\r
       Wins: ${wins}\rTop 10 placements: ${top10}\rand on average I live for ${avgLife}`);
     });
   }).on("error", (err) => {
