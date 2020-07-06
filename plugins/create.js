@@ -29,6 +29,7 @@ module.exports = { \r\
                 command_to_add = {
                     name: new_command,
                     description: '',
+                    allowedRoles: ['EVERYONE'],
                     execute(message, args, user, bot) {
                         bot.sendMessage(command_output);
                     },
