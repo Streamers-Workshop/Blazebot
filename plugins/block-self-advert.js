@@ -16,15 +16,17 @@ module.exports = {
     if(settings === undefined) return bot.sendMessage(`@${user} Misuse detected! \r @${user} To activate type !block-ad enable , to disable !block-ad disable `);
       if(settings === undefined) return;
             if (settings === "enable") {
-              bot.sendMessage(`Ad filter is activated!`)
+              bot.sendMessage(`Ad filter is activated! Please re-launch your bot!`);
               isBlocked[process.env.TROVO_PAGE] = { blocked: "true" };
               fs.writeFile("./plugins/blockAds.json", JSON.stringify(isBlocked), (err) => { if (err) console.log(err) });
+							setTimeout(() => {  process.exit(0); }, 2500);
             };
 
     if (settings === "disable") {
-        bot.sendMessage(`Ad filter is deactivated!`);
+        bot.sendMessage(`Ad filter is deactivated! Please re-launch your bot!`);
         isBlocked[process.env.TROVO_PAGE] = { blocked: "false" };
         fs.writeFile("./plugins/blockAds.json", JSON.stringify(isBlocked), (err) => { if (err) console.log(err) });
+				setTimeout(() => {  process.exit(0); }, 2500);
     };
 
 	},
