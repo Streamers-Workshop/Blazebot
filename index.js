@@ -72,7 +72,6 @@ bot.on("chatEvent", (type, data) => {
 
 
 bot.on("chatMessage", (message) => {
-  console.log(message);
   if (!isBlocked[process.env.TROVO_PAGE]) return; // Check for Trovo url is contains or not in blockAds.json file
   if (isBlocked[process.env.TROVO_PAGE].blocked === 'false') return; // Checking for our adblocker is enabled or not
   if (isBlocked[process.env.TROVO_PAGE].blocked === 'true') {
