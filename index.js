@@ -72,14 +72,16 @@ bot.on("chatEvent", (type, data) => {
 
 
 bot.on("chatMessage", (message) => {
+  console.log(message);
   if (!isBlocked[process.env.TROVO_PAGE]) return; // Check for Trovo url is contains or not in blockAds.json file
   if (isBlocked[process.env.TROVO_PAGE].blocked === 'false') return; // Checking for our adblocker is enabled or not
   if (isBlocked[process.env.TROVO_PAGE].blocked === 'true') {
     const ad = [".com", ".net", ".xyz", ".tk", ".pw", ".io", ".me", ".gg", "www.", "https", "http", ".gl", ".org", ".com.tr", ".biz", "net", ".rf.gd", ".az", ".party", "discord.gg" , "trovo.live"];
-    if (ad.some(word => message.content.includes(word)) ) {
-      if (message.badges !== 'creator') {
-        bot.sendMessage(`@${message.user} Please don\'t make advertise :) !`)
-        bot.sendMessage(`/ban @${message.user} 1`)
+    if (ad.some(word => message.content.includes(word))) {
+      if (message.badges !== undefined ) { if (message.badges.indexOf("moderator") <= -1 && message.badges.indexOf("creator") <= -1) { } }
+      else {
+        bot.sendMessage(`@${message.user} Please don\'t make advertise :) !`);
+        setTimeout(() => {  bot.sendMessage(`/ban @${message.user} 10`); }, 1500);
       }
     }
   }
