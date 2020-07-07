@@ -72,15 +72,20 @@ bot.on("chatEvent", (type, data) => {
 
 
 bot.on("chatMessage", (message) => {
-  if (!isBlocked[process.env.TROVO_PAGE]) {} // Check for Trovo url is contains or not in blockAds.json file
-  if (isBlocked[process.env.TROVO_PAGE].blocked === 'false') {} // Checking for our adblocker is enabled or not
-  if (isBlocked[process.env.TROVO_PAGE].blocked === 'true') {
-    const ad = [".com", ".net", ".xyz", ".tk", ".pw", ".io", ".me", ".gg", "www.", "https", "http", ".gl", ".org", ".com.tr", ".biz", "net", ".rf.gd", ".az", ".party", "discord.gg" , "trovo.live"];
-    if (ad.some(word => message.content.includes(word))) {
-      if (message.badges !== undefined ) { if (message.badges.indexOf("moderator") <= -1 && message.badges.indexOf("creator") <= -1) { } }
-      else {
-        bot.sendMessage(`@${message.user} Please don\'t make advertise :) !`);
-        setTimeout(() => {  bot.sendMessage(`/ban @${message.user} 10`); }, 1500);
+  if (!Object.keys(isBlocked).length > 0) {
+    console.log('blockAds.json is empty. Please type !block-ad enable Then restart the bot.');
+  }
+  else {
+    if (!isBlocked[process.env.TROVO_PAGE]) {} // Check for Trovo url is contains or not in blockAds.json file
+    if (isBlocked[process.env.TROVO_PAGE].blocked === 'false') {} // Checking for our adblocker is enabled or not
+    if (isBlocked[process.env.TROVO_PAGE].blocked === 'true') {
+      const ad = [".com", ".net", ".xyz", ".tk", ".pw", ".io", ".me", ".gg", "www.", "https", "http", ".gl", ".org", ".com.tr", ".biz", "net", ".rf.gd", ".az", ".party", "discord.gg" , "trovo.live"];
+      if (ad.some(word => message.content.includes(word))) {
+        if (message.badges !== undefined ) { if (message.badges.indexOf("moderator") <= -1 && message.badges.indexOf("creator") <= -1) { } }
+        else {
+          bot.sendMessage(`@${message.user} Please don\'t make advertise :) !`);
+          setTimeout(() => {  bot.sendMessage(`/ban @${message.user} 10`); }, 1500);
+        }
       }
     }
   }
