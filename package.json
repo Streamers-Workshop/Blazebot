@@ -4,7 +4,7 @@
   "main": "index.js",
   "dependencies": {
     "dotenv": "^8.2.0",
-    "trovo.js": "^1.0.3"
+    "trovo.js": "^1.2.5"
   },
   "devDependencies": {},
   "scripts": {
