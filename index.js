@@ -2,6 +2,14 @@ const fs = require('fs'), path = require('path'), util = require('util');
 
 require('dotenv').config({ path: path.join(__dirname, ".env-dev") });
 
+const OBSWebSocket = require('obs-websocket-js');
+const obs = new OBSWebSocket();
+if (process.env.OBS_ACTIVE > 0) {
+  var obs_settings = require('./events/obs.Settings.json');
+
+  obs.connect({ address: obs_settings.address, password: obs_settings.password });
+}
+
 var trovojs = require('trovo.js');
 
 var bot = new trovojs.Client();
@@ -47,8 +55,13 @@ bot.on("chatEvent", (type, data) => {
     if (value.event == data.chatType) {
       var trigger = bot.text_events.get(key);
       try {
-        trigger.execute(data, bot);
+        if (process.env.OBS_ACTIVE > 0) {
+          trigger.execute(data, bot, obs);
+        } else {
+          trigger.execute(data, bot);
+        }
       } catch(e) {
+        console.log(key, e)
         console.log("FAILED");
       }
     }
