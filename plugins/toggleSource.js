@@ -9,22 +9,27 @@ Date: 07/07/2020
 
 
 var settings = require('../events/obs.Settings.json');
-var isVisible = true;
+var isVisible = false;
+var obsSocket = null;
 console.log('loaded sourceToggle');
 module.exports = {
 	name: 'toggle-source', //CHANGE COMMAND HERE (ie: !toggle-source, !toggle , !source-visible)
 	description: 'Toggles OBS Source',
 	execute(message, args, user, bot, event, obs) {
-		
-		obs.send('GetSceneItemProperties', { item: { name: 'Follow Alert' } }).then( data => {
+		if (obs != null)
+		{
+			obs.send('GetSceneItemProperties', { item: { name: 'Follow Alert' } }).then( data => {
 			isVisible = data.visible;
-		}).catch(console.error);
-		
-		var tobj = {
-			source: "Follow Alert",  //CHANGE SOURCE NAME HERE
-			render: isVisible
-		};
-		console.log(tobj.render)
-		obs.send('SetSourceRender', tobj);
+				}).catch(console.error);
+			var tobj = {
+				source: "Follow Alert",  //CHANGE SOURCE NAME HERE
+				render: isVisible
+			};
+			obs.send('SetSourceRender', tobj);
+		}
+		else
+		{
+			bot.sendMessage("OBS not Connected");
+		}	
 	}
 };
