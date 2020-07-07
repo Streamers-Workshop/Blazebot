@@ -79,6 +79,7 @@ bot.on("chatMessage", (message) => {
     if (ad.some(word => message.content.includes(word)) ) {
       if (message.badges !== 'creator') {
         bot.sendMessage(`@${message.user} Please don\'t make advertise :) !`)
+        bot.sendMessage(`/ban @${message.user} 1`)
       }
     }
   }
