@@ -6,7 +6,7 @@ module.exports = {
 	description: 'creates a text command',
 	credits: "Look in Contrib for who did this, modified by bioblaze to include permissions check in it.",
 	execute(message, args, user, bot, event) {
-				if (event.badges == undefined || event.badges.indexOf("creator") <= -1) return;
+				if (event.badges == undefined || (event.badges.indexOf("moderator") <= -1 && event.badges.indexOf("creator") <= -1)) return;
         args = args.join(' ')
         new_command = args.substr(0,args.indexOf(' '))
         command_output = args.substring(args.indexOf(' ')+1)
