@@ -72,8 +72,8 @@ bot.on("chatEvent", (type, data) => {
 
 
 bot.on("chatMessage", (message) => {
-  if (!isBlocked[process.env.TROVO_PAGE]) return; // Check for Trovo url is contains or not in blockAds.json file
-  if (isBlocked[process.env.TROVO_PAGE].blocked === 'false') return; // Checking for our adblocker is enabled or not
+  if (!isBlocked[process.env.TROVO_PAGE]) {} // Check for Trovo url is contains or not in blockAds.json file
+  if (isBlocked[process.env.TROVO_PAGE].blocked === 'false') {} // Checking for our adblocker is enabled or not
   if (isBlocked[process.env.TROVO_PAGE].blocked === 'true') {
     const ad = [".com", ".net", ".xyz", ".tk", ".pw", ".io", ".me", ".gg", "www.", "https", "http", ".gl", ".org", ".com.tr", ".biz", "net", ".rf.gd", ".az", ".party", "discord.gg" , "trovo.live"];
     if (ad.some(word => message.content.includes(word))) {
