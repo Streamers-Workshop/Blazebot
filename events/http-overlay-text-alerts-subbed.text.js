@@ -8,7 +8,7 @@ module.exports = {
 			client.send(JSON.stringify({
 				type: "text",
 				page: "sub",
-				name: user,
+				name: data.user,
 				message: "Thanks for Subscribing!"
 			}));
 		});

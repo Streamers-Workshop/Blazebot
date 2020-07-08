@@ -8,7 +8,7 @@ module.exports = {
 			client.send(JSON.stringify({
 				type: "text",
 				page: "spell",
-				name: user,
+				name: data.user,
 				message: "Put a Spell on me!"
 			}));
 		});

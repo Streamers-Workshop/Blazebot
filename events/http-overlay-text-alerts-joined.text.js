@@ -8,7 +8,7 @@ module.exports = {
 			client.send(JSON.stringify({
 				type: "text",
 				page: "joined",
-				name: user,
+				name: data.user,
 				message: "Welcome to the Stream"
 			}));
 		});

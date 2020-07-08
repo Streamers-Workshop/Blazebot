@@ -8,7 +8,7 @@ module.exports = {
 			client.send(JSON.stringify({
 				type: "text",
 				page: "follow",
-				name: user,
+				name: data.user,
 				message: "Has followed the Stream!"
 			}));
 		});

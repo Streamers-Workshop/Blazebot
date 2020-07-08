@@ -1,6 +1,6 @@
 const fs = require('fs'), path = require('path'), util = require('util');
 
-require('dotenv').config({ path: path.join(__dirname, ".env-dev") });
+require('dotenv').config({ path: path.join(__dirname, ".env") });
 
 /*
 This is for the OBS Plugin to allow OBS functionality in Plugins and Events.
@@ -131,7 +131,7 @@ bot.on("chatMessage", (message) => {
   setTimeout(() => timestamps.delete(message.user), cooldownAmount);
 
   if (command.permissions != undefined && command.permissions.length > 0) {
-    if ((message.badges == undefined || (message.badges.indexOf('moderator') <= -1 || message.badges.indexOf('creator') <= -1) )) {
+    if (message.badges == undefined || (message.badges.indexOf('moderator') <= -1 || message.badges.indexOf('creator') <= -1) )) {
       return bot.sendMessage("You do not have permission to use this command. Sorry.")
     }
   }

@@ -22,7 +22,7 @@ module.exports = { \r\
     name: '${new_command}', \r\
     description: '', \r\
     permissions: [], \r\
-    execute(message, args, user, bot) { \r\
+    execute(message, args, user, bot, event, plugins) { \r\
         bot.sendMessage('${command_output}'); \r\
     }, \r\
 }; \
