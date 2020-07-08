@@ -25,7 +25,7 @@ module.exports = {
       const wins = brStats.stats.wins.displayValue;
       const top10 = brStats.stats.top10.displayValue;
       const avgLife = brStats.stats.averageLife.displayValue;
-      bot.sendMessage(`${user.name} here are my warzone stats\rKills: ${kills} Deaths: ${deaths}\rKDR: ${kdr}\r
+      bot.sendMessage(`${user} here are my warzone stats\rKills: ${kills} Deaths: ${deaths}\rKDR: ${kdr}\r
       Wins: ${wins}\rTop 10 placements: ${top10}\rand on average I live for ${avgLife}`);
     });
   }).on("error", (err) => {

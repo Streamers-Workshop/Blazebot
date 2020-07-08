@@ -1,6 +1,6 @@
 const fs = require('fs'), path = require('path'), util = require('util');
 
-require('dotenv').config({ path: path.join(__dirname, ".env") });
+require('dotenv').config({ path: path.join(__dirname, ".env-dev") });
 
 const OBSWebSocket = require('obs-websocket-js');
 const obs = new OBSWebSocket();
