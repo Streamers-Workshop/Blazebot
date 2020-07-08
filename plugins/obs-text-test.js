@@ -1,5 +1,5 @@
 console.log('loaded obs-test')
-var settings = require('./obs.Settings.json');
+var settings = require('../events/obs.Settings.json');
 module.exports = {
 	name: 'obs-test',
 	description: 'Tests OBS Websocket Functionality',
