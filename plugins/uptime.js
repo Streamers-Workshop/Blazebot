@@ -13,10 +13,10 @@ console.log('loaded uptime');
 module.exports = {
 	name: 'uptime',
 	description: 'Sends message with how long user has been streaming',
-	execute(message, args, user, bot, event, obs) {
-		if (obs != null)
+	execute(message, args, user, bot, event, plugins) {
+		if (plugins.obs != null)
 		{
-			obs.send('GetStreamingStatus').then( data => {
+			plugins.obs.send('GetStreamingStatus').then( data => {
 			if (data.streaming == true)
 			{
 				bot.sendMessage("the stream has been live for: " + data.streamTimecode);
@@ -30,6 +30,6 @@ module.exports = {
 		else
 		{
 			bot.sendMessage("OBS not Connected");
-		}	
+		}
 	}
 };

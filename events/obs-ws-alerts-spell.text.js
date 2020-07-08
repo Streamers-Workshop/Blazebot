@@ -3,7 +3,8 @@ module.exports = {
 	name: 'obs-spell-event',
 	event: 5,
 	description: 'Thanks a user for Triggering a Spell, via OBS',
-	execute(data, bot, obs) {
+	execute(data, bot, plugins) {
+		if (!plugins.obs) return;
 		var tobj = {
 			source: settings.spellsSource,
 			text: `Thanks ${data.user} for your amazing spell casting, your awesome and thank you <3`
@@ -15,11 +16,11 @@ module.exports = {
 			},
 			visible: true
 		};
-		obs.send("SetTextGDIPlusProperties", tobj).then((d) => {
-			return obs.send("SetSceneItemProperties", vobj).then((d) => {
+		plugins.obs.send("SetTextGDIPlusProperties", tobj).then((d) => {
+			return plugins.obs.send("SetSceneItemProperties", vobj).then((d) => {
 				setTimeout(function() {
 					vobj.visible = false;
-					obs.send("SetSceneItemProperties", vobj).then((d) => {}).catch((e) => {});
+					plugins.obs.send("SetSceneItemProperties", vobj).then((d) => {}).catch((e) => {});
 				}, settings.disappearDelay);
 			});
 		}).catch((e) => {

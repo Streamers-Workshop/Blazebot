@@ -7,7 +7,8 @@ module.exports = {
   name: 'valorant-stats',
   description: 'Replies with valorant stat information. You need to install overwolf then install Valorant Stats by TRN',
   credits: "Edited by Ulash",
-	execute(message, args, user, bot, event) {
+  permissions: [],
+	execute(message, args, user, bot, event, plugins) {
     https.get(userUrl, (resp) => {
     let data = '';
 

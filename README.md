@@ -83,3 +83,12 @@ Before creating an issue, please ensure that it hasn't already been reported/sug
 
 If you don't understand something in the documentation, you are experiencing problems, or you just need a gentle
 nudge in the right direction, please don't hesitate to join our official [Trovo.js Server](https://discord.gg/Kc7fyx2).
+
+## OBS Plugin
+
+## HTTP Overlay Plugin
+
+Create a Data JSON file in /modules/http/data/<filehere.json>
+Event plugins showcasing stuff are located in /events/http-overlay-text-*.js
+
+URL http://localhost:<port you selected>/text/<filehere> <-- filehere is the name of the json file you created, without .json
