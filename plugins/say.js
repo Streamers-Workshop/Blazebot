@@ -1,7 +1,7 @@
 module.exports = {
 	name: "say'",
 	description: "Says a message by the bot.",
-  credits: "Made by Friext#6935",
+  	credits: "Made by Friext#6935",
 	execute(message, args, user, bot, event) {
         /**IF THE ARGS ARE MISSING TELL TO THE USER THAT HE HAS TO PUT THE TEXT **/
         if (args.length < 1) {
