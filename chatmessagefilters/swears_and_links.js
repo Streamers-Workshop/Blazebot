@@ -14,11 +14,11 @@ module.exports = {
 
     if (bLinks.some(word => message.content.includes(word))) {
       bot.sendMessage(`@${message.user} Please don\'t make advertise :) !`);
-      setTimeout(() => bot.sendMessage(`/ban @${message.user} 10`), 1500);
+      bot.sendMessage(`/ban @${message.user} 10`);
       return true;
     } else if (bWords.some(word => message.content.includes(word))) {
       bot.sendMessage(`@${message.user} Please be respectful in the chat!`);
-      setTimeout(() => bot.sendMessage(`/ban @${message.user} 10`), 1500);
+      bot.sendMessage(`/ban @${message.user} 10`);
       return true;
     }
   }
