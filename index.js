@@ -44,6 +44,12 @@ for (const file of eventFiles) {
     bot.text_events.set(_event.name, _event);
   }
 }
+bot.chat_message_filters = new Map();
+const messageFilterFiles = fs.readdirSync(path.join(__dirname, 'chatmessagefilters')).filter(file => file.endsWith('.js'));
+for (const file of messageFilterFiles) {
+  const filter = require(path.join(path.join(__dirname, 'chatmessagefilters'), file));
+  bot.chat_message_filters.set(filter.name, filter);
+}
 
 bot.on("jsonData", (name, data) => {
   const command = bot.json_events.get(name);
@@ -81,7 +87,7 @@ bot.on("chatEvent", (type, data) => {
 
 
 bot.on("chatMessage", (message) => {
-  //console.log(message);
+
   if (!message || message.user == undefined) return;
   if (message.user == process.env.TROVO_BOTNAME) return;
   if (!message.content) return;
@@ -99,53 +105,79 @@ bot.on("chatMessage", (message) => {
 		});
   }
 
-  if (!message.content.startsWith(process.env.TROVO_PREFIX)) return;
+  if (process.env.TROVO_PREFIX && message.content.startsWith(process.env.TROVO_PREFIX)) {
+    //it's a command
 
-  const args = message.content.slice(process.env.TROVO_PREFIX.length).split(/ +/);
-  const commandName = args.shift().toLowerCase();
+    const args = message.content.slice(process.env.TROVO_PREFIX.length).split(/ +/);
+    const commandName = args.shift().toLowerCase();
 
-  const command = bot.commands.get(commandName);
+    const command = bot.commands.get(commandName);
 
-  if (!command) return;
+    if (!command)
+      return;
 
-  if (!cooldowns.has(command.name)) {
-    cooldowns.set(command.name, new Map());
-  }
-
-
-  const now = Date.now();
-  const timestamps = cooldowns.get(command.name);
-  const cooldownAmount = (command.cooldown || 3) * 1000;
-
-  if (timestamps.has(message.user) && (message.badges == undefined || (message.badges.indexOf('moderator') <= -1 || message.badges.indexOf('creator') <= -1) )) {
-    const expirationTime = timestamps.get(message.user) + cooldownAmount;
-
-    if (now < expirationTime) {
-      const timeLeft = (expirationTime - now) / 1000;
-      return bot.sendMessage(`Holdon for ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`, bot);
+    if (!cooldowns.has(command.name)) {
+      cooldowns.set(command.name, new Map());
     }
-  }
 
-  timestamps.set(message.user, now);
 
-  setTimeout(() => timestamps.delete(message.user), cooldownAmount);
+    const now = Date.now();
+    const timestamps = cooldowns.get(command.name);
+    const cooldownAmount = (command.cooldown || 3) * 1000;
 
-  if (command.permissions != undefined && command.permissions.length > 0) {
-    if (message.badges == undefined || (message.badges.indexOf('moderator') <= -1 || message.badges.indexOf('creator') <= -1) )) {
+    if (timestamps.has(message.user) && (message.badges == undefined || (message.badges.indexOf('moderator') <= -1 || message.badges.indexOf('creator') <= -1))) {
+      const expirationTime = timestamps.get(message.user) + cooldownAmount;
+
+      if (now < expirationTime) {
+        const timeLeft = (expirationTime - now) / 1000;
+        return bot.sendMessage(`Holdon for ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`, bot);
+      }
+    }
+
+    timestamps.set(message.user, now);
+
+    setTimeout(() => timestamps.delete(message.user), cooldownAmount);
+
+    if (command.permissions != undefined &&
+            (!message.badges || command.permissions.filter(value => message.badges.includes(value)).length === 0)) {
       return bot.sendMessage("You do not have permission to use this command. Sorry.")
     }
+
+    try {
+      command.execute(message.content, args, message.user, bot, message, {
+        obs: (process.env.OBS_ACTIVE > 0) ? obs : null,
+        ws: (process.env.HTTP_OVERLAY > 0) ? ws : null
+      });
+    } catch (err) {
+      console.error(err);
+      return bot.sendMessage('There was a error with processing your Command. Please Contact Bioblaze Payne#6459 and let him know.');
+    }
+  } else {
+    //it's a regular chat message
+
+    for (var [key, filter] of bot.chat_message_filters) {
+      try {
+        if (!message.badges || filter.excludeBadges.filter(value => message.badges.includes(value)).length === 0) {
+          if (filter.execute(message, bot, {
+            obs: (process.env.OBS_ACTIVE > 0) ? obs : null,
+            ws: (process.env.HTTP_OVERLAY > 0) ? ws : null
+          }, process.env)) {
+            //When the first filter has been applied, don't apply any more filters
+            break;
+          }
+        }
+      } catch (e) {
+        console.log("chatMessage", key, e);
+      }
+    }
+
   }
 
-  try {
-    command.execute(message.content, args, message.user, bot, message, {
-      obs: (process.env.OBS_ACTIVE > 0) ? obs : null,
-      ws: (process.env.HTTP_OVERLAY > 0) ? ws : null
-    });
-  } catch (err) {
-    console.error(err);
-    return bot.sendMessage('There was a error with processing your Command. Please Contact Bioblaze Payne#6459 and let him know.');
-  }
-})
+});
+
+bot.on("ready", () => {
+  console.log("Bot loaded");
+});
 
 
 bot.login(process.env.TROVO_PAGE, process.env.TROVO_EMAIL, process.env.TROVO_PASSWORD);
