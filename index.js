@@ -2,6 +2,8 @@ const fs = require('fs'), path = require('path'), util = require('util');
 
 require('dotenv').config({ path: path.join(__dirname, ".env") });
 
+global.appRoot = path.resolve(__dirname); // Hack to know the root of the Project.
+
 /*
 This is for the OBS Plugin to allow OBS functionality in Plugins and Events.
 */
