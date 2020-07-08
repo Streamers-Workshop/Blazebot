@@ -10,7 +10,6 @@ Date: 07/07/2020
 
 var settings = require('../events/obs.Settings.json');
 var isVisible = false;
-var obsSocket = null;
 console.log('loaded sourceToggle');
 module.exports = {
 	name: 'toggle-source', //CHANGE COMMAND HERE (ie: !toggle-source, !toggle , !source-visible)
