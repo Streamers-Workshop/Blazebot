@@ -2,6 +2,10 @@ const fs = require('fs'), path = require('path'), util = require('util');
 
 require('dotenv').config({ path: path.join(__dirname, ".env") });
 
+/*
+This is for the OBS Plugin to allow OBS functionality in Plugins and Events.
+*/
+
 const OBSWebSocket = require('obs-websocket-js');
 const obs = new OBSWebSocket();
 if (process.env.OBS_ACTIVE > 0) {
@@ -9,6 +13,12 @@ if (process.env.OBS_ACTIVE > 0) {
 
   obs.connect({ address: obs_settings.address, password: obs_settings.password });
 }
+
+var ws = null;
+if (process.env.HTTP_OVERLAY > 0) {
+  ws = require(path.join(__dirname, 'modules', 'http.js'));
+}
+
 
 var trovojs = require('trovo.js');
 
@@ -41,7 +51,10 @@ bot.on("jsonData", (name, data) => {
   if (!command) return;
   //console.log(name, data);
   try {
-    command.execute(name, data, bot);
+    command.execute(name, data, bot, {
+      obs: (process.env.OBS_ACTIVE > 0) ? obs : null,
+      ws: (process.env.HTTP_OVERLAY > 0) ? ws : null
+    });
   } catch (err) {
     console.error(err);
     return bot.sendMessage('There was a error with processing your Command. Please Contact Bioblaze Payne#6459 and let him know.');
@@ -55,14 +68,12 @@ bot.on("chatEvent", (type, data) => {
     if (value.event == data.chatType) {
       var trigger = bot.text_events.get(key);
       try {
-        if (process.env.OBS_ACTIVE > 0) {
-          trigger.execute(data, bot, obs);
-        } else {
-          trigger.execute(data, bot);
-        }
+        trigger.execute(data, bot, {
+          obs: (process.env.OBS_ACTIVE > 0) ? obs : null,
+          ws: (process.env.HTTP_OVERLAY > 0) ? ws : null
+        });
       } catch(e) {
-        console.log(key, e)
-        console.log("FAILED");
+        console.log("chatEvent", key,e)
       }
     }
   });
@@ -70,89 +81,93 @@ bot.on("chatEvent", (type, data) => {
 
 
 bot.on("chatMessage", (message) => {
-  // CHECKS & ADBLOCK SYSTEM
-  try {
-    if (process.env.ADBLOCK > 0) {
-      const ad = [".com", ".net", ".xyz", ".tk", ".pw", ".io", ".me", ".gg", "www.", "https", "http", ".gl", ".org", ".com.tr", ".biz", "net", ".rf.gd", ".az", ".party", "discord.gg" , "trovo.live"];
-      if (ad.some(word => message.content.includes(word))) {
-        if (message.badges !== undefined ) { if (message.badges.indexOf("moderator") <= -1 && message.badges.indexOf("creator") <= -1) { } }
-        else {
-          bot.sendMessage(`@${message.user} Please don\'t make advertise :) !`);
-          setTimeout(() => {  bot.sendMessage(`/ban @${message.user} 10`); }, 1500);
-        }
+
+  // CHECKS & BADWORDS SYSTEM
+  if (process.env.BADWORDS > 0) {
+    let bJson = JSON.parse(fs.readFileSync("./plugins/bannedWords.json", "utf8"));
+    const bst = bJson.data[0];
+    const bWords = bst.words[process.env.BADWORDS_LANG];
+    const bLinks = bst.links;
+    if (bLinks.some(word => message.content.includes(word))) {
+      if (message.badges == undefined || (message.badges.indexOf("moderator") <= -1 && message.badges.indexOf("creator") <= -1)) {
+        bot.sendMessage(`@${message.user} Please don\'t make advertise :) !`);
+        return setTimeout(() => {  bot.sendMessage(`/ban @${message.user} 10`); }, 1500);
       }
     }
-    else { }
-  }
-  catch (err) {
-    console.error(err);
-    return bot.sendMessage('There was a error with processing your Command. Please Contact Ulash#3836 and let him know.');
+    else if (bWords.some(word => message.content.includes(word))) {
+      if (message.badges == undefined || (message.badges.indexOf("moderator") <= -1 && message.badges.indexOf("creator") <= -1)) {
+        bot.sendMessage(`@${message.user} Please be respectful in the chat!`);
+        return setTimeout(() => {  bot.sendMessage(`/ban @${message.user} 10`); }, 1500);
+      }
+    }
   }
 
   //console.log(message);
   if (!message || message.user == undefined) return;
   if (message.user == process.env.TROVO_BOTNAME) return;
   if (!message.content) return;
+
+  if (process.env.HTTP_OVERLAY > 0) {
+    ws.server.clients.forEach(function(client) {
+			client.send(JSON.stringify({
+        type: "chat",
+        page: "trovo",
+				name: message.user,
+				message: message.content,
+        icon: message.iconURL,
+        badges: message.badges || null
+			}));
+		});
+  }
+
   if (!message.content.startsWith(process.env.TROVO_PREFIX)) return;
 
-    const args = message.content.slice(process.env.TROVO_PREFIX.length).split(/ +/);
-    const commandName = args.shift().toLowerCase();
+  const args = message.content.slice(process.env.TROVO_PREFIX.length).split(/ +/);
+  const commandName = args.shift().toLowerCase();
 
-    const command = bot.commands.get(commandName);
+  const command = bot.commands.get(commandName);
 
-    if (!command) return;
+  if (!command) return;
 
-    if (command.args && !args.length) {
-      let reply = `You didn't provide any arguments, ${message.user.name}!`;
+  if (!cooldowns.has(command.name)) {
+    cooldowns.set(command.name, new Map());
+  }
 
-      if (command.usage) {
-        reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
-      }
 
-      if (command.options) {
-        reply += `\nThe Valid Options are: \`${command.options.join(", ")}\``
-      }
+  const now = Date.now();
+  const timestamps = cooldowns.get(command.name);
+  const cooldownAmount = (command.cooldown || 3) * 1000;
 
-      return tools.sendMessage(reply, bot);
+  if (timestamps.has(message.user) && (message.badges == undefined || (message.badges.indexOf('moderator') <= -1 || message.badges.indexOf('creator') <= -1) )) {
+    const expirationTime = timestamps.get(message.user) + cooldownAmount;
+
+    if (now < expirationTime) {
+      const timeLeft = (expirationTime - now) / 1000;
+      return bot.sendMessage(`Holdon for ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`, bot);
     }
+  }
 
-    if (!cooldowns.has(command.name)) {
-      cooldowns.set(command.name, new Map());
+  timestamps.set(message.user, now);
+
+  setTimeout(() => timestamps.delete(message.user), cooldownAmount);
+
+  if (command.permissions != undefined && command.permissions.length > 0) {
+    if ((message.badges == undefined || (message.badges.indexOf('moderator') <= -1 || message.badges.indexOf('creator') <= -1) )) {
+      return bot.sendMessage("You do not have permission to use this command. Sorry.")
     }
+  }
+
+  try {
+    command.execute(message.content, args, message.user, bot, message, {
+      obs: (process.env.OBS_ACTIVE > 0) ? obs : null,
+      ws: (process.env.HTTP_OVERLAY > 0) ? ws : null
+    });
+  } catch (err) {
+    console.error(err);
+    return bot.sendMessage('There was a error with processing your Command. Please Contact Bioblaze Payne#6459 and let him know.');
+  }
 
 
-      const now = Date.now();
-      const timestamps = cooldowns.get(command.name);
-      const cooldownAmount = (command.cooldown || 3) * 1000;
-
-      if (timestamps.has(message.user)) {
-        const expirationTime = timestamps.get(message.user) + cooldownAmount;
-
-        if (now < expirationTime) {
-          const timeLeft = (expirationTime - now) / 1000;
-          return bot.sendMessage(`Holdon for ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`, bot);
-        }
-      }
-
-      timestamps.set(message.user, now);
-
-      setTimeout(() => timestamps.delete(message.user), cooldownAmount);
-
-
-	//CHECKS FOR OBS ENABLED BEFORE TRYING TO SEND THE ARG OR NOT.
-		try {
-			if (process.env.OBS_ACTIVE > 0) {
-				command.execute(message.content, args, message.user, bot, message, obs);
-			}
-			else
-			{
-				command.execute(message.content, args, message.user, bot, message);
-			}
-		}
-		catch (err) {
-			console.error(err);
-			return bot.sendMessage('There was a error with processing your Command. Please Contact Bioblaze Payne#6459 and let him know.');
-		}
 
 
 })
