@@ -69,7 +69,7 @@ bot.on("chatEvent", (type, data) => {
 });
 
 
-bot.on("chatMessage", async (message) => {
+bot.on("chatMessage", (message) => {
   // CHECKS & ADBLOCK SYSTEM
   try {
     if (process.env.ADBLOCK > 0) {
