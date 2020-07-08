@@ -9,7 +9,7 @@ module.exports = {
   description: 'Deletes messages that contain bad words',
   execute(message, bot, plugins, settings) {
 
-    if (!settings.BADWORDS || settings.BADWORDS === 0)
+    if (!settings.BADWORDS || settings.BADWORDS == 0)
       return false;
 
     if (bLinks.some(word => message.content.includes(word))) {
