@@ -101,7 +101,6 @@ bot.on("chatMessage", (message) => {
       }
     }
   }
-
   //console.log(message);
   if (!message || message.user == undefined) return;
   if (message.user == process.env.TROVO_BOTNAME) return;
@@ -151,10 +150,9 @@ bot.on("chatMessage", (message) => {
 
   setTimeout(() => timestamps.delete(message.user), cooldownAmount);
 
-  if (command.permissions != undefined && command.permissions.length > 0) {
-    if ((message.badges == undefined || (message.badges.indexOf('moderator') <= -1 || message.badges.indexOf('creator') <= -1) )) {
-      return bot.sendMessage("You do not have permission to use this command. Sorry.")
-    }
+  if (command.permissions != undefined &&
+          (!message.badges || command.permissions.filter(value => message.badges.includes(value)).length === 0)) {
+    return bot.sendMessage("You do not have permission to use this command. Sorry.")
   }
 
   try {
@@ -166,10 +164,6 @@ bot.on("chatMessage", (message) => {
     console.error(err);
     return bot.sendMessage('There was a error with processing your Command. Please Contact Bioblaze Payne#6459 and let him know.');
   }
-
-
-
-
 })
 
 
