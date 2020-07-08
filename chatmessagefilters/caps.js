@@ -11,7 +11,7 @@ module.exports = {
     let numCaps = (message.content.match(/[A-Z]/g) || []).length;
     if (numCaps / msgLength >= settings.CAPS_RATE_BAN_THRESHOLD) {
       bot.sendMessage(`Too much caps @${message.user}`);
-      setTimeout(() => bot.sendMessage(`/ban @${message.user} 10`), 1500);
+      bot.sendMessage(`/ban @${message.user} 10`);
       return true;
     }
   }
