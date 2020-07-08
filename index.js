@@ -1,6 +1,6 @@
 const fs = require('fs'), path = require('path'), util = require('util');
 
-require('dotenv').config({ path: path.join(__dirname, ".env") });
+require('dotenv').config({ path: path.join(__dirname, ".env-dev") });
 
 /*
 This is for the OBS Plugin to allow OBS functionality in Plugins and Events.
@@ -108,7 +108,7 @@ bot.on("chatMessage", (message) => {
 
   if (!command) return;
 
-  if (!cooldowns.has(command.name) && command.permissions.length <= 0) {
+  if (!cooldowns.has(command.name)) {
     cooldowns.set(command.name, new Map());
   }
 
