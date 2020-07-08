@@ -16,8 +16,6 @@ var bot = new trovojs.Client();
 
 var cooldowns = new Map();
 
-let isBlocked = JSON.parse(fs.readFileSync("./plugins/blockAds.json", "utf8"));
-
 bot.commands = new Map();
 const commandFiles = fs.readdirSync(path.join(__dirname, 'plugins')).filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
@@ -71,14 +69,10 @@ bot.on("chatEvent", (type, data) => {
 });
 
 
-bot.on("chatMessage", (message) => {
-  if (!Object.keys(isBlocked).length > 0) {
-    console.log('blockAds.json is empty. Please type !block-ad enable Then restart the bot.');
-  }
-  else {
-    if (!isBlocked[process.env.TROVO_PAGE]) {} // Check for Trovo url is contains or not in blockAds.json file
-    if (isBlocked[process.env.TROVO_PAGE].blocked === 'false') {} // Checking for our adblocker is enabled or not
-    if (isBlocked[process.env.TROVO_PAGE].blocked === 'true') {
+bot.on("chatMessage", async (message) => {
+  // CHECKS & ADBLOCK SYSTEM
+  try {
+    if (process.env.ADBLOCK > 0) {
       const ad = [".com", ".net", ".xyz", ".tk", ".pw", ".io", ".me", ".gg", "www.", "https", "http", ".gl", ".org", ".com.tr", ".biz", "net", ".rf.gd", ".az", ".party", "discord.gg" , "trovo.live"];
       if (ad.some(word => message.content.includes(word))) {
         if (message.badges !== undefined ) { if (message.badges.indexOf("moderator") <= -1 && message.badges.indexOf("creator") <= -1) { } }
@@ -88,7 +82,13 @@ bot.on("chatMessage", (message) => {
         }
       }
     }
+    else { }
   }
+  catch (err) {
+    console.error(err);
+    return bot.sendMessage('There was a error with processing your Command. Please Contact Ulash#3836 and let him know.');
+  }
+  
   //console.log(message);
   if (!message || message.user == undefined) return;
   if (message.user == process.env.TROVO_BOTNAME) return;
@@ -138,12 +138,21 @@ bot.on("chatMessage", (message) => {
 
       setTimeout(() => timestamps.delete(message.user), cooldownAmount);
 
-      try {
-        command.execute(message.content, args, message.user, bot, message);
-      } catch (err) {
-        console.error(err);
-        return bot.sendMessage('There was a error with processing your Command. Please Contact Bioblaze Payne#6459 and let him know.');
-      }
+
+	//CHECKS FOR OBS ENABLED BEFORE TRYING TO SEND THE ARG OR NOT.
+		try {
+			if (process.env.OBS_ACTIVE > 0) {
+				command.execute(message.content, args, message.user, bot, message, obs);
+			}
+			else
+			{
+				command.execute(message.content, args, message.user, bot, message);
+			}
+		}
+		catch (err) {
+			console.error(err);
+			return bot.sendMessage('There was a error with processing your Command. Please Contact Bioblaze Payne#6459 and let him know.');
+		}
 
 
 })
