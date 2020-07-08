@@ -121,24 +121,19 @@ bot.on("chatMessage", (message) => {
 
 
 	//CHECKS FOR OBS ENABLED BEFORE TRYING TO SEND THE ARG OR NOT.
-	if (process.env.OBS_ACTIVE > 0) {
 		try {
-			command.execute(message.content, args, message.user, bot, message, obs);
+			if (process.env.OBS_ACTIVE > 0) {
+				command.execute(message.content, args, message.user, bot, message, obs);
+			}
+			else
+			{
+				command.execute(message.content, args, message.user, bot, message);
+			}
 		} 
 		catch (err) {
 			console.error(err);
 			return bot.sendMessage('There was a error with processing your Command. Please Contact Bioblaze Payne#6459 and let him know.');
 		}
-	}
-    else{
-		try {
-			command.execute(message.content, args, message.user, bot, message);
-		} 
-		catch (err) {
-			console.error(err);
-			return bot.sendMessage('There was a error with processing your Command. Please Contact Bioblaze Payne#6459 and let him know.');
-		}
-	}
 })
 
 
