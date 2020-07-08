@@ -23,7 +23,7 @@ module.exports = {
 				}, settings.disappearDelay);
 			});
 		}).catch((e) => {
-console.error(e);
+			console.error(e);
 		});
     bot.sendMessage(`Thanks @${data.user} your amazing, and awesome and thank you <3`);
 	},

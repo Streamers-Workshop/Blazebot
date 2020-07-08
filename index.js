@@ -88,7 +88,7 @@ bot.on("chatMessage", async (message) => {
     console.error(err);
     return bot.sendMessage('There was a error with processing your Command. Please Contact Ulash#3836 and let him know.');
   }
-  
+
   //console.log(message);
   if (!message || message.user == undefined) return;
   if (message.user == process.env.TROVO_BOTNAME) return;
