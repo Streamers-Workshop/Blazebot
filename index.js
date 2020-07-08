@@ -138,7 +138,7 @@ bot.on("chatMessage", (message) => {
 
     setTimeout(() => timestamps.delete(message.user), cooldownAmount);
 
-    if (command.permissions != undefined &&
+    if (command.permissions != undefined && command.permissions.length != 0 &&
             (!message.badges || command.permissions.filter(value => message.badges.includes(value)).length === 0)) {
       return bot.sendMessage("You do not have permission to use this command. Sorry.")
     }
