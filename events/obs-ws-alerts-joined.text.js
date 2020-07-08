@@ -3,7 +3,8 @@ module.exports = {
 	name: 'obs-joined-event',
 	event: 5004,
 	description: 'Welcomes a User, via OBS',
-	execute(data, bot, obs) {
+	execute(data, bot, plugins) {
+		if (!plugins.obs) return;
 		var tobj = {
 			source: settings.joinedSource,
 			text: `Welcome ${data.user} remember to follow, your awesome and thank you <3`
@@ -15,11 +16,11 @@ module.exports = {
 			},
 			visible: true
 		};
-		obs.send("SetTextGDIPlusProperties", tobj).then((d) => {
-			return obs.send("SetSceneItemProperties", vobj).then((d) => {
+		plugins.obs.send("SetTextGDIPlusProperties", tobj).then((d) => {
+			return plugins.obs.send("SetSceneItemProperties", vobj).then((d) => {
 				setTimeout(function() {
 					vobj.visible = false;
-					obs.send("SetSceneItemProperties", vobj).then((d) => {}).catch((e) => {});
+					plugins.obs.send("SetSceneItemProperties", vobj).then((d) => {}).catch((e) => {});
 				}, settings.disappearDelay);
 			});
 		}).catch((e) => {

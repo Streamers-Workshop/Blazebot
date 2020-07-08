@@ -7,7 +7,8 @@ module.exports = {
 	name: 'warzone-stats',
   description: 'Replies with warzone stat information',
   credits: "Created by Teabagz check out my channel https://trovo.live/Bagz",
-	execute(message, args, user, bot, event) {
+  permissions: [],
+	execute(message, args, user, bot, event, plugins) {
     https.get(userUrl, (resp) => {
     let data = '';
 

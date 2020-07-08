@@ -2,7 +2,8 @@ console.log('loaded pong')
 module.exports = {
 	name: 'pong',
 	description: 'Replies with Ping',
-	execute(message, args, user, bot, event) {
+	permissions: [],
+	execute(message, args, user, bot, event, plugins) {
 		console.log("Triggered");
 		bot.sendMessage(`Ping ${user} I reply.`);
 	},

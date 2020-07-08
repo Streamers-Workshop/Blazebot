@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+  @import url('https://fonts.googleapis.com/css?family=Montserrat:300,400');
+
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: green;
+    flex-direction: column;
+    font-family: 'Montserrat';
+
+  }
+
+  .reveal-text,
+  .reveal-text::after {
+    animation-delay: 2s;
+    animation-iteration-count: 1;
+    animation-duration: <%= text.duration %>s;
+    animation-fill-mode: both;
+    animation-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
+  }
+
+  .reveal-text {
+    position: relative;
+    font-size: 80px;
+    display: block;
+    user-select: none;
+    animation-name: reveal-text;
+    color: #FFF;
+    white-space: nowrap;
+    cursor: default;
+    margin: 0;
+    text-align: center;
+
+  }
+
+  .reveal-text::after {
+    content: "";
+    position: absolute;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #4286f4;
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    pointer-events: none;
+    animation-name: revealer-text;
+  }
+
+  .reveal-text2,
+  .reveal-text2::after {
+    animation-delay: 3s;
+    animation-iteration-count: 1;
+    animation-duration: <%= text.duration %>s;
+    animation-fill-mode: both;
+    animation-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
+  }
+
+  .reveal-text2 {
+    position: relative;
+    font-size: 30px;
+    display: block;
+    user-select: none;
+    animation-name: reveal-text;
+    color: #FFF;
+    white-space: nowrap;
+    cursor: default;
+    margin: 0;
+    text-align: center;
+    letter-spacing: 20px;
+
+  }
+
+  .reveal-text2::after {
+    content: "";
+    position: absolute;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #4286f4;
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    pointer-events: none;
+    animation-name: revealer-text;
+  }
+
+  @keyframes reveal-text {
+    0% { clip-path: inset(0 100% 0 0); }
+    10% { clip-path: inset(0 0 0 0); }
+    90% { clip-path: inset(0 0 0 0); }
+    100% { clip-path: inset(0 0 0 100%); }
+  }
+
+  @keyframes revealer-text {
+    0%, 5% { transform-origin: 0 50%; }
+    6%, 10% { transform-origin: 100% 50%; }
+
+    90%, 95% { transform-origin: 0 100%; }
+    96%, 100% { transform-origin: 100% 0; }
+
+    0% { transform: scaleX(0); }
+    5% { transform: scaleX(1); }
+    10% { transform: scaleX(0); }
+
+    90% { transform: scaleX(0); }
+    97% { transform: scaleX(1); }
+    100% { transform: scaleX(0); }
+
+  }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+</head>
+<body>
+  <div class="container">
+        <p id="name" class="" hidden></p>
+        <p id="message" class="" hidden></p>
+    </div>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.js"></script>
+  <script type="text/javascript">
+  function connect() {
+    let socket = new WebSocket("ws://localhost:<%= port %>");
+
+    var tag = "<%= tag %>";
+    var pending = [];
+    var timeout = null;
+
+    function processNext() {
+      if (pending.length > 0) {
+        console.log("Processing Next Pending.");
+        var data = pending.shift();
+        processText(data);
+      } else {
+        console.log("Nothing Pending, removing Timeout.");
+        timeout = null;
+      }
+    }
+    function processText(data) {
+      console.log("Processing Text");
+      $('#name').text(data.name);
+      $('#message').text(data.message);
+      $('#name').removeAttr('hidden').addClass("reveal-text");
+      $('#message').removeAttr('hidden').addClass("reveal-text2");
+      timeout = setTimeout(function() {
+        console.log("Finished Processing Text");
+        $('#name').attr('hidden', true).removeClass("reveal-text");
+        $('#message').attr('hidden', true).removeClass("reveal-text2");
+        setTimeout(function() {
+          processNext();
+        },500);
+      }, <%= (((text.duration * 2) - 1) * 1001) %>)
+    }
+
+    socket.onopen = function(e) {
+      console.log("[open] Connection established");
+    };
+
+    socket.onmessage = function(event) {
+      if (!event.data) return;
+      //console.log(event.data);
+      var data = JSON.parse(event.data);
+      if (data.type == "text") {
+        if (data.page == tag) {
+          if (timeout) {
+            pending.push(data)
+            console.log('Placing a incoming Event into Pending.');
+          } else {
+            processText(data);
+
+          }
+        }
+      }
+      //console.log(`[message] Data received from server: `, event);
+    };
+
+    socket.onclose = function(event) {
+      if (event.wasClean) {
+        console.log(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+      } else {
+        // e.g. server process killed or network down
+        // event.code is usually 1006 in this case
+        console.log('[close] Connection died');
+      }
+      setTimeout(function() {
+        console.log('[reconnecting] Attempting to Reconnect');
+        connect();
+      }, 1000);
+    };
+
+    socket.onerror = function(error) {
+      console.log(`[error] ${error.message}`);
+      socket.close();
+    };
+  }
+  connect();
+  </script>
+</body>
+</html>
