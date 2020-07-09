@@ -1,0 +1,403 @@
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.3/webfont.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+        <script src="https://cdn.polyfill.io/v2/polyfill.min.js?unknown=polyfill&features=es6|gated|always"></script>
+        <!-- animation libraries -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.min.css">
+        <!-- local storage -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.2.3/localforage.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.1.1/he.min.js"></script>
+        <style id="theme"></style>
+    </head>
+
+<body>
+
+<!-- Tip Sound -->
+<audio id="tipmusic" src="<%= audio %>"></audio>
+
+<div id="widget" class="widget-AlertBox animated" data-layout="banner" hidden>
+    <div id="alert-box">
+      <div id="particles" class="hidden"></div>
+      <div id="wrap">
+
+<div id="alert-image-wrap" style="position: absolute; top: 0; left: 0; display: table; height: 100%; width: 100%;" class="animated tada">
+  <!-- Tipping Image -->
+  <div id="alert-image" class="tada"><img width="1300" src="<%= img %>"></div>
+</div>
+<div id="alert-text-wrap" class="tada">
+  <div id="alert-text" class=" tada">
+		<br>
+    <div id="alert-message" class="animated tada" style="font-size: 62px; color: rgb(255, 244, 0); position: relative; font-family: &quot;Open Sans&quot;; font-weight: 700;"><span data-token="name" style="color: rgb(255, 244, 0); position: relative;"></div>
+    <div id="alert-user-message" class="animated tada" style="font-weight: 400; font-size: 44px; color: rgb(255, 255, 255); font-family: &quot;Open Sans&quot;;"></div>
+
+  </div>
+
+</div></div>
+  </div>
+</div>
+
+
+
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.js"></script>
+  <script type="text/javascript">
+  function connect() {
+    let socket = new WebSocket("ws://localhost:<%= port %>");
+
+    var tag = "<%= tag %>";
+    var pending = [];
+    var timeout = null;
+
+    function processNext() {
+      if (pending.length > 0) {
+        console.log("Processing Next Pending.");
+        var data = pending.shift();
+        processText(data);
+      } else {
+        console.log("Nothing Pending, removing Timeout.");
+        timeout = null;
+      }
+    }
+    function processText(data) {
+      console.log("Processing Text");
+      $('#alert-message').text(data.name);
+      $('#alert-user-message').text(data.message);
+      var tipAudio = document.getElementById("tipmusic");
+      tipAudio.play();
+      tipAudio.volume = 0.5;
+      $('#widget').removeAttr('hidden');
+      timeout = setTimeout(function() {
+        console.log("Finished Processing Text");
+        tipAudio.pause();
+        tipAudio.currentTime = 0;
+        $('#widget').attr('hidden', true);
+        setTimeout(function() {
+          processNext();
+        },500);
+      }, <%= (text.duration * 1001) %>)
+    }
+
+    socket.onopen = function(e) {
+      console.log("[open] Connection established");
+    };
+
+    socket.onmessage = function(event) {
+      if (!event.data) return;
+      //console.log(event.data);
+      var data = JSON.parse(event.data);
+      if (data.type == "text") {
+        if (data.page == tag) {
+          if (timeout) {
+            pending.push(data)
+            console.log('Placing a incoming Event into Pending.');
+          } else {
+            processText(data);
+
+          }
+        }
+      }
+      //console.log(`[message] Data received from server: `, event);
+    };
+
+    socket.onclose = function(event) {
+      if (event.wasClean) {
+        console.log(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+      } else {
+        // e.g. server process killed or network down
+        // event.code is usually 1006 in this case
+        console.log('[close] Connection died');
+      }
+      setTimeout(function() {
+        console.log('[reconnecting] Attempting to Reconnect');
+        connect();
+      }, 1000);
+    };
+
+    socket.onerror = function(error) {
+      console.log(`[error] ${error.message}`);
+      socket.close();
+    };
+  }
+  connect();
+  </script>
+</body>
+<style id="alert__box__css">
+  .widget-AlertBox {
+      position: relative;
+  }
+  body,
+  html {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+  }
+  #wrap {
+      position: relative;
+      height: 100%;
+      width: 100%;
+  }
+  #alert-box {
+      height: 100%;
+      width: 100%;
+      position: absolute;
+  }
+  #alert-box.hidden,
+  .hidden {
+      opacity: 0;
+  }
+  #alert-text {
+      padding: 20px;
+      text-shadow: 0px 0px 1px #000, 0px 0px 2px #000, 0px 0px 3px #000, 0px 0px 4px #000, 0px 0px 5px #000;
+  }
+  #alert-message,
+  #alert-user-message {
+      text-align: center;
+  }
+  #alert-user-message img {
+      vertical-align: middle;
+      height: 1em;
+  }
+  #alert-image {
+      position: relative;
+  }
+  #alert-image video {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+  }
+  #alert-message > span > span {
+      display: inline-block;
+  }
+  #alert-image {
+      z-index: 6;
+      position: relative;
+  }
+  #alert-text {
+      z-index: 6;
+      position: relative;
+  }
+  #alert-text-wrap {
+      z-index: 6;
+      position: relative;
+  }
+    .animated {
+    background-repeat: no-repeat;
+    background-position: left top;
+    -webkit-animation-duration: 15s;
+    animation-duration: 15s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+  }
+
+  @-webkit-keyframes tada {
+     0% {-webkit-transform: scale(1);}
+     10%, 20% {-webkit-transform: scale(0.9) rotate(-3deg);}
+     30%, 50%, 65%, 85% {-webkit-transform: scale(1) rotate(3deg);}
+     40%, 60%, 80% {-webkit-transform: scale(1) rotate(-3deg);}
+     100% {-webkit-transform: scale(1) rotate(0);}
+  }
+
+  @keyframes tada {
+     0% {transform: scale(1);}
+     10%, 20% {transform: scale(0.9) rotate(-3deg);}
+     30%, 50%, 65%, 85% {transform: scale(1) rotate(3deg);}
+     40%, 60%, 80% {transform: scale(1) rotate(-3deg);}
+     100% {transform: scale(1) rotate(0);}
+  }
+
+  .tada {
+     -webkit-animation-name: tada;
+     animation-name: tada;
+  }
+</style>
+
+
+<style>
+    body[data-layout="above"] #wrap,
+    .widget-AlertBox[data-layout="above"] #wrap {
+        display: table;
+    }
+    body[data-layout="above"] #alert-image,
+    .widget-AlertBox[data-layout="above"] #alert-image {
+        height: 100%;
+        display: table-cell;
+        background-position: center bottom;
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
+    body[data-layout="above"] #alert-text,
+    .widget-AlertBox[data-layout="above"] #alert-text {
+        display: table-cell;
+        text-align: center;
+    }
+    body[data-layout="above"] #alert-image-wrap,
+    body[data-layout="above"] #alert-text-wrap,
+    .widget-AlertBox[data-layout="above"] #alert-image-wrap,
+    .widget-AlertBox[data-layout="above"] #alert-text-wrap {
+        display: table-row;
+    }
+    /* image and text centered and stretched for text over a banner */
+
+    body[data-layout="banner"] #alert-image,
+    .widget-AlertBox[data-layout="banner"] #alert-image {
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
+    body[data-layout="banner"] #alert-image-wrap,
+    body[data-layout="banner"] #alert-text-wrap,
+    .widget-AlertBox[data-layout="banner"] #alert-image-wrap,
+    .widget-AlertBox[data-layout="banner"] #alert-text-wrap {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: table;
+        height: 100%;
+        width: 100%;
+    }
+    body[data-layout="banner"] #alert-image,
+    body[data-layout="banner"] #alert-text,
+    .widget-AlertBox[data-layout="banner"] #alert-image,
+    .widget-AlertBox[data-layout="banner"] #alert-text {
+        display: table-cell;
+        height: 100%;
+        width: 100%;
+        vertical-align: middle;
+        text-align: center;
+    }
+    /* image on left side */
+
+    body[data-layout="side"] #alert-box,
+      .widget-AlertBox[data-layout="side"] #alert-box {
+        display: table;
+    }
+    body[data-layout="side"] #wrap,
+    .widget-AlertBox[data-layout="side"] #wrap {
+        display: table-row;
+    }
+    body[data-layout="side"] #alert-image-wrap,
+    .widget-AlertBox[data-layout="side"] #alert-image-wrap {
+        width: 30%;
+        height: 100%;
+        display: table-cell;
+    }
+    body[data-layout="side"] #alert-image,
+    .widget-AlertBox[data-layout="side"] #alert-image {
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        width: 100%;
+        height: 100%;
+    }
+    body[data-layout="side"] #alert-text-wrap,
+    .widget-AlertBox[data-layout="side"] #alert-text-wrap {
+        width: 70%;
+        height: 100%;
+        display: table-cell;
+        vertical-align: middle;
+        text-align: left;
+    }
+    body[data-layout="side"] #alert-text,
+    .widget-AlertBox[data-layout="side"] #alert-text {
+        display: inline-block;
+    }
+    .widget-AlertBox[data-layout="banner"] #alert-image,
+    body[data-layout="banner"] #alert-image {
+        z-index: 4;
+    }
+    .hidden {
+      opacity: 0;
+    }
+  </style>
+
+
+
+<style>
+    #boombox iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 240px;
+      height: 135px;
+      border: none;
+      opacity: 0;
+    }
+
+    #boombox iframe.show {
+      opacity: 1;
+      width: 100%;
+      height: 100%;
+    }
+
+    #boombox {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 38px;
+      right: 0;
+      z-index: 10000;
+    }
+
+    #widget {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      z-index: 9999;
+    }
+
+    #shield {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      z-index: 10001;
+    }
+
+    #shield > div {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      line-height: 38px;
+      background: rgba(0, 0, 0, 0.6);
+      color: #FFF;
+      text-align: right;
+      padding-right: 10px;
+      box-sizing: border-box;
+    }
+
+    #particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 5;
+      transition: opacity 1000ms;
+    }
+
+    #gif {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+      display: flex;
+    }
+
+    #mp4-video {
+      object-fit: contain;
+      width: 100%;
+      max-width: 50%;
+      max-height: 50%;
+    }
+  </style>
+
+</html>

@@ -1,18 +1,18 @@
-var settings = require('./obs.Settings.json');
+var settings = require('../events/obs.Settings.json');
 module.exports = {
-	name: 'obs-spell-event',
-	event: 5,
-	description: 'Thanks a user for Triggering a Spell, via OBS',
-	execute(data, bot, plugins) {
+	name: 'obs-test',
+	description: 'Tests OBS Websocket Functionality',
+	permissions: [],
+	execute(message, args, user, bot, event, plugins) {
 		if (!plugins.obs) return;
 		var tobj = {
-			source: settings.spellsSource,
-			text: `Thanks ${data.user} for your amazing spell casting, your awesome and thank you <3`
+			source: settings.joinedSource,
+			text: `Welcome ${user} remember to follow, your awesome and thank you <3`
 		};
 		var vobj = {
 			"source-name": settings.groupName,
 			item: {
-				name: settings.spellsSource
+				name: settings.joinedSource
 			},
 			visible: true
 		};
@@ -26,6 +26,6 @@ module.exports = {
 		}).catch((e) => {
 			console.error(e);
 		});
-    bot.sendMessage(`Thanks @${data.user} your amazing, and awesome and thank you <3`);
+		bot.sendMessage(`Welcome ${user} remember to follow, your awesome and thank you <3`);
 	},
 };
