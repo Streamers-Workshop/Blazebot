@@ -1,49 +1,49 @@
-fs = require('fs');
-path = require('path');
+const fs = require('fs');
+const path = require('path');
+
 module.exports = {
-	name: 'create',
-	description: 'creates a text command',
-	credits: "Look in Contrib for who did this, modified by bioblaze to include permissions check in it.",
+  name: 'create',
+  description: 'creates a text command',
+  credits:
+    'Look in Contrib for who did this, modified by bioblaze to include permissions check in it.',
   permissions: ['moderator', 'creator'],
-	execute(message, args, user, bot, event, plugins) {
-        args = args.join(' ')
-        new_command = args.substr(0,args.indexOf(' '))
-        command_output = args.substring(args.indexOf(' ')+1)
-        file_name = new_command + '.js'
-        path_to_file = path.join(path.join(__dirname, '../plugins'), file_name);
+  execute(message, args, user, bot) {
+    const argsCombined = args.join(' ');
+    const newCommand = argsCombined.substr(0, argsCombined.indexOf(' '));
+    const commandOutput = argsCombined.substring(argsCombined.indexOf(' ') + 1);
+    const fileName = `${newCommand}.js`;
+    const pathToFile = path.join(path.join(__dirname, '../plugins'), fileName);
 
-
-        try {
-            if (!fs.existsSync(path_to_file)) {
-                data = `\
-console.log('loaded ${new_command}'); \r\
+    try {
+      if (!fs.existsSync(pathToFile)) {
+        const data = `\
+console.log('loaded ${newCommand}'); \r\
 module.exports = { \r\
-    name: '${new_command}', \r\
+    name: '${newCommand}', \r\
     description: '', \r\
     permissions: [], \r\
     execute(message, args, user, bot, event, plugins) { \r\
-        bot.sendMessage('${command_output}'); \r\
+        bot.sendMessage('${commandOutput}'); \r\
     }, \r\
 }; \
-`
-                command_to_add = {
-                    name: new_command,
-                    description: '',
-                    execute(message, args, user, bot) {
-                        bot.sendMessage(command_output);
-                    },
-                };
-                fs.writeFile(path_to_file, data, function (err) {
-                    if (err) throw Error(err);
-                  });
+`;
+        const commandToAdd = {
+          name: newCommand,
+          description: '',
+          execute() {
+            bot.sendMessage(commandOutput);
+          },
+        };
+        fs.writeFile(pathToFile, data, (err) => {
+          if (err) throw Error(err);
+        });
 
-                bot.commands.set(command_to_add.name, command_to_add)
-		        bot.sendMessage(`Command ${new_command} added.`);
-
-            }
-          } catch(err) {
-            console.log(err);
-            bot.sendMessage(`Command ${new_command} not added.`);
-          }
-	},
+        bot.commands.set(commandToAdd.name, commandToAdd);
+        bot.sendMessage(`Command ${newCommand} added.`);
+      }
+    } catch (err) {
+      console.log(err);
+      bot.sendMessage(`Command ${newCommand} not added.`);
+    }
+  },
 };
