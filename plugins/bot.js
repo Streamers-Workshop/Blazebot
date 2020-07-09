@@ -1,7 +1,7 @@
 module.exports = {
   name: "bot",
   permissions: [],
-  description: "Let's the bot introduce himself.",
+  description: "Lets the bot introduce himself.",
   cooldown: 60,
   execute(message, args, user, bot, event) {
     bot.sendMessage("Hey beautiful, you can find me on https://github.com/Bioblaze/TrovoBot .");
