@@ -11,7 +11,6 @@ Changes: Added funcitonality for @ and non-@ shout outs.
 */
 
 
-console.log('loaded so')
 module.exports = {
 	name: 'so',
 	description: 'Replies with a shoutout',

@@ -1,4 +1,3 @@
-console.log('loaded raid')
 module.exports = {
 	name: 'raid',
 	description: 'Raid another channel. Posts the url of the other channel 5 times.',

@@ -33,6 +33,7 @@ const commandFiles = fs.readdirSync(path.join(__dirname, 'plugins')).filter(file
 for (const file of commandFiles) {
   const command = require(path.join(path.join(__dirname, 'plugins'), file));
   bot.commands.set(command.name, command);
+  console.log(`Loaded command: ${command.name}`);
 }
 bot.text_events = new Map();
 bot.json_events = new Map();
@@ -45,12 +46,14 @@ for (const file of eventFiles) {
   } else {
     bot.text_events.set(_event.name, _event);
   }
+  console.log(`Loaded event: ${_event.name}`);
 }
 bot.chat_message_filters = new Map();
 const messageFilterFiles = fs.readdirSync(path.join(__dirname, 'chatmessagefilters')).filter(file => file.endsWith('.js'));
 for (const file of messageFilterFiles) {
   const filter = require(path.join(path.join(__dirname, 'chatmessagefilters'), file));
   bot.chat_message_filters.set(filter.name, filter);
+  console.log(`Loaded chat filter: ${filter.name}`);
 }
 
 bot.on("jsonData", (name, data) => {
@@ -178,7 +181,7 @@ bot.on("chatMessage", (message) => {
 });
 
 bot.on("ready", () => {
-  console.log("Bot loaded");
+  console.log("\nBot loaded and ready to mod!");
 });
 
 

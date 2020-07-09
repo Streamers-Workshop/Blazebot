@@ -1,4 +1,3 @@
-console.log('loaded pong')
 module.exports = {
 	name: 'pong',
 	description: 'Replies with Ping',

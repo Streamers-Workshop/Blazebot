@@ -9,7 +9,6 @@ Date: 08/07/2020
 
 
 var settings = require('../events/obs.Settings.json');
-console.log('loaded uptime');
 module.exports = {
 	name: 'uptime',
 	description: 'Sends message with how long user has been streaming',
