@@ -42,11 +42,6 @@ Open the `.env` and edit the values listed within.
 > Type: `npm install` ~ Once installation has completed continue.
 > To start the Bot type: `node ./index.js`
 
-
-## Plugin Development
-
-> All develops are welcome to make Pull Requests with Plugin's you've created!
-
 ### Chat Command Plugin Example
 * These plugins go into the `/plugins/` Folder.
 
@@ -75,9 +70,24 @@ module.exports = {
 };
 ```
 
-## Contributing
+## Reporting a bug
 
 Before creating an issue, please ensure that it hasn't already been reported/suggested.
+
+## Contributing
+
+The following infos are meant for developers. If you have any questions feel free to join our Discord (link above) and ask questions.
+If you would like to contribute in any way (bugfixes, features, etc.) please adhere to the following points
+
+* Fork this repository, create a feature branch, do your changes in this feature branch and then create a Pull Request from that. Your pull request needs to be auto-mergeable. Therefore if there were any intermediate commits on the project since you created the feature branch, please resolve the conflicts by e.g. rebasing your branch.
+* The project exploded in the first couple of days (feature and commit wise) which resulted in a messy code base. That's why we decided to use Prettier & ESLint. Before creating a Pull Request your code has to match these requirements. To display any errors run 
+`
+node_modules/eslint/bin/eslint.js lib/**
+`
+This will display all errors and warnings. Most of these things can probably be fixed automatically (like code formatting). To do this, run
+`
+node_modules/eslint/bin/eslint.js lib/** --fix
+`
 
 ## Help
 
