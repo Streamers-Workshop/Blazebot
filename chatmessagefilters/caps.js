@@ -3,8 +3,11 @@ module.exports = {
   excludeBadges: ['moderator', 'creator'],
   description: 'Deletes messages with too many caps characters',
   execute(message, bot, plugins, settings) {
-
-    if (!settings.CAPS_RATE_BAN_THRESHOLD)
+    if (
+      !settings.CAPS_RATE_BAN ||
+      settings.CAPS_RATE_BAN == 0 ||
+      !settings.CAPS_RATE_BAN_THRESHOLD
+    )
       return false;
 
     let msgLength = message.content.length;
