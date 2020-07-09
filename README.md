@@ -9,7 +9,7 @@
     <a href="https://www.patreon.com/BioblazePayne"><img src="https://img.shields.io/badge/donate-patreon-F96854.svg" alt="Patreon" /></a>
   </p>
 </div>
-
+*Read this in: [Spanish](README-es.md),
 ## Table of contents
 
 - [About](#about)
