@@ -1,4 +1,3 @@
-console.log('loaded valorant stats')
 const https = require('https');
 module.exports = {
   name: 'valorant-stats',

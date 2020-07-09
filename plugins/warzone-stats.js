@@ -1,4 +1,3 @@
-console.log('loaded warzone stats')
 const https = require('https');
 const config = require('./stats.Settings.json');
 const urlEncodedName = encodeURIComponent(config.playerName)

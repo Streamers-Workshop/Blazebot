@@ -1,6 +1,5 @@
 fs = require('fs');
 path = require('path');
-console.log('loaded create');
 module.exports = {
 	name: 'create',
 	description: 'creates a text command',

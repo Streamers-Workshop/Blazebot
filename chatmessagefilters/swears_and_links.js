@@ -4,7 +4,7 @@ const bWords = bst.words[process.env.BADWORDS_LANG];
 const bLinks = bst.links;
 
 module.exports = {
-  name: 'badwords',
+  name: 'swears_and_links',
   excludeBadges: ['moderator', 'creator'],
   description: 'Deletes messages that contain bad words',
   execute(message, bot, plugins, settings) {

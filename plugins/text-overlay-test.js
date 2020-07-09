@@ -1,4 +1,3 @@
-console.log('loaded http-overlay test')
 module.exports = {
 	name: 'overlay-test',
 	description: 'Test the HTTP Overlay',

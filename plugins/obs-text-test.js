@@ -1,4 +1,3 @@
-console.log('loaded obs-test')
 var settings = require('../events/obs.Settings.json');
 module.exports = {
 	name: 'obs-test',
