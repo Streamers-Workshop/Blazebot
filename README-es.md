@@ -91,4 +91,4 @@ empujón en la dirección correcta, porfavor no dudes en unirte a nuestro [Servi
 Crea un archivo de datos JSON en: /modules/http/data/<archivoaquí.json>
 Los plugins de eventos que muestran cosas están ubicados en: /events/http-overlay-text-*.js
 
-URL http://localhost:<port you selected>/text/<archivoaquí> <-- archivoaquí es el nombre del archivo JSON que has creado, sin el .json
+URL http://localhost:<puerto que has elegido>/text/<archivoaquí> <-- archivoaquí es el nombre del archivo JSON que has creado, sin el .json
