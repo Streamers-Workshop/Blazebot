@@ -28,13 +28,31 @@ var bot = new trovojs.Client();
 
 var cooldowns = new Map();
 
+var AsciiTable = require('ascii-table');
+
+let pluginsTable = new AsciiTable("PLUGINS");
+pluginsTable.setHeading("COMMAND", "STATE");
+
 bot.commands = new Map();
 const commandFiles = fs.readdirSync(path.join(__dirname, 'plugins')).filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
   const command = require(path.join(path.join(__dirname, 'plugins'), file));
   bot.commands.set(command.name, command);
-  console.log(`Loaded command: ${command.name}`);
+  
+  if (command.name) {
+    bot.commands.set(command.name, command);
+    pluginsTable.addRow(file, `LOADED`);
+  } else {
+    pluginsTable.addRow(file, "NOT LOADED");
+    continue;
+  }
 }
+
+console.log(pluginsTable.toString());
+
+let eventsTable = new AsciiTable("EVENTS");
+eventsTable.setHeading("EVENT", "STATE");
+
 bot.text_events = new Map();
 bot.json_events = new Map();
 const eventFiles = fs.readdirSync(path.join(__dirname, 'events')).filter(file => file.endsWith('.js'));
@@ -43,11 +61,15 @@ for (const file of eventFiles) {
   const _event = require(path.join(__dirname, 'events', file));
   if (name == 'json') {
     bot.json_events.set(_event.name, _event);
+    eventsTable.addRow(file, "LOADED");
   } else {
     bot.text_events.set(_event.name, _event);
+    eventsTable.addRow(file, "LOADED");
   }
-  console.log(`Loaded event: ${_event.name}`);
 }
+
+console.log(eventsTable.toString());
+
 bot.chat_message_filters = new Map();
 const messageFilterFiles = fs.readdirSync(path.join(__dirname, 'chatmessagefilters')).filter(file => file.endsWith('.js'));
 for (const file of messageFilterFiles) {
