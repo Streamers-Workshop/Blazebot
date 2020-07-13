@@ -22,6 +22,7 @@ plugins.loadPlugins(path.join(__dirname, 'plugins'));
 
 bot.on("jsonData", (name, data) => {
   // Currently we do not have anything using this data.
+   console.log(util.inspect(data, false, null, true /* enable colors */))
 })
 
 bot.on("chatEvent", (type, data) => {

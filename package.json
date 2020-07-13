@@ -7,7 +7,7 @@
     "express": "^4.17.1",
     "obs-websocket-js": "^4.0.1",
     "queue": "^6.0.1",
-    "trovo.js": "^1.4.5",
+    "trovo.js": "^1.4.7",
     "ws": "^7.3.1"
   },
   "devDependencies": {},
