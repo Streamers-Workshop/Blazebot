@@ -1,0 +1,25 @@
+{
+  "env": {
+    "commonjs": true,
+    "es2020": true,
+    "node": true
+  },
+  "extends": ["airbnb", "prettier", "plugin:node/recommended"],
+  "parserOptions": {
+    "ecmaVersion": 11
+  },
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": ["error"],
+    "no-param-reassign": ["error", { "props": false }],
+    "no-underscore-dangle": "off",
+    "no-plusplus": "off",
+    "class-methods-use-this": "off",
+    "global-require": "off",
+    "no-console": "off",
+    "import/no-dynamic-require": "off",
+    "no-caller": "off",
+    "no-restricted-properties": "off",
+    "no-restricted-syntax": ["error", "ForInStatement", "LabeledStatement", "WithStatement"]
+  }
+}

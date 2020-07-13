@@ -1,9 +1,8 @@
-const fs = require('fs'),
-  path = require('path'),
-  util = require('util');
+const fs = require('fs');
+const path = require('path');
 
-var sResponses = fs.readFileSync(path.join(__dirname, '8ball.txt'), "utf8");
-var ball = sResponses.split('\n');
+const sResponses = fs.readFileSync(path.join(__dirname, '8ball.txt'), 'utf8');
+const ball = sResponses.split('\n');
 module.exports = {
   name: '8ball',
   description: 'Magic fortune teller',
@@ -15,11 +14,9 @@ module.exports = {
   cooldown: 10,
   settings: false,
   credits: `Made by EarWaxCandy, updated by Rehkloos & Bioblaze Payne`,
-  execute(client, data, modules) {
+  execute(client, data) {
+    const sResponse = ball[Math.floor(Math.random() * (ball.length - 0) + 0)];
 
-    var sResponse = ball[Math.floor(Math.random() * (ball.length - 0) + 0)];
-
-    client.sendMessage(`@${data.user} - ` + sResponse);
-
+    client.sendMessage(`@${data.user} - ${sResponse}`);
   },
-}
+};

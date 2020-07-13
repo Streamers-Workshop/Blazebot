@@ -9,11 +9,10 @@ module.exports = {
   cooldown: 10,
   settings: false,
   credits: `Made by Rehkloos`,
-  execute(client, data, modules) {
+  execute(client) {
+    const d = new Date();
+    const time = d.toLocaleTimeString();
 
-    var d = new Date();
-    var time = d.toLocaleTimeString();
-
-    client.sendMessage(`Streamer current time is: ` + time);
+    client.sendMessage(`Streamer current time is: ${time}`);
   },
 };

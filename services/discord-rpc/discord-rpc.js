@@ -1,27 +1,23 @@
-
-var Modules = require('./../../modules/Modules.js');
-
-
-var settings = require('./discord-rpc.json');
-
-
 const DiscordRPC = require('discord-rpc');
-DiscordRPC.register(settings.clientID);
+const Modules = require('../../modules/Modules.js');
 
+const settings = require('./discord-rpc.json');
+
+DiscordRPC.register(settings.clientID);
 
 const rpc = new DiscordRPC.Client({ transport: 'ipc' });
 
-var started = false;
-var linked = false;
-var max_count = 1;
-var cur_count = 0;
-var stream_title = "Streaming Starting...";
-var stream_started = Date.now()/1000;
+let started = false;
+let linked = false;
+let maxCount = 1;
+let curCount = 0;
+let streamTitle = 'Streaming Starting...';
+let streamStarted = Date.now() / 1000;
 
 function onStreamStarted() {
   started = true;
-  stream_started = Date.now()/1000;
-  stream_title = settings.streamTitle;
+  streamStarted = Date.now() / 1000;
+  streamTitle = settings.streamTitle;
 }
 
 async function setActivity() {
@@ -30,46 +26,42 @@ async function setActivity() {
   }
   if (!Modules.getModule('obs')) {
     return;
-  } else {
-    var mod = Modules.getModule('obs');
-    if (!mod.settings) return;
-    if (!mod.settings.active) return;
-    if (!linked) {
-      mod.output.on('StreamStarted', onStreamStarted);
-      linked = true;
-    }
+  }
+  const mod = Modules.getModule('obs');
+  if (!mod.settings) return;
+  if (!mod.settings.active) return;
+  if (!linked) {
+    mod.output.on('StreamStarted', onStreamStarted);
+    linked = true;
   }
 
-  var data = {
-    details: "Streaming Starting...",
+  const data = {
+    details: 'Streaming Starting...',
     state: 'Livestreaming to',
-    startTimestamp: stream_started,
-    partySize: cur_count,
-    partyMax: max_count,
+    startTimestamp: streamStarted,
+    partySize: curCount,
+    partyMax: maxCount,
     largeImageKey: '1_2',
     largeImageText: 'Powered by TrovoBot',
     instance: false,
   };
 
   if (started) {
-    data["startTimestamp"] = stream_started;
-    data["details"] = stream_title;
+    data.startTimestamp = streamStarted;
+    data.details = streamTitle;
   }
 
   rpc.setActivity(data);
 }
 
 rpc.on('ready', () => {
-
   setActivity();
-
 
   // activity can only be set every 15 seconds
   setInterval(() => {
     setActivity();
   }, 15e3);
 });
-
 
 module.exports = {
   name: 'discord-rpc',
@@ -79,11 +71,11 @@ module.exports = {
     rpc.login({ clientId: settings.clientID }).catch(console.error);
   },
   setCount(count) {
-    if (count > max_count) {
-      max_count = count;
-      cur_count = count;
+    if (count > maxCount) {
+      maxCount = count;
+      curCount = count;
     } else {
-      cur_count = count;
+      curCount = count;
     }
   },
 };
