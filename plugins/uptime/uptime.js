@@ -1,18 +1,18 @@
 var Modules = require('./../../modules/Modules.js');
 var settings = require('../../services/obs/obs.json');
 module.exports = {
-	name: 'obs-test',
-	description: 'Tests OBS Websocket Functionality',
+	name: 'uptime',
+	description: "Gets how long you've been streaming for. Requires OBS Websocket plugin installed.",
 	permissions: [],
 	chat: true, // Defines this as a Chat Command
 	event: false, // Is this a Event?
 	type: 5004, // Type Event
-	command: 'obs-test', // This is the Command that is typed into Chat!
+	command: 'uptime', // This is the Command that is typed into Chat!
 	permissions: [], // This is for Permissisons depending on the Platform.
 	alias: [], // Alias commands that preform interesting things.
 	cooldown: 10, // this is Set in Seconds, how long between the next usage of this command.
 	settings: false, // Defining this as false will load the Settings file for this Plugin when the system loads this plugin.
-	credits: `Not sure who made this.`, // MAKE SURE YOU FILL THIS IN GOD DAMNIT!
+	credits: `Made by Krammy.`, // MAKE SURE YOU FILL THIS IN GOD DAMNIT!
 	execute(client, data, modules) {
 		if (Modules.getModule('obs')) {
 			if (!settings.active) {
@@ -21,30 +21,21 @@ module.exports = {
 				if (!modules.obs || modules.obs == undefined) {
 					console.log('Error with utilizing OBS plugin from the Modules')
 				} else {
-					var tobj = {
-						source: settings.joinedSource,
-						text: `Welcome ${data.user} remember to follow, your awesome and thank you <3`
-					};
-					var vobj = {
-						"source-name": settings.groupName,
-						item: {
-							name: settings.joinedSource
-						},
-						visible: true
-					};
-					modules.obs.send("SetTextGDIPlusProperties", tobj).then((d) => {
-						return modules.obs.send("SetSceneItemProperties", vobj).then((d) => {
-							setTimeout(function() {
-								vobj.visible = false;
-								modules.obs.send("SetSceneItemProperties", vobj).then((d) => {}).catch((e) => {});
-							}, settings.disappearDelay);
-						});
-					}).catch((e) => {
-						console.error(e);
-					});
-					client.sendMessage(`Welcome ${data.user} remember to follow, your awesome and thank you <3`);
-				}
-			}
+						modules.obs.send('GetStreamingStatus').then( data => {
+						if (data.streaming == true)
+						{
+					
+							var a = data.streamTimecode.split(':');
+							client.sendMessage(`the stream has been live for: ${a[0]}h, ${a[1]}min, ${a[2].substr(0,2)}secs`);
+							//console.log(`${a[0]}h, ${a[1]}min, ${a[2].substr(0,2)}secs`);
+						}
+						else
+						{
+							client.sendMessage("Not LIVE");
+						}
+							}).catch(console.error);
+						}
+					}
 		} else {
 			client.sendMessage("Currently the OBS plugin is not enabled. Please contact the bot owner to check into this.");
 		}
