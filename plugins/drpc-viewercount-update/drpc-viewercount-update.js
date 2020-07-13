@@ -15,10 +15,10 @@ module.exports = {
 	settings: false, // Defining this as false will load the Settings file for this Plugin when the system loads this plugin.
 	credits: `Made with Love by Bioblaze Payne for the Trovo.live Community, as a example of how to use the v2 TrovoBot Plugin System.`, // MAKE SURE YOU FILL THIS IN GOD DAMNIT!
 	execute(client, data, modules) {
-    var module = Modules.getModule('discord-rpc');
-    if (module) {
-      if (module.settings.active) {
-        module.setCount(Number(data['live.viewers']));
+    var discord = Modules.getModule('discord-rpc');
+    if (discord) {
+      if (discord.settings.active) {
+        discord.setCount(Number(data['live.viewers']));
       }
     }
 	},

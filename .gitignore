@@ -102,3 +102,5 @@ dist
 .tern-port
 
 package-lock.json
+
+settings-dev.json
