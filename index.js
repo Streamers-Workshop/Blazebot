@@ -13,7 +13,7 @@ settings.loadSettings(path.join(__dirname, 'settings.json'));
 var modules = require(path.join(__dirname, 'modules', 'Modules.js'));
 modules.loadModules(path.join(__dirname, 'services'));
 
-var bot = new trovojs.Client({ headless: false });
+var bot = new trovojs.Client();
 
 var cooldowns = new Map();
 
@@ -26,7 +26,7 @@ bot.on("jsonData", (name, data) => {
 })
 
 bot.on("chatEvent", (type, data) => {
-
+//console.log(util.inspect(data, false, null, true /* enable colors */))
 if (data.user == settings.settings.trovo.name && type == "userJoined") return;
 
   plugins.triggerEvents(data.chatType, bot, data, modules.getModulesOutput());

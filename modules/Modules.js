@@ -14,7 +14,7 @@ const getDirectories = source => fs.readdirSync(source, { withFileTypes: true })
 
 Modules.prototype.loadModules = async (directory) => {
   fs.access(directory, function(err) {
-    if (err) new Error(`File does not Exist or has Access Permission Issues: ${file}`);
+    if (err) new Error(`Folder does not Exist or has Access Permission Issues: ${directory}`);
     else {
       const directories = getDirectories(directory);
       for(const dir of directories) {
@@ -54,7 +54,7 @@ Modules.prototype.getModule = (module) => {
     const data = instance.modules.get(module);
     if (!data) {
       console.error(`Invalid Module Requested. Check your spelling for Module: ${module}`);
-      return undefined;
+      return null;
     }
     else return module;
 }

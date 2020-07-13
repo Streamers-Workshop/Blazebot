@@ -14,7 +14,7 @@ module.exports = {
 	settings: false, // Defining this as false will load the Settings file for this Plugin when the system loads this plugin.
 	credits: `Not sure who made this.`, // MAKE SURE YOU FILL THIS IN GOD DAMNIT!
 	execute(client, data, modules) {
-		if (Modules.getModule('obs') != undefined) {
+		if (Modules.getModule('obs')) {
 			var settings = module.settings;
 			if (!settings.active) {
 				console.log('Please enable the OBS Module to use this Function.')
