@@ -20,20 +20,18 @@ Modules.prototype.loadModules = async (directory) => {
       for(const dir of directories) {
         try {
           var module = require(path.join(directory, dir, `${dir}.js`));
-          if (fs.accessSync(path.join(directory, dir, `${dir}.json`), fs.constants.R_OK)) {
             module.settings = require(path.join(directory, dir, `${dir}.json`));
             console.log(`Loaded Module[${module.name}] from File (/modules/${dir}/${dir}.js)`);
             console.log(`Loaded Module Settings[${module.name}] from File (/modules/${dir}/${dir}.json)`);
             if (module.settings.active) {
-              module.active();
+              module.activate();
               console.log(`Actived Module[${module.name}]`);
             }
             instance.modules.set(dir, module);
-          } else {
-            console.log(`Unable to find a Settings file for (${module.name}) skipping...`)
-          }
+
         } catch(e) {
           console.error(`Error Attempting to Load Module(${dir}) located at: ${path.join(directory, dir)}`);
+          console.error(e);
         }
       }
     }

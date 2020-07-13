@@ -1,9 +1,13 @@
+
 var Modules = require('./../../modules/Modules.js');
+
 
 var settings = require('./discord-rpc.json');
 
+
 const DiscordRPC = require('discord-rpc');
 DiscordRPC.register(settings.clientID);
+
 
 const rpc = new DiscordRPC.Client({ transport: 'ipc' });
 
@@ -27,8 +31,11 @@ async function setActivity() {
   if (!Modules.getModule('obs')) {
     return;
   } else {
+    var mod = Modules.getModule('obs');
+    if (!mod.settings) return;
+    if (!mod.settings.active) return;
     if (!linked) {
-      obs.on('StreamStarted', onStreamStarted);
+      mod.output.on('StreamStarted', onStreamStarted);
       linked = true;
     }
   }
@@ -69,7 +76,7 @@ module.exports = {
   varname: 'discordRpc',
   output: rpc,
   activate() {
-    rpc.login({ settings.clientID }).catch(console.error);
+    rpc.login({ clientId: settings.clientID }).catch(console.error);
   },
   setCount(count) {
     if (count > max_count) {
@@ -78,5 +85,5 @@ module.exports = {
     } else {
       cur_count = count;
     }
-  }
+  },
 };
