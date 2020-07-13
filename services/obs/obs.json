@@ -1,7 +1,7 @@
 {
   "active": true,
   "address": "localhost",
-  "port": 9999,
+  "port": 4444,
   "disappearDelay": 10000,
   "groupName": "Trovo",
   "spellsSource": "Spells",
