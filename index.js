@@ -6,18 +6,18 @@ global.appRoot = path.resolve(__dirname); // Hack to know the root of the Projec
 var trovojs = require('trovo.js');
 
 //Loading the Base Settings from this point on.
-var settings = trovojs.Settings();
+var settings = require(path.join(__dirname, 'modules', 'Settings.js'));
 settings.loadSettings(path.join(__dirname, 'settings.json'));
 
 // Loading Modules
-var modules = trovojs.Modules();
-modules.loadModules(path.join(__dirname, 'modules'));
+var modules = require(path.join(__dirname, 'modules', 'Modules.js'));
+modules.loadModules(path.join(__dirname, 'services'));
 
-var bot = new trovojs.Client();
+var bot = new trovojs.Client({ headless: false });
 
 var cooldowns = new Map();
 
-var plugins = trovojs.Plugins();
+var plugins = require(path.join(__dirname, 'modules', 'Plugins.js'));
 plugins.loadPlugins(path.join(__dirname, 'plugins'));
 
 bot.on("jsonData", (name, data) => {
@@ -43,7 +43,6 @@ bot.on("chatMessage", (message) => {
   const commandName = args.shift().toLowerCase();
 
   const command = plugins.getChatCommand(commandName);
-
   if (!command)
     return;
 
@@ -79,6 +78,7 @@ bot.on("chatMessage", (message) => {
     message.prefix = settings.settings.prefix;
     message.command = commandName;
     command.execute(bot, message, modules.getModulesOutput());
+    console.log("??");
   } catch (err) {
     console.error(err);
     return bot.sendMessage('There was a error with processing your Command. Please Contact Bioblaze Payne#6459 and let him know.');
