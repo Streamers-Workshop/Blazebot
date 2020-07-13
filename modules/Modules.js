@@ -51,7 +51,6 @@ Modules.prototype.getModulesOutput = () => {
 Modules.prototype.getModule = (module) => {
     const data = instance.modules.get(module);
     if (!data) {
-      console.error(`Invalid Module Requested. Check your spelling for Module: ${module}`);
       return null;
     }
     else return module;

@@ -54,8 +54,7 @@ Plugins.prototype.getSettings = (plugin) => {
 Plugins.prototype.getPlugin = (plugin) => {
     const data = instance.plugins.get(plugin);
     if (!data) {
-      console.error(`Invalid Plugin Requested. Check your spelling for Plugin: ${plugin}`);
-      return undefined;
+      return null;
     }
     else return plugin;
 }
