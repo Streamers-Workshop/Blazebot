@@ -22,7 +22,7 @@ plugins.loadPlugins(path.join(__dirname, 'plugins'));
 
 bot.on("jsonData", (name, data) => {
   // Currently we do not have anything using this data.
-   console.log(util.inspect(data, false, null, true /* enable colors */))
+  // console.log(util.inspect(data, false, null, true /* enable colors */))
 })
 
 bot.on("chatEvent", (type, data) => {
@@ -79,7 +79,6 @@ bot.on("chatMessage", (message) => {
     message.prefix = settings.settings.prefix;
     message.command = commandName;
     command.execute(bot, message, modules.getModulesOutput());
-    console.log("??");
   } catch (err) {
     console.error(err);
     return bot.sendMessage('There was a error with processing your Command. Please Contact Bioblaze Payne#6459 and let him know.');
