@@ -35,7 +35,7 @@ if (data.user == settings.settings.trovo.name && type == "userJoined") return;
 
 
 bot.on("chatMessage", (message) => {
-
+//console.log(util.inspect(data, false, null, true /* enable colors */))
   if (!message || message.user == undefined) return;
   if (message.user == settings.settings.trovo.name) return;
   if (!message.content) return;
