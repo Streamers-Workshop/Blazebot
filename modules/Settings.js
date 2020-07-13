@@ -1,26 +1,27 @@
-const fs = require('fs'), path = require('path'), util = require('util');
-
-var instance = null;
+let instance = null;
 
 function Settings() {
-  if(arguments.callee._singletonInstance) {
+  if (arguments.callee._singletonInstance) {
     return arguments.callee._singletonInstance;
   }
   arguments.callee._singletonInstance = this;
   this.settings = {};
 }
 
-Settings.prototype.loadSettings =  (file) => {
+Settings.prototype.loadSettings = (file) => {
   instance.settings = require(file);
-  console.log(`Settings File Load...... Total Key:Value pairs (${Object.keys(instance.settings)}) Loaded.`);
-}
-Settings.prototype.getSettings = function() {
+  console.log(
+    `Settings File Load...... Total Key:Value pairs (${Object.keys(instance.settings)}) Loaded.`,
+  );
+};
+Settings.prototype.getSettings = () => {
   return instance.settings;
-}
-Settings.prototype.getValue = function(value) {
-  return instance.settings[value] != undefined ? instance.settings[value] : null;
-}
+};
+Settings.prototype.getValue = (value) => {
+  return instance.settings[value] !== undefined ? instance.settings[value] : null;
+};
 
-module.exports = function() {
-  return instance || (instance = new Settings());
-}();
+module.exports = (() => {
+  if (!instance) instance = new Settings();
+  return instance;
+})();

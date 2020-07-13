@@ -1,6 +1,6 @@
+const OBSWebSocket = require('obs-websocket-js');
 const settings = require('./obs.json');
 
-const OBSWebSocket = require('obs-websocket-js');
 const obs = new OBSWebSocket();
 
 module.exports = {
@@ -9,5 +9,5 @@ module.exports = {
   output: obs,
   activate() {
     obs.connect({ address: `${settings.address}:${settings.port}`, password: settings.password });
-  }
+  },
 };
