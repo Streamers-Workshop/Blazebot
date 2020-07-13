@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <video <%= video.options.join(" ") %> id="video">
+      <source src="<%= video.name %>" type="<%= video.type %>">
+    </video>
+    <audio id="audio" src="<%= audio.name %>"></audio>
+    <script type="text/javascript">
+      let socket = new WebSocket("wss://localhost:<%= port %>");
+
+      var tag = "<%= tag %>";
+
+      socket.onopen = function(e) {
+        console.log("[open] Connection established");
+      };
+
+      socket.onmessage = function(event, type, data) {
+        if (event == "chat") {
+          if (type == tag) {
+            var json = JSON.parse(data);
+
+          }
+        }
+        console.log(`[message] Data received from server: `, event, type, data);
+      };
+
+      socket.onclose = function(event) {
+        if (event.wasClean) {
+          console.log(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+        } else {
+          console.log('[close] Connection died');
+        }
+      };
+
+      socket.onerror = function(error) {
+        console.log(`[error] ${error.message}`);
+      };
+    </script>
+  </body>
+</html>
