@@ -1,4 +1,4 @@
-Plugin by Krammy
+Plugin by Krammy 
 Twitch: https://twitch.tv/krammy
 Trovo: https://trovo.live/krammy
 Discord: krammy#0001
@@ -10,6 +10,7 @@ Trigger:
 	!uptime
 
 Requirements:
+
 -Using OBS Studio, doesn't work with Streamlabs OBS (SLOBS).
 
 -OBS Websocket plugin installed: https://github.com/Palakis/obs-websocket/releases/download/4.8.0/obs-websocket-4.8.0-Windows-Installer.exe
