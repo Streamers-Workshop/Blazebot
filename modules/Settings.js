@@ -1,4 +1,4 @@
-let instance = null;
+var instance = null; // eslint-disable-line no-var
 
 function Settings() {
   if (arguments.callee._singletonInstance) {

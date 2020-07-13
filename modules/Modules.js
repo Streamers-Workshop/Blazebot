@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-let instance = null;
+var instance = null; // eslint-disable-line no-var
 
 function Modules() {
   if (arguments.callee._singletonInstance) {
