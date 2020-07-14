@@ -24,7 +24,8 @@
     "eslint-plugin-react-hooks": "^4.0.8"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "lint": "node ./node_modules/eslint/bin/eslint.js . --fix"
   },
   "keywords": [],
   "author": "Bioblaze Payne <BioblazePayne@gmail.com>",
