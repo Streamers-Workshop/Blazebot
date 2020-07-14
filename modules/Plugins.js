@@ -3,6 +3,8 @@ const path = require('path');
 
 var instance = null; // eslint-disable-line no-var
 
+const AsciiTable = require('ascii-table');
+
 function Plugins() {
   if (arguments.callee._singletonInstance) {
     return arguments.callee._singletonInstance;
@@ -11,6 +13,9 @@ function Plugins() {
   this.plugins = new Map();
   this.chat = new Map();
 }
+
+const pluginsTable = new AsciiTable('PLUGINS');
+pluginsTable.setHeading('COMMAND', 'STATE');
 
 const getDirectories = (source) =>
   fs
@@ -26,7 +31,7 @@ Plugins.prototype.loadPlugins = async (directory) => {
       for (const dir of directories) {
         try {
           const plugin = require(path.join(directory, dir, `${dir}.js`));
-          console.log(`Loaded Plugin[${plugin.name}] from File (/plugins/${dir}/${dir}.js)`);
+          pluginsTable.addRow(plugin.name, 'LOADED');
           if (plugin.settings) {
             if (fs.accessSync(path.join(directory, dir, `${dir}.json`), fs.constants.R_OK)) {
               plugin.settings = require(path.join(directory, dir, `${dir}.json`));
@@ -48,6 +53,7 @@ Plugins.prototype.loadPlugins = async (directory) => {
         }
       }
     }
+    console.log(pluginsTable.toString());
   });
 };
 

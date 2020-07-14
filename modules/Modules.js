@@ -3,6 +3,8 @@ const path = require('path');
 
 var instance = null; // eslint-disable-line no-var
 
+const AsciiTable = require('ascii-table');
+
 function Modules() {
   if (arguments.callee._singletonInstance) {
     return arguments.callee._singletonInstance;
@@ -10,6 +12,9 @@ function Modules() {
   arguments.callee._singletonInstance = this;
   this.modules = new Map();
 }
+
+const modulesTable = new AsciiTable('MODULES');
+modulesTable.setHeading('MODULE', 'STATE');
 
 const getDirectories = (source) =>
   fs
@@ -26,10 +31,7 @@ Modules.prototype.loadModules = async (directory) => {
         try {
           const module = require(path.join(directory, dir, `${dir}.js`));
           module.settings = require(path.join(directory, dir, `${dir}.json`));
-          console.log(`Loaded Module[${module.name}] from File (/modules/${dir}/${dir}.js)`);
-          console.log(
-            `Loaded Module Settings[${module.name}] from File (/modules/${dir}/${dir}.json)`,
-          );
+          modulesTable.addRow(module.name, 'LOADED');
           if (module.settings.active) {
             module.activate();
             console.log(`Actived Module[${module.name}]`);
@@ -43,6 +45,7 @@ Modules.prototype.loadModules = async (directory) => {
         }
       }
     }
+    console.log(modulesTable.toString());
   });
 };
 
