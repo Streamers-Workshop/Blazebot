@@ -79,7 +79,7 @@ Plugins.prototype.triggerEvents = async (type, client, data, plugins) => {
     const value = plugin[1];
     if (!value.event) return;
     if (value.type !== type) return;
-    value.execute(data, client, plugins);
+    value.execute(client, data, plugins);
   }
 };
 
