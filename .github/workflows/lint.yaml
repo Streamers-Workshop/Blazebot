@@ -12,9 +12,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: Install modules
     - run: npm install
-    - name: Run NPM Lint
     - run: npm lint
       env:
         CI: true
