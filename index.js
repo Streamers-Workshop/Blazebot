@@ -1,188 +1,109 @@
-const fs = require('fs'), path = require('path'), util = require('util');
-
-require('dotenv').config({ path: path.join(__dirname, ".env") });
+const path = require('path');
 
 global.appRoot = path.resolve(__dirname); // Hack to know the root of the Project.
 
-/*
-This is for the OBS Plugin to allow OBS functionality in Plugins and Events.
-*/
+const trovojs = require('trovo.js');
 
-const OBSWebSocket = require('obs-websocket-js');
-const obs = new OBSWebSocket();
-if (process.env.OBS_ACTIVE > 0) {
-  var obs_settings = require('./events/obs.Settings.json');
+// Loading the Base Settings from this point on.
+const settings = require(path.join(__dirname, 'modules', 'Settings.js'));
+settings.loadSettings(path.join(__dirname, 'settings.json'));
 
-  obs.connect({ address: obs_settings.address, password: obs_settings.password });
-}
+// Loading Modules
+const modules = require(path.join(__dirname, 'modules', 'Modules.js'));
+modules.loadModules(path.join(__dirname, 'services'));
 
-var ws = null;
-if (process.env.HTTP_OVERLAY > 0) {
-  ws = require(path.join(__dirname, 'modules', 'http.js'));
-}
+const bot = new trovojs.Client();
 
+const cooldowns = new Map();
 
-var trovojs = require('trovo.js');
+const plugins = require(path.join(__dirname, 'modules', 'Plugins.js'));
+plugins.loadPlugins(path.join(__dirname, 'plugins'));
 
-var bot = new trovojs.Client();
-
-var cooldowns = new Map();
-
-bot.commands = new Map();
-const commandFiles = fs.readdirSync(path.join(__dirname, 'plugins')).filter(file => file.endsWith('.js'));
-for (const file of commandFiles) {
-  const command = require(path.join(path.join(__dirname, 'plugins'), file));
-  bot.commands.set(command.name, command);
-  console.log(`Loaded command: ${command.name}`);
-}
-bot.text_events = new Map();
-bot.json_events = new Map();
-const eventFiles = fs.readdirSync(path.join(__dirname, 'events')).filter(file => file.endsWith('.js'));
-for (const file of eventFiles) {
-  var name = file.split(".")[1];
-  const _event = require(path.join(__dirname, 'events', file));
-  if (name == 'json') {
-    bot.json_events.set(_event.name, _event);
-  } else {
-    bot.text_events.set(_event.name, _event);
-  }
-  console.log(`Loaded event: ${_event.name}`);
-}
-bot.chat_message_filters = new Map();
-const messageFilterFiles = fs.readdirSync(path.join(__dirname, 'chatmessagefilters')).filter(file => file.endsWith('.js'));
-for (const file of messageFilterFiles) {
-  const filter = require(path.join(path.join(__dirname, 'chatmessagefilters'), file));
-  bot.chat_message_filters.set(filter.name, filter);
-  console.log(`Loaded chat filter: ${filter.name}`);
-}
-
-bot.on("jsonData", (name, data) => {
-  const command = bot.json_events.get(name);
-
-  if (!command) return;
-  //console.log(name, data);
-  try {
-    command.execute(name, data, bot, {
-      obs: (process.env.OBS_ACTIVE > 0) ? obs : null,
-      ws: (process.env.HTTP_OVERLAY > 0) ? ws : null
-    });
-  } catch (err) {
-    console.error(err);
-    return bot.sendMessage('There was a error with processing your Command. Please Contact Bioblaze Payne#6459 and let him know.');
-  }
-})
-
-bot.on("chatEvent", (type, data) => {
-
-  bot.text_events.forEach(function(value, key, map) {
-    if (!value.event) return
-    if (value.event == data.chatType) {
-      var trigger = bot.text_events.get(key);
-      try {
-        trigger.execute(data, bot, {
-          obs: (process.env.OBS_ACTIVE > 0) ? obs : null,
-          ws: (process.env.HTTP_OVERLAY > 0) ? ws : null
-        });
-      } catch(e) {
-        console.log("chatEvent", key,e)
-      }
-    }
-  });
+bot.on('jsonData', () => {
+  // Currently we do not have anything using this data.
+  // console.log(util.inspect(data, false, null, true /* enable colors */))
 });
 
+bot.on('chatEvent', (type, data) => {
+  // console.log(util.inspect(data, false, null, true /* enable colors */))
+  if (data.user === settings.settings.trovo.name && type === 'userJoined') return;
 
-bot.on("chatMessage", (message) => {
+  plugins.triggerEvents(data.chatType, bot, data, modules.getModulesOutput());
+});
 
-  if (!message || message.user == undefined) return;
-  if (message.user == process.env.TROVO_BOTNAME) return;
+bot.on('chatMessage', (message) => {
+  // console.log(util.inspect(data, false, null, true /* enable colors */))
+  if (!message || message.user === undefined) return;
+  if (message.user === settings.settings.trovo.name) return;
   if (!message.content) return;
 
-  if (process.env.HTTP_OVERLAY > 0) {
-    ws.server.clients.forEach(function(client) {
-			client.send(JSON.stringify({
-        type: "chat",
-        page: "trovo",
-				name: message.user,
-				message: message.content,
-        icon: message.iconURL,
-        badges: message.badges || null
-			}));
-		});
+  const args = message.content.slice(settings.settings.prefix.length).split(/ +/);
+  const commandName = args.shift().toLowerCase();
+
+  const command = plugins.getChatCommand(commandName);
+  if (!command) return;
+
+  if (!cooldowns.has(command.name)) {
+    cooldowns.set(command.name, new Map());
   }
 
-  if (process.env.TROVO_PREFIX && message.content.startsWith(process.env.TROVO_PREFIX)) {
-    //it's a command
+  const now = Date.now();
+  const timestamps = cooldowns.get(command.name);
+  const cooldownAmount = (command.cooldown || 3) * 1000;
 
-    const args = message.content.slice(process.env.TROVO_PREFIX.length).split(/ +/);
-    const commandName = args.shift().toLowerCase();
+  if (
+    timestamps.has(message.user) &&
+    (message.badges === undefined ||
+      message.badges.indexOf('moderator') <= -1 ||
+      message.badges.indexOf('creator') <= -1)
+  ) {
+    const expirationTime = timestamps.get(message.user) + cooldownAmount;
 
-    const command = bot.commands.get(commandName);
-
-    if (!command)
+    if (now < expirationTime) {
+      const timeLeft = (expirationTime - now) / 1000;
+      bot.sendMessage(
+        `Holdon for ${timeLeft.toFixed(1)} more second(s) before reusing the \`${
+          command.name
+        }\` command.`,
+        bot,
+      );
       return;
-
-    if (!cooldowns.has(command.name)) {
-      cooldowns.set(command.name, new Map());
     }
-
-
-    const now = Date.now();
-    const timestamps = cooldowns.get(command.name);
-    const cooldownAmount = (command.cooldown || 3) * 1000;
-
-    if (timestamps.has(message.user) && (message.badges == undefined || (message.badges.indexOf('moderator') <= -1 || message.badges.indexOf('creator') <= -1))) {
-      const expirationTime = timestamps.get(message.user) + cooldownAmount;
-
-      if (now < expirationTime) {
-        const timeLeft = (expirationTime - now) / 1000;
-        return bot.sendMessage(`Holdon for ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`, bot);
-      }
-    }
-
-    timestamps.set(message.user, now);
-
-    setTimeout(() => timestamps.delete(message.user), cooldownAmount);
-
-    if (command.permissions != undefined && command.permissions.length != 0 &&
-            (!message.badges || command.permissions.filter(value => message.badges.includes(value)).length === 0)) {
-      return bot.sendMessage("You do not have permission to use this command. Sorry.")
-    }
-
-    try {
-      command.execute(message.content, args, message.user, bot, message, {
-        obs: (process.env.OBS_ACTIVE > 0) ? obs : null,
-        ws: (process.env.HTTP_OVERLAY > 0) ? ws : null
-      });
-    } catch (err) {
-      console.error(err);
-      return bot.sendMessage('There was a error with processing your Command. Please Contact Bioblaze Payne#6459 and let him know.');
-    }
-  } else {
-    //it's a regular chat message
-
-    for (var [key, filter] of bot.chat_message_filters) {
-      try {
-        if (!message.badges || filter.excludeBadges.filter(value => message.badges.includes(value)).length === 0) {
-          if (filter.execute(message, bot, {
-            obs: (process.env.OBS_ACTIVE > 0) ? obs : null,
-            ws: (process.env.HTTP_OVERLAY > 0) ? ws : null
-          }, process.env)) {
-            //When the first filter has been applied, don't apply any more filters
-            break;
-          }
-        }
-      } catch (e) {
-        console.log("chatMessage", key, e);
-      }
-    }
-
   }
 
+  timestamps.set(message.user, now);
+
+  setTimeout(() => timestamps.delete(message.user), cooldownAmount);
+
+  if (
+    command.permissions !== undefined &&
+    command.permissions.length !== 0 &&
+    (!message.badges ||
+      command.permissions.filter((value) => message.badges.includes(value)).length === 0)
+  ) {
+    bot.sendMessage('You do not have permission to use this command. Sorry.');
+    return;
+  }
+
+  try {
+    message.args = args;
+    message.prefix = settings.settings.prefix;
+    message.command = commandName;
+    command.execute(bot, message, modules.getModulesOutput());
+  } catch (err) {
+    console.error(err);
+    bot.sendMessage(
+      'There was a error with processing your Command. Please Contact Bioblaze Payne#6459 and let him know.',
+    );
+  }
 });
 
-bot.on("ready", () => {
-  console.log("\nBot loaded and ready to mod!");
+bot.on('ready', () => {
+  console.log('\nBot loaded and ready to mod!');
 });
 
-
-bot.login(process.env.TROVO_PAGE, process.env.TROVO_EMAIL, process.env.TROVO_PASSWORD);
+bot.login(
+  settings.settings.trovo.page,
+  settings.settings.trovo.email,
+  settings.settings.trovo.password,
+);
