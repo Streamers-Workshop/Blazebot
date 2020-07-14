@@ -28,5 +28,5 @@ EXCLUDED_AUTHORS=("alreadylostmyself")
 	excluded_regexp=$excluded_regexp').*$'
 
 	echo
-	git log --format='%aN <%aE>' --author=$excluded_regexp | LC_ALL=C.UTF-8 sort -uf
+	git log --format='%aN' --author=$excluded_regexp | LC_ALL=C.UTF-8 sort -uf
 } > AUTHORS
