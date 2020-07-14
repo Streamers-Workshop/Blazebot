@@ -16,7 +16,7 @@ module.exports = {
   execute(client, data) {
     client.sendMessage(`Thanks @${data.user} for the casting a spell <3`);
 
-    fs.writeFile('./plugins/alert-follow/latest-spell.txt', data.user, (err) => {
+    fs.writeFile('./plugins/alert-spell/latest-spell.txt', data.user, (err) => {
       if (err) {
         return console.log(err);
       }

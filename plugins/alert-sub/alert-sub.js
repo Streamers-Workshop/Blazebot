@@ -16,7 +16,7 @@ module.exports = {
   execute(client, data) {
     client.sendMessage(`Thanks @${data.user} for the Subscription <3`);
 
-    fs.writeFile('./plugins/alert-follow/latest-sub.txt', data.user, (err) => {
+    fs.writeFile('./plugins/alert-sub/latest-sub.txt', data.user, (err) => {
       if (err) {
         return console.log(err);
       }
