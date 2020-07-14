@@ -71,9 +71,9 @@ Plugins.prototype.getPlugin = (plugin) => {
 Plugins.prototype.triggerEvents = async (type, client, data, plugins) => {
   for (const plugin of instance.plugins.entries()) {
     const value = plugin[1];
-    if (!value.event) return;
-    if (value.type !== type) return;
-    value.execute(data, client, plugins);
+    if (value.event && value.type === type) {
+      value.execute(client, data, plugins);
+    }
   }
 };
 
