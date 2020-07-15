@@ -53,6 +53,21 @@ app.get('/alert/:pageID', function(req, res) {
     });
   }
 });
+app.get('/alertwebm/:pageID', function(req, res) {
+  try {
+    var data = require(path.join(__dirname, "http", "data", `${req.params.pageID}.json`));
+    data.tag = req.params.pageID;
+    data.port = process.env.HTTP_PORT;
+    res.render('alertwebm',data);
+  } catch(e) {
+    console.error(`[HTTP] (Alert Video Route) ${req.params.pageID}.json is not found, does it exist in /modules/http/data?\n${e}`);
+    res.render('alertwebm', {
+      tag: req.params.pageID,
+      port: process.env.HTTP_PORT
+    });
+  }
+});
+
 
 const server = http.createServer(app);
 
