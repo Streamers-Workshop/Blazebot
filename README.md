@@ -10,6 +10,8 @@
   </p>
 </div>
 
+*Read this in: [Español](README-es.md).*
+
 ## Table of contents
 
 - [About](#about)
