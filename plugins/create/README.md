@@ -1,11 +1,13 @@
-##Plugin:
+## About
 created by raccoon19. Updates by Rehkloos & Krammy
 
-##Description:
+## Description:
 Create commands from chat.
 
-##Trigger:
+## Trigger:
 !create <name of command> <command message>
 
-##Requirements:
+`example: !create test testing command`
+
+## Requirements:
 None.
