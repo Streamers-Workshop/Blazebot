@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "address": "localhost",
   "port": 4444,
   "disappearDelay": 10000,

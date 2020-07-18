@@ -1,4 +1,4 @@
-const Modules = require('../../modules/Modules.js');
+const Modules = require('../../modules/Services.js');
 const settings = require('../../services/obs/obs.json');
 
 module.exports = {
@@ -14,7 +14,7 @@ module.exports = {
   settings: false, // Defining this as false will load the Settings file for this Plugin when the system loads this plugin.
   credits: `Not sure who made this.`, // MAKE SURE YOU FILL THIS IN GOD DAMNIT!
   execute(client, data, modules) {
-    if (Modules.getModule('obs')) {
+    if (Modules.getService('obs-controller-module')) {
       if (!settings.active) {
         console.log('Please enable the OBS Module to use this Function.');
       } else if (!modules.obs || modules.obs === undefined) {

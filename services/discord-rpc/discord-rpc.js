@@ -1,5 +1,5 @@
 const DiscordRPC = require('discord-rpc');
-const Modules = require('../../modules/Modules.js');
+const Modules = require('../../modules/Services.js');
 
 const settings = require('./discord-rpc.json');
 
@@ -24,10 +24,10 @@ async function setActivity() {
   if (!rpc) {
     return;
   }
-  if (!Modules.getModule('obs')) {
+  if (!Modules.getService('obs')) {
     return;
   }
-  const mod = Modules.getModule('obs');
+  const mod = Modules.getService('obs');
   if (!mod.settings) return;
   if (!mod.settings.active) return;
   if (!linked) {

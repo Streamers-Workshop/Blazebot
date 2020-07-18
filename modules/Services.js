@@ -32,9 +32,11 @@ Services.prototype.loadServices = async (directory) => {
           const service = require(path.join(directory, dir, `${dir}.js`));
           service.settings = require(path.join(directory, dir, `${dir}.json`));
           servicesTable.addRow(service.name, 'LOADED');
-          instance.services.set(dir, service);
+          console.log(service);
+          instance.services.set(service.name, service);
           if (service.settings.active) {
             const mod = instance.services.get(service.name);
+            console.log(mod);
             mod.activate();
             console.log(`Actived Service[${instance.service.name}]`);
           }
