@@ -46,7 +46,7 @@ module.exports = { \r\
     }, \r\
 }; \
 `;
-        fs.writeFile(filePath, fill, function (err) {
+        fs.writeFile(filePath, fill, function a(err) {
           if (err) throw Error(err);
           else {
             // allows for reloading plugins modules initiate created file without rebooting Credit: kramitox (Krammy)

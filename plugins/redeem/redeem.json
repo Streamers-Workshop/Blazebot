@@ -1,0 +1,28 @@
+{
+  "thug": {
+    "type" : "source toggle",
+    "scene" : "Scene",
+    "source": "thug effect",
+    "delay": 11000,
+	"cost": 1000
+  },
+  "jojo": {
+    "type" : "source toggle",
+    "scene" : "Main Camera",
+    "source": "JOJO EFFECT",
+    "delay": 10000,
+	"cost": 1000
+  },
+  "wow": {
+    "type" : "source toggle",
+    "scene" : "Main Camera",
+    "source": "WOW EFFECT",
+    "delay": 0,
+	"cost": 1000
+  },
+  "so": {
+    "type" : "send message",
+    "message" : "Make sure to go follow @${user} over at https://trovo.live/${user}",
+	"cost": 1000
+	}
+}
