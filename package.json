@@ -32,7 +32,11 @@
     "lint": "node ./node_modules/eslint/bin/eslint.js . --fix"
   },
   "keywords": [],
-  "author": "Bioblaze Payne <BioblazePayne@gmail.com>",
+  "funding": {
+    "type" : "patreon",
+    "url" : "https://www.patreon.com/BioblazePayne"
+  },
+  "author": "Bioblaze Payne <bioblazepayne@gmail.com> (https://github.com/Bioblaze)",
   "license": "ISC",
   "description": ""
 }

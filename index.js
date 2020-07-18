@@ -9,8 +9,8 @@ const settings = require(path.join(__dirname, 'modules', 'Settings.js'));
 settings.loadSettings(path.join(__dirname, 'settings.json'));
 
 // Loading Modules
-const modules = require(path.join(__dirname, 'modules', 'Modules.js'));
-modules.loadModules(path.join(__dirname, 'services'));
+const services = require(path.join(__dirname, 'modules', 'Services.js'));
+services.loadModules(path.join(__dirname, 'services'));
 
 const bot = new trovojs.Client();
 
@@ -18,6 +18,9 @@ const cooldowns = new Map();
 
 const plugins = require(path.join(__dirname, 'modules', 'Plugins.js'));
 plugins.loadPlugins(path.join(__dirname, 'plugins'));
+
+const processors = require(path.join(__dirname, 'modules', 'Processors.js'));
+processors.loadProcessors(path.join(__dirname, 'processors'));
 
 bot.on('jsonData', () => {
   // Currently we do not have anything using this data.
@@ -28,7 +31,7 @@ bot.on('chatEvent', (type, data) => {
   // console.log(util.inspect(data, false, null, true /* enable colors */))
   if (data.user === settings.settings.trovo.name && type === 'userJoined') return;
 
-  plugins.triggerEvents(data.chatType, bot, data, modules.getModulesOutput());
+  plugins.triggerEvents(data.chatType, bot, data, services.getModulesOutput());
 });
 
 bot.on('chatMessage', (message) => {
@@ -89,7 +92,7 @@ bot.on('chatMessage', (message) => {
     message.args = args;
     message.prefix = settings.settings.prefix;
     message.command = commandName;
-    command.execute(bot, message, modules.getModulesOutput());
+    command.execute(bot, message, services.getModulesOutput());
   } catch (err) {
     console.error(err);
     bot.sendMessage(
