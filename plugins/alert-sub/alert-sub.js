@@ -1,4 +1,5 @@
 const fs = require('fs');
+const settings = require('./alert-sub.json');
 
 module.exports = {
   name: 'alert-sub', // Name of the Plugin
@@ -14,7 +15,7 @@ module.exports = {
   settings: false, // Defining this as false will load the Settings file for this Plugin when the system loads this plugin.
   credits: `New Subscriber system by Krammy. Original by Bioblaze Payne.`, // MAKE SURE YOU FILL THIS IN GOD DAMNIT!
   execute(client, data) {
-    client.sendMessage(`Thanks @${data.user} for the Subscription <3`);
+    if (settings.active) client.sendMessage(`Thanks @${data.user} for the Subscription <3`);
 
     fs.writeFile('./plugins/alert-sub/latest-sub.txt', data.user, (err) => {
       if (err) {

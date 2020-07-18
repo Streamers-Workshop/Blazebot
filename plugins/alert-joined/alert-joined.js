@@ -1,4 +1,5 @@
 const fs = require('fs');
+const settings = require('./alert-joined.json');
 
 module.exports = {
   name: 'alert-joined', // Name of the Plugin
@@ -14,7 +15,7 @@ module.exports = {
   settings: false, // Defining this as false will load the Settings file for this Plugin when the system loads this plugin.
   credits: `New joined system by Krammy. Original by Bioblaze Payne.`, // MAKE SURE YOU FILL THIS IN GOD DAMNIT!
   execute(client, data) {
-    client.sendMessage(`Welcome ${data.user}`);
+    if (settings.active) client.sendMessage(`Welcome ${data.user}`);
 
     fs.writeFile('./plugins/alert-joined/latest-join.txt', data.user, (err) => {
       if (err) {
