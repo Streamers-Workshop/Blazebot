@@ -15,14 +15,13 @@ module.exports = {
   execute(client, data) {
     const discord = Modules.getModule('discord-rpc');
     if (discord) {
-      if (discord.settings !== undefined)
-        if (discord.settings.active) {
-          discord.setCount(Number(data['live.viewers']));
-        }
+      if (discord.settings.active) {
+        discord.setCount(Number(data['live.viewers']));
+      }
     }
   },
 };
-/* 	
+/*
 data ~ Structure
 {
 ... ~ This is whatever is normally passed too the Event.
