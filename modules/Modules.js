@@ -64,7 +64,7 @@ Modules.prototype.getModule = (module) => {
   if (!data) {
     return null;
   }
-  return module;
+  return data;
 };
 
 module.exports = (() => {
