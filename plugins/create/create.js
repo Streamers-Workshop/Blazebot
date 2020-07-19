@@ -40,6 +40,7 @@ module.exports = { \r\
     permissions: [], \r\
     alias: [], \r\
     cooldown: 10, \r\
+	userCreated: true, \r\
     settings: false, \r\
     execute(client) { \r\
         client.sendMessage('${esCommandOutput}'); \r\
