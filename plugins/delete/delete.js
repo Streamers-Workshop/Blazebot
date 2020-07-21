@@ -23,23 +23,31 @@ module.exports = {
       return;
     }
     if (fs.existsSync(dir)) {
-      /*
-       * First delete command from Plugins.chat
-       *  and then delete folder
-       */
       const newPluginDir = path.join(__dirname, `./../`, command, `/`, fileName);
       const plugin = require(newPluginDir);
-      if (plugin.userCreated) {
-        Plugins.chat.delete(plugin.command); // delete plugin within instance
-
-        fs.rmdirSync(path.join(dir, command), {
-          // check directory and args
-          recursive: true, // delete parameters recursively
-        });
-        client.sendMessage(`${command} command was deleted`);
+      if (plugin.userCreated) { 
+		this.erase(dir, plugin.command);
+		client.sendMessage(`${command} command was deleted`);
       } else client.sendMessage('That is a pre-installed command. Cannot delete.');
     } else if (!fs.existsSync(dir)) {
       client.sendMessage(`${command} command doesn't exist`);
     }
   },
+  
+  erase(dir, command)
+  {
+	
+	Plugins.chat.delete(command); // delete plugin within instance
+	Plugins.plugins.delete(command);
+	let pluginDir = path.join(dir, command);
+	
+	fs.rmdirSync(pluginDir, {
+	  // check directory and args
+	  recursive: true, // delete parameters recursively
+	});
+	
+  },
+  
 };
+
+

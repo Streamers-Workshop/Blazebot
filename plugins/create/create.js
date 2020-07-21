@@ -15,7 +15,24 @@ module.exports = {
   settings: false, // Defining this as false will load the Settings file for this Plugin when the system loads this plugin.
   credits: 'Created by Raccoon, Update by Rehkloos & kramitox',
   execute(client, data) {
-    data.args = data.args.join(' ');
+	  
+	let args = data.args.join(' ');
+    let newCommand = args.substr(0, data.args.indexOf(' '));
+	let filePath = `./plugins/${newCommand}/${newCommand}.js`
+    try {
+      if (!fs.existsSync(filePath)) {
+        this.make(data);
+        client.sendMessage(`Command ${newCommand} added.`);
+      } else if (fs.existsSync(filePath)) {
+        client.sendMessage(`Command ${newCommand} exists.`);
+      }
+    } catch (err) {
+      client.sendMessage(`Command ${newCommand} not added.`);
+    }
+  },
+  make(data)
+  {
+	data.args = data.args.join(' ');
     const newCommand = data.args.substr(0, data.args.indexOf(' '));
     const commandOutput = data.args.substring(data.args.indexOf(' ') + 1);
     const esCommandOutput = commandOutput.replace(/[\\$'"]/g, '\\$&'); // escaped_commandOutput
@@ -26,10 +43,8 @@ module.exports = {
       fs.mkdirSync(dir); // if not create the folder
     }
     const filePath = `${dir}/${fileName}`; // create the .js file within plugin/command_name directory
-
-    try {
-      if (!fs.existsSync(filePath)) {
-        const fill = `\
+	  
+	  const fill = `\
 module.exports = { \r\
     name: '${newCommand}', \r\
     description: '', \r\
@@ -47,7 +62,7 @@ module.exports = { \r\
     }, \r\
 }; \
 `;
-        fs.writeFile(filePath, fill, function a(err) {
+	  fs.writeFile(filePath, fill, function a(err) {
           if (err) throw Error(err);
           else {
             // allows for reloading plugins modules initiate created file without rebooting Credit: kramitox (Krammy)
@@ -58,12 +73,5 @@ module.exports = { \r\
             Plugins.plugins.set(newCommand, plugin);
           }
         });
-        client.sendMessage(`Command ${newCommand} added.`);
-      } else if (fs.existsSync(filePath)) {
-        client.sendMessage(`Command ${newCommand} exists.`);
-      }
-    } catch (err) {
-      client.sendMessage(`Command ${newCommand} not added.`);
-    }
   },
 };
