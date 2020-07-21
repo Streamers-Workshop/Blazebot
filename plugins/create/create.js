@@ -15,10 +15,9 @@ module.exports = {
   settings: false, // Defining this as false will load the Settings file for this Plugin when the system loads this plugin.
   credits: 'Created by Raccoon, Update by Rehkloos & kramitox',
   execute(client, data) {
-	  
-	let args = data.args.join(' ');
-    let newCommand = args.substr(0, data.args.indexOf(' '));
-	let filePath = `./plugins/${newCommand}/${newCommand}.js`
+    const args = data.args.join(' ');
+    const newCommand = args.substr(0, data.args.indexOf(' '));
+    const filePath = `./plugins/${newCommand}/${newCommand}.js`;
     try {
       if (!fs.existsSync(filePath)) {
         this.make(data);
@@ -30,9 +29,8 @@ module.exports = {
       client.sendMessage(`Command ${newCommand} not added.`);
     }
   },
-  make(data)
-  {
-	data.args = data.args.join(' ');
+  make(data) {
+    data.args = data.args.join(' ');
     const newCommand = data.args.substr(0, data.args.indexOf(' '));
     const commandOutput = data.args.substring(data.args.indexOf(' ') + 1);
     const esCommandOutput = commandOutput.replace(/[\\$'"]/g, '\\$&'); // escaped_commandOutput
@@ -43,8 +41,8 @@ module.exports = {
       fs.mkdirSync(dir); // if not create the folder
     }
     const filePath = `${dir}/${fileName}`; // create the .js file within plugin/command_name directory
-	  
-	  const fill = `\
+
+    const fill = `\
 module.exports = { \r\
     name: '${newCommand}', \r\
     description: '', \r\
@@ -62,16 +60,16 @@ module.exports = { \r\
     }, \r\
 }; \
 `;
-	  fs.writeFile(filePath, fill, function a(err) {
-          if (err) throw Error(err);
-          else {
-            // allows for reloading plugins modules initiate created file without rebooting Credit: kramitox (Krammy)
-            const newPluginDir = path.join(__dirname, `./../`, newCommand, `/`, fileName);
-            const plugin = require(newPluginDir);
+    fs.writeFile(filePath, fill, function a(err) {
+      if (err) throw Error(err);
+      else {
+        // allows for reloading plugins modules initiate created file without rebooting Credit: kramitox (Krammy)
+        const newPluginDir = path.join(__dirname, `./../`, newCommand, `/`, fileName);
+        const plugin = require(newPluginDir);
 
-            Plugins.chat.set(plugin.command, plugin);
-            Plugins.plugins.set(newCommand, plugin);
-          }
-        });
+        Plugins.chat.set(plugin.command, plugin);
+        Plugins.plugins.set(newCommand, plugin);
+      }
+    });
   },
 };

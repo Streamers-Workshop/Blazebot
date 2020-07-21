@@ -1,4 +1,3 @@
-const fs = require('fs');
 const path = require('path');
 const Plugins = require('../../modules/Plugins.js');
 
@@ -16,25 +15,21 @@ module.exports = {
   credits: `Made by Krammy`, // MAKE SURE YOU FILL THIS IN GOD DAMNIT!
   execute(client, data) {
     const command = data.args[0];
-    const commands = Array.from(Plugins.chat.keys());	
-	const dir = path.join(__dirname, '..');
+    const commands = Array.from(Plugins.chat.keys());
+    const dir = path.join(__dirname, '..');
 
-	
     if (commands.includes(command)) {
-		let plugin = Plugins.plugins.get(command);
-		if (plugin.userCreated)
-		{
-			let del = Plugins.plugins.get('delete');
-			del.erase(dir, plugin.command);
-			delete require.cache[path.join(dir,command, `${command}.js`)];
-			let create = Plugins.plugins.get('create');
-			create.make(data);
-			client.sendMessage("Edited");
-		}
-		
-		else {
+      const plugin = Plugins.plugins.get(command);
+      if (plugin.userCreated) {
+        const del = Plugins.plugins.get('delete');
+        del.erase(dir, plugin.command);
+        delete require.cache[path.join(dir, command, `${command}.js`)];
+        const create = Plugins.plugins.get('create');
+        create.make(data);
+        client.sendMessage('Edited');
+      } else {
         client.sendMessage('That is a pre-installed command. Cannot be edited.');
-		}
+      }
     } else client.sendMessage("That command doesn't exist");
   },
 };
