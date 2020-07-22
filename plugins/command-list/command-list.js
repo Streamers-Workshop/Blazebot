@@ -13,10 +13,16 @@ module.exports = {
   settings: false, // Defining this as false will load the Settings file for this Plugin when the system loads this plugin.
   credits: 'Created by Rehkloos & Krammy',
   execute(client, data) {
-    let commands = Array.from(Plugins.chat.keys());
-    commands = commands.join(' , !');
-    commands = `!${commands}`;
-    client.sendMessage(`@${data.user} here are the current commands:`);
-    client.sendMessage(commands);
+    const commands = Array.from(Plugins.chat.keys());
+    let message = [];
+
+    for (let i = 0; i <= commands.length - 1; i++) {
+      message.push(commands[i]);
+      const list = message.join(', !');
+      if (`!${list}`.length >= 120 || commands[i] === commands[commands.length - 1]) {
+        client.sendMessage(`@${data.user} current commands: !${list}`);
+        message = [];
+      }
+    }
   },
 };
