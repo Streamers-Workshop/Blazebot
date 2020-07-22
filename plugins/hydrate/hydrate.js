@@ -12,7 +12,7 @@ module.exports = {
   settings: true,
   credits: `Made by Rehkloos`,
   execute(client) {
-    const minutes = 30;
+    const minutes = settings.time;
     const TIME_BETWEEN_DRINKS = minutes * 60 * 1000;
     const startDate = Date().toString();
 
@@ -21,14 +21,16 @@ module.exports = {
       client.sendMessage('Streamer disabled this command');
     } else {
       console.log(`starting hydration messages at ${startDate}`);
-      client.sendMessage('Great, I will make sure the streamer stays hydrated! 💧 ');
+      client.sendMessage(
+        `Great, I will make sure the streamer stays hydrated! 💧💧 (every ${settings.time} mins) `,
+      );
       setInterval(() => {
         const dateTime = Date().toString();
         console.log(`sending message at ${dateTime}`);
         client.sendMessage(
-          `Streamer, I recommend you drink 240ml (8 oz) of water! I will remind you again in 30 minutes`,
+          `Streamer, I recommend you drink some water! I will remind you again in ${settings.time} minutes`,
         );
-      }, TIME_BETWEEN_DRINKS); // wait this many milliseconds before reminding again
+      }, TIME_BETWEEN_DRINKS);
     }
   },
 };

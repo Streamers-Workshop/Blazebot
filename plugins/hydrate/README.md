@@ -8,4 +8,4 @@ Enable stay hydration reminders
 !hydrate
 
 ## Requirements:
-None.
+Edit `hydrate.json` file with a specific time you want to be reminded (default is 30 mins).
