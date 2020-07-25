@@ -37,7 +37,7 @@ module.exports = {
       }
     } else {
       client.sendMessage(
-        'Currently the OBS plugin is not enabled. Please contact the bot owner to check into this.',
+        'Currently the OBS plugin is not enabled. Please contact the bot owner to check into this.'
       );
     }
   },

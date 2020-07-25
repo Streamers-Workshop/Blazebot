@@ -14,9 +14,14 @@ module.exports = {
   credits: 'Created by Rehkloos & Krammy',
   execute(client, data) {
     let commands = Array.from(Plugins.chat.keys());
-    commands = commands.join(' , !');
-    commands = `!${commands}`;
-    client.sendMessage(`@${data.user} here are the current commands:`);
-    client.sendMessage(commands);
+	let message = [];
+	commands.forEach( com => {
+							message.push(com);
+							if (message.length >= 15 || com == commands[commands.length - 1])
+							{ 
+								let m = message.join(',!');
+								client.sendMessage(`!${m}`);
+								message = [];
+							}});
   },
 };

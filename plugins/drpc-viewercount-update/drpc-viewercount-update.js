@@ -1,4 +1,5 @@
 const Services = require('../../modules/Services.js');
+const fs = require('fs');
 
 module.exports = {
   name: 'drpc-viewercount-update', // Name of the Plugin
@@ -13,12 +14,18 @@ module.exports = {
   settings: false, // Defining this as false will load the Settings file for this Plugin when the system loads this plugin.
   credits: `Made with Love by Bioblaze Payne for the Trovo.live Community, as a example of how to use the v2 TrovoBot Plugin System.`, // MAKE SURE YOU FILL THIS IN GOD DAMNIT!
   execute(client, data) {
+	console.log(data['live.viewers']);
     const discord = Services.getService('discord-rpc');
     if (discord) {
       if (discord.settings.active) {
         discord.setCount(Number(data['live.viewers']));
       }
     }
+	fs.writeFile('./plugins/alert-follow/viewcount.txt',data['live.viewers'], (err) => {
+      if (err) {
+        return console.log(err);
+      }
+    });
   },
 };
 /*
