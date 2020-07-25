@@ -15,13 +15,17 @@ module.exports = {
   execute(client, data) {
     let commands = Array.from(Plugins.chat.keys());
 	let message = [];
-	commands.forEach( com => {
-							message.push(com);
-							if (message.length >= 15 || com == commands[commands.length - 1])
-							{ 
-								let m = message.join(',!');
-								client.sendMessage(`!${m}`);
-								message = [];
-							}});
+	
+	for (var i = 0 , j = 0; i <= commands.length - 1; i++)
+	{
+		message.push(commands[i]);
+		let m = message.join(', !');
+		if (`!${m}`.length >= 120 || commands[i] == commands[commands.length - 1])
+			{
+				client.sendMessage(`!${m}`);
+				message = [];
+			}
+			
+	}
   },
 };

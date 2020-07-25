@@ -16,7 +16,6 @@ slobs.onopen = (d) => {
       args: [settings.token],
     },
   });
-  isOpen = true;
   slobs.send(connectMessage);
 };
 
