@@ -23,11 +23,11 @@ module.exports = {
         console.log('Error with utilizing SLOBS plugin from the Services');
       } 
 	  else {
-        slobs.streamStatusChange();
+        client.sendMessage(slobs.setSourceVisible('Latest Follower'));
       }
     } 
 	else {
-      client.sendMessage('Currently the OBS plugin is not enabled. Please contact the bot owner to check into this.');
+      client.sendMessage('Currently the SLOBS plugin is not enabled. Please contact the bot owner to check into this.');
     }
   },
 };
