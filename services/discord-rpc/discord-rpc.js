@@ -9,8 +9,8 @@ const rpc = new DiscordRPC.Client({ transport: 'ipc' });
 
 let started = false;
 let linked = false;
-let maxCount = 1;
-let curCount = 0;
+let maxCount = 2;
+let curCount = 1;
 let streamTitle = 'Streaming Starting...';
 let streamStarted = Date.now() / 1000;
 
@@ -24,10 +24,10 @@ async function setActivity() {
   if (!rpc) {
     return;
   }
-  if (!Modules.getService('obs')) {
+  if (!Modules.getService('obs-controller-module')) {
     return;
   }
-  const mod = Modules.getService('obs');
+  const mod = Modules.getService('obs-controller-module');
   if (!mod.settings) return;
   if (!mod.settings.active) return;
   if (!linked) {
@@ -36,8 +36,8 @@ async function setActivity() {
   }
 
   const data = {
-    details: 'Streaming Starting...',
-    state: 'Livestreaming to',
+    details: settings.streamTitle,
+    state: 'Viwers: ',
     startTimestamp: streamStarted,
     partySize: curCount,
     partyMax: maxCount,
@@ -72,10 +72,10 @@ module.exports = {
   },
   setCount(count) {
     if (count > maxCount) {
-      maxCount = count;
+      maxCount = count + 1;
       curCount = count;
     } else {
-      curCount = count;
+      curCount = count > 0 ? count : 1;
     }
   },
 };

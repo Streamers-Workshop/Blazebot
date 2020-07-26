@@ -17,7 +17,7 @@ module.exports = {
   execute(client, data) {
     if (settings.active) client.sendMessage(`Thanks @${data.user} for the Follow <3`);
 
-    fs.writeFile('./plugins/alert-follow/latest-follow.txt', data.user, (err) => {
+    fs.writeFile('./labels/latest-follow.txt', data.user, (err) => {
       if (err) {
         return console.log(err);
       }

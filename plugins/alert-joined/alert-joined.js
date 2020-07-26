@@ -17,11 +17,17 @@ module.exports = {
   execute(client, data) {
     if (settings.active) client.sendMessage(`Welcome ${data.user}`);
 
-    fs.writeFile('./plugins/alert-joined/latest-join.txt', data.user, (err) => {
+    fs.writeFile('./labels/latest-join.txt', data.user, (err) => {
       if (err) {
         return console.log(err);
       }
-
+      return true;
+    });
+	
+	fs.writeFile('./labels/viewcount.txt', data['live.viewers'], (err) => {
+      if (err) {
+        return console.log(err);
+      }
       return true;
     });
   },
