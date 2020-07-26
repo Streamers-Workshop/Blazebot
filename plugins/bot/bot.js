@@ -17,5 +17,8 @@ module.exports = {
     client.sendMessage(
       `@${data.user} If you would like to meet me in person or have other questions, feel free to contact us at https://discord.gg/Kc7fyx2 .`,
     );
+    client.sendMessage(
+      `@${data.user} Read our commands Wiki for more information on what they do at https://github.com/Bioblaze/TrovoBot/wiki/Default-Commands .`,
+    );
   },
 };
