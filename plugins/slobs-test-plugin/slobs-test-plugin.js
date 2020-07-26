@@ -2,7 +2,7 @@ const Services = require('./../../modules/Services.js');
 
 module.exports = {
   name: 'slobs-test',
-  description: "",
+  description: "Example of how to use the slobs Service",
   chat: true, // Defines this as a Chat Command
   event: false, // Is this a Event?
   type: 5004, // Type Event
@@ -16,14 +16,11 @@ module.exports = {
 	 let slobs = Services.getService('slobs-controller-module');
     if (Services.getService('slobs-controller-module')) 
 	{
-      /* if (!settings.active) {
-        console.log('Please enable the OBS Module to use this Function.');
-      } else  */
 	  if (!modules.slobs || modules.slobs === undefined) {
         console.log('Error with utilizing SLOBS plugin from the Services');
       } 
 	  else {
-        client.sendMessage(slobs.setSourceVisible('Latest Follower'));
+        slobs.getSourceInfo("Ending Soon", "Ending Soon");
       }
     } 
 	else {
