@@ -21,12 +21,6 @@ module.exports = {
         discord.setCount(Number(data['live.viewers']));
       }
     }
-    fs.writeFile('./plugins/alert-follow/viewcount.txt', data['live.viewers'], (err) => {
-      if (err) {
-        return console.log(err);
-      }
-      return true;
-    });
   },
 };
 /*
