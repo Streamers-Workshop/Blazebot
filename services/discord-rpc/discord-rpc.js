@@ -76,6 +76,6 @@ module.exports = {
       curCount = count;
     } else {
       curCount = count > 0 ? count : 1;
-    }	
+    }
   },
 };
