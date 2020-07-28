@@ -12,7 +12,8 @@ settings.loadSettings(path.join(__dirname, 'settings.json'));
 const services = require(path.join(__dirname, 'modules', 'Services.js'));
 services.loadServices(path.join(__dirname, 'services'));
 
-const bot = new trovojs.Client();
+const bot = new trovojs.BrowserClient();
+
 
 const cooldowns = new Map();
 
