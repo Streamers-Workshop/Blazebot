@@ -1,3 +1,5 @@
 {
-  "active": true
+  "active": true,
+  "source": "FOLLOW",
+  "delay": 5
 }
