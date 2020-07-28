@@ -24,7 +24,7 @@ if (process.env.HTTP_OVERLAY > 0) {
 
 var trovojs = require('trovo.js');
 
-var bot = new trovojs.Client();
+var bot = new trovojs.BrowserClient();
 
 var cooldowns = new Map();
 
