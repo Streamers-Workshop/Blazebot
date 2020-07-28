@@ -29,7 +29,7 @@
     "eslint-plugin-react-hooks": "^4.0.8"
   },
   "scripts": {
-    "start": "node index.js",
+    "start": "node  --always_compact --optimize_for_size --gc_interval=100 index.js",
     "lint": "node ./node_modules/eslint/bin/eslint.js . --fix"
   },
   "keywords": [],
