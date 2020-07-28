@@ -1,3 +1,5 @@
 {
-  "active": true
+  "active": true,
+  "source": "JOINED",
+  "delay": 5
 }

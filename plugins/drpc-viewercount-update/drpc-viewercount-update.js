@@ -1,4 +1,3 @@
-const fs = require('fs');
 const Services = require('../../modules/Services.js');
 
 module.exports = {
