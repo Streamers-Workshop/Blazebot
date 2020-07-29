@@ -1,3 +1,4 @@
+const settings = require('./shoutout.settings.json');
 module.exports = {
   name: 'shout-out',
   description: 'Shout out command',
@@ -11,6 +12,9 @@ module.exports = {
   credits: `Made by ssrjazz, updated by Bioblaze & Krammy`,
   execute(client, data) {
     const soUsername = data.args[0];
+    if (!settings.active) {
+      client.sendMessage('Streamer disabled this command');
+    } else {
     if (soUsername.charAt(0) === '@') {
       client.sendMessage(
         `Check out ${data.args[0]} at https://trovo.live/${data.args[0].substr(
@@ -22,5 +26,6 @@ module.exports = {
         `Check out @${data.args[0]} at https://trovo.live/${data.args[0]} - They are an awesome streamer and deserve some community love!`,
       );
     }
+  }
   },
 };
