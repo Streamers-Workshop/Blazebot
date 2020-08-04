@@ -12,20 +12,21 @@
     "prettier": "^2.0.5",
     "queue": "^6.0.1",
     "react": "^16.13.1",
-    "sockjs": "^0.3.20",
-    "sockjs-client": "^1.4.0",
-    "trovo.js": "^1.7.1",
+    "slobs.js": "^1.0.5",
+    "sockjs": "^0.3.21",
+    "sockjs-client": "^1.5.0",
+    "trovo.js": "^1.7.9",
     "ws": "^7.3.1"
   },
   "devDependencies": {
-    "eslint": "^7.5.0",
+    "eslint": "^7.6.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "eslint-plugin-react": "^7.20.4",
+    "eslint-plugin-react": "^7.20.5",
     "eslint-plugin-react-hooks": "^4.0.8"
   },
   "scripts": {

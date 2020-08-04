@@ -45,6 +45,14 @@ module.exports = {
     });
 
     const obs = Modules.getService('obs-controller-module');
-    if (obs) toggleSource(modules.obs);
+    if (obs.settings.active) toggleSource(modules.obs);
+
+    const slobs = Modules.getService('slobs-controller-module');
+    if (slobs.settings.active) {
+      slobs.output.toggleSource(null, settings.source);
+      setTimeout(function a() {
+        slobs.output.toggleSource(null, settings.source);
+      }, settings.delay * 1000);
+    }
   },
 };

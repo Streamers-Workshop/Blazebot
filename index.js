@@ -14,7 +14,6 @@ services.loadServices(path.join(__dirname, 'services'));
 
 const bot = new trovojs.BrowserClient();
 
-
 const cooldowns = new Map();
 
 const plugins = require(path.join(__dirname, 'modules', 'Plugins.js'));

@@ -1,5 +1,5 @@
 {
   "active": true,
-  "source": "FOLLOW",
-  "delay": 5
+  "source": "Alert Box Follow",
+  "delay": 10
 }
