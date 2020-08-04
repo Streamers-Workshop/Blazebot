@@ -1,4 +1,4 @@
-const settings = require('./hydrate.json');
+const settings = require('./hydrate.settings.json');
 
 module.exports = {
   name: 'Hydrate',
