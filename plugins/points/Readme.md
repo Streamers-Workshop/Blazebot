@@ -7,4 +7,4 @@ Description:
 Free Huge Casino Pack
 
 Command:
-	!points
+	!points , !points send @user amount  , !points set @user amount
