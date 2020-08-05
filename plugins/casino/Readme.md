@@ -7,6 +7,4 @@ Description:
 Free Huge Casino Pack
 
 Commands:
-	!casino , !slot-machine
-
-REQUIREMENTS:
+	!casino , !slots , !dice , !blackjack !hit !stand , !points !points set !points send
