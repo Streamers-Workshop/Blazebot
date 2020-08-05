@@ -1,9 +1,9 @@
 {
-  "prefix": "",
+  "prefix": "!",
   "trovo": {
     "email": "",
     "password": "",
     "name": "",
-    "page": ""
+    "page": "https://trovo.live/Bioblaze"
   }
 }

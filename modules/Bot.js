@@ -4,6 +4,7 @@ const util = require('util'); // eslint-disable-line
 
 
 const clear = require('clear')
+clear();
 const colors = require('colors'); // eslint-disable-line
 const figlet = require('figlet')
 const vorpal = require('vorpal')();
@@ -36,7 +37,6 @@ function Bot() {
   this.processors = new Map();
   this.services = new Map();
   this.settings = null;
-  clear()
 
   vorpal.log(
       `\r\n${figlet.textSync('Trovobot', {
