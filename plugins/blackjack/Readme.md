@@ -7,4 +7,8 @@ Description:
 Free Huge Casino Pack
 
 Command:
-	!blackjack <bet amount>
+	!blackjack amount
+	
+For draw a new card !hit 
+
+For finish !stand
