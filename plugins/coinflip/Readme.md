@@ -7,4 +7,6 @@ Description:
 Free Huge Casino Pack
 
 Command:
-	!coinflip <bet amount> <side>
+	!coinflip amount side
+
+Side should be heads or tails
