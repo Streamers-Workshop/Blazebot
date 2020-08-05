@@ -7,4 +7,4 @@ Description:
 Free Huge Casino Pack
 
 Command:
-	!dice <bet amount>
+	!dice amount
