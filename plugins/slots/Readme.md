@@ -7,4 +7,4 @@ Description:
 Free Huge Casino Pack
 
 Command:
-	!slots <bet amount>
+	!slots amount
