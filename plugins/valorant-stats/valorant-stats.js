@@ -1,4 +1,5 @@
 const https = require('https');
+const Bot = require('../../modules/Bot.js');
 
 module.exports = {
   name: 'Valorant Stats',
@@ -55,7 +56,7 @@ module.exports = {
           });
         })
         .on('error', (err) => {
-          console.log(`Error: ${err.message}`);
+          Bot.log(`Error: ${err.message}`);
         });
     }
   },

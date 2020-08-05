@@ -65,20 +65,13 @@ Bot.prototype.loadPlugins = async (directory) => {
       for (const dir of directories) {
         try {
           const plugin = require(path.join(directory, dir, `${dir}.js`));
-          if (plugin.settings) {
-            if (fs.accessSync(path.join(directory, dir, `${dir}.json`), fs.constants.R_OK)) {
-              plugin.settings = require(path.join(directory, dir, `${dir}.json`));
-              vorpal.log(
-                `Loaded Plugin Settings[${plugin.name}] from File (/plugins/${dir}/${dir}.json)`,
-              );
-            } else {
-              plugin.settings = null;
+          plugin.settings = require(path.join(directory, dir, `${dir}.json`));
+          instance.plugins.set(dir, plugin);
+          if (plugin.settings.active) {
+            if (plugin.chat) {
+              instance.chat.set(plugin.command, plugin);
             }
           }
-          if (plugin.chat) {
-            instance.chat.set(plugin.command, plugin);
-          }
-          instance.plugins.set(dir, plugin);
           table.addRow(plugin.name, (plugin.settings.active ? 'Active' : 'Deactive'), 'LOADED');
         } catch (e) {
           vorpal.log(
@@ -97,7 +90,7 @@ Bot.prototype.getPluginSettings = (plugin) => {
     vorpal.log(`Invalid Plugin Requested. Check your spelling for Plugin: ${plugin}`);
     return null;
   }
-  return plugin.settings;
+  return data.settings;
 };
 
 Bot.prototype.getPlugin = (plugin) => {
@@ -106,13 +99,13 @@ Bot.prototype.getPlugin = (plugin) => {
     vorpal.log(`Invalid Plugin Requested. Check your spelling for Plugin: ${plugin}`);
     return null;
   }
-  return plugin;
+  return data;
 };
 
-Bot.prototype.triggerEvents = async (type, client, data, plugins) => {
+Bot.prototype.triggerEvents = async (type, client, data) => {
   for (const [key, value] of instance.plugins.entries()) {
     if (value.event && value.type === type) {
-      value.execute(client, data, plugins, vorpal.log);
+      value.execute(client, data);
     }
   }
 };
@@ -153,18 +146,6 @@ Bot.prototype.loadProcessors = async (directory) => {
     }
     vorpal.log(table.toString());
   });
-};
-
-Bot.prototype.getProcessorsOutput = () => {
-  const data = {};
-  /* eslint-disable no-unused-vars */
-  for (const [key, value] of instance.processors.entries()) {
-    if (value.settings.active) {
-      data[value.varname] = value.output;
-    }
-  }
-  /* eslint-enable no-unused-vars */
-  return data;
 };
 
 Bot.prototype.getProcessor = (processor) => {
@@ -222,18 +203,6 @@ Bot.prototype.loadServices = async (directory) => {
   });
 };
 
-Bot.prototype.getServicesOutput = () => {
-  const data = {};
-  /* eslint-disable no-unused-vars */
-  for (const [key, value] of instance.services.entries()) {
-    if (value.settings.active) {
-      data[value.varname] = value.output;
-    }
-  }
-  /* eslint-enable no-unused-vars */
-  return data;
-};
-
 Bot.prototype.getService = (service) => {
   const data = instance.services.get(service);
   if (!data) {
@@ -251,10 +220,6 @@ Bot.prototype.loadSettings = async (directory) => {
     vorpal.log(`Unable to find Settings File: ${directory}`);
     vorpal.log(`Settings Load Error: ${e}`);
   }
-};
-
-Bot.prototype.getSettings = () => {
-  return instance.settings;
 };
 
 Bot.prototype.getSettingsValue = (value) => {

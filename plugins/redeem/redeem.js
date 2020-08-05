@@ -6,7 +6,7 @@ Discord: Krammy#0001
 Description: redeem command that triggers stuff
 */
 const settings = require('./redeem.json');
-const Modules = require('../../modules/Services.js');
+const Bot = require('../../modules/Bot.js');
 
 function toggleSource(args, obs) {
   const tobj = {
@@ -23,7 +23,7 @@ function toggleSource(args, obs) {
           .send('SetSceneItemProperties', tobj)
           .then(() => {})
           .catch((e) => {
-            console.log(e);
+            Bot.log(e);
           });
       }, settings[args[0]].delay);
     }
@@ -51,7 +51,7 @@ module.exports = {
   settings: false, // Defining this as false will load the Settings file for this Plugin when the system loads this plugin.
   credits: `Made by Krammy for people to redeem stuff on stream. This could be toggling sources in OBS, shoutout's for themselves, etc.`, // MAKE SURE YOU FILL THIS IN GOD DAMNIT!
   execute(client, data, modules) {
-    const obs = Modules.getService('obs-controller-module');
+    const obs = Bot.getService('obs-controller-module');
     const list = Object.keys(settings);
     if (data.args[0] === undefined) {
       client.sendMessage(`@${data.user} list of redeems: ${list}`);

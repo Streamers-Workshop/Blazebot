@@ -1,4 +1,4 @@
-const settings = require('./time.settings.json');
+const settings = require('./time.json');
 module.exports = {
   name: 'time',
   description: 'local time command',

@@ -1,5 +1,5 @@
 const DiscordRPC = require('discord-rpc');
-const Modules = require('../../modules/Services.js');
+const Bot = require('../../modules/Bot.js');
 
 const settings = require('./discord-rpc.json');
 
@@ -24,10 +24,10 @@ async function setActivity() {
   if (!rpc) {
     return;
   }
-  if (!Modules.getService('obs-controller-module')) {
+  if (!Bot.getService('obs-controller-module')) {
     return;
   }
-  const mod = Modules.getService('obs-controller-module');
+  const mod = Bot.getService('obs-controller-module');
   if (!mod.settings) return;
   if (!mod.settings.active) return;
   if (!linked) {
@@ -68,7 +68,7 @@ module.exports = {
   varname: 'discordRpc',
   output: rpc,
   activate() {
-    rpc.login({ clientId: settings.clientID }).catch(console.error);
+    rpc.login({ clientId: settings.clientID }).catch(Bot.error);
   },
   setCount(count) {
     if (count > maxCount) {

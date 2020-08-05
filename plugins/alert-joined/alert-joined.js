@@ -1,6 +1,6 @@
 const fs = require('fs');
 const settings = require('./alert-joined.json');
-const Modules = require('../../modules/Services.js');
+const Bot = require('../../modules/Bot.js');
 
 function toggleSource(obs) {
   const tobj = {
@@ -15,7 +15,7 @@ function toggleSource(obs) {
         .send('SetSceneItemProperties', tobj)
         .then(() => {})
         .catch((e) => {
-          console.log(e);
+          Bot.log(e);
         });
     }, settings.delay * 1000);
   });
@@ -39,22 +39,22 @@ module.exports = {
 
     fs.writeFile('./labels/latest-join.txt', data.user, (err) => {
       if (err) {
-        return console.log(err);
+        return Bot.log(err);
       }
       return true;
     });
 
     fs.writeFile('./labels/viewcount.txt', data['live.viewers'], (err) => {
       if (err) {
-        return console.log(err);
+        return Bot.log(err);
       }
       return true;
     });
 
-    const obs = Modules.getService('obs-controller-module');
+    const obs = Bot.getService('obs-controller-module');
     if (obs.settings.active) toggleSource(modules.obs);
 
-    const slobs = Modules.getService('slobs-controller-module');
+    const slobs = Bot.getService('slobs-controller-module');
     if (slobs.settings.active) {
       slobs.output.toggleSource(null, settings.source);
       setTimeout(function a() {

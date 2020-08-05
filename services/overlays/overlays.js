@@ -7,7 +7,7 @@ const settings = require('./overlays.json');
 
 const app = express();
 
-const vorpal = require('vorpal')();
+const Bot = require('../../modules/Bot.js');
 
 app.set('views', path.join(__dirname, 'http', 'templates'));
 app.set('view engine', 'ejs');
@@ -21,7 +21,7 @@ app.get('/chat/:pageID', (req, res) => {
     data.port = process.env.HTTP_PORT;
     res.render('chat', data);
   } catch (e) {
-    vorpal.log(
+    Bot.log(
       `[HTTP] (Chat Route) ${req.params.pageID}.json is not found, does it exist in /modules/http/data?\n${e}`,
     );
     res.render('chat', {
@@ -37,7 +37,7 @@ app.get('/text/:pageID', (req, res) => {
     data.port = process.env.HTTP_PORT;
     res.render('text', data);
   } catch (e) {
-    vorpal.log(
+    Bot.log(
       `[HTTP] (Text Route) ${req.params.pageID}.json is not found, does it exist in /modules/http/data?\n${e}`,
     );
     res.render('text', {
@@ -53,7 +53,7 @@ app.get('/alert/:pageID', (req, res) => {
     data.port = process.env.HTTP_PORT;
     res.render('alert', data);
   } catch (e) {
-    vorpal.log(
+    Bot.log(
       `[HTTP] (Alert Route) ${req.params.pageID}.json is not found, does it exist in /modules/http/data?\n${e}`,
     );
     res.render('alert', {
@@ -75,7 +75,7 @@ ws.notifyAll = (data) => {
 };
 
 ws.on('connection', () => {
-  console.log('Page Connected');
+  Bot.log('Page Connected');
 });
 
 module.exports = {
@@ -84,7 +84,7 @@ module.exports = {
   output: ws,
   activate() {
     server.listen(settings.port, () => {
-      vorpal.log(`HTTP Overlay Module Started on Port(${settings.port})`);
+      Bot.log(`HTTP Overlay Module Started on Port(${settings.port})`);
     });
   },
 };

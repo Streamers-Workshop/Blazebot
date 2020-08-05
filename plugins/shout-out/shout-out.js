@@ -1,4 +1,4 @@
-const settings = require('./shoutout.settings.json');
+const settings = require('./shout-out.json');
 module.exports = {
   name: 'shout-out',
   description: 'Shout out command',

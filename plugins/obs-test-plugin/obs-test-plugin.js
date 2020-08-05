@@ -1,4 +1,4 @@
-const Modules = require('../../modules/Services.js');
+const Bot = require('../../modules/Bot.js');
 const settings = require('../../services/obs/obs.json');
 
 module.exports = {
@@ -14,11 +14,11 @@ module.exports = {
   settings: false, // Defining this as false will load the Settings file for this Plugin when the system loads this plugin.
   credits: `Not sure who made this.`, // MAKE SURE YOU FILL THIS IN GOD DAMNIT!
   execute(client, data, modules) {
-    if (Modules.getService('obs-controller-module')) {
+    if (Bot.getService('obs-controller-module')) {
       if (!settings.active) {
-        console.log('Please enable the OBS Module to use this Function.');
+        Bot.log('Please enable the OBS Module to use this Function.');
       } else if (!modules.obs || modules.obs === undefined) {
-        console.log('Error with utilizing OBS plugin from the Modules');
+        Bot.log('Error with utilizing OBS plugin from the Bot');
       } else {
         const tobj = {
           source: settings.joinedSource,
@@ -45,7 +45,7 @@ module.exports = {
             });
           })
           .catch((e) => {
-            console.error(e);
+            Bot.error(e);
           });
         client.sendMessage(
           `Welcome ${data.user} remember to follow, your awesome and thank you <3`,

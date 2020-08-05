@@ -1,4 +1,4 @@
-const Plugins = require('../../modules/Plugins.js');
+const Bot = require('../../modules/Bot.js');
 
 module.exports = {
   name: 'join', // Name of the Plugin
@@ -14,7 +14,7 @@ module.exports = {
   credits: `Made by Krammy`, // MAKE SURE YOU FILL THIS IN GOD DAMNIT!
 
   execute(client, data) {
-    const giveaway = Plugins.plugins.get('giveaway');
+    const giveaway = Bot.plugins.get('giveaway');
     giveaway.add(client, data.user);
   },
 };

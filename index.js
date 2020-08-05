@@ -20,11 +20,11 @@ client.on('chatEvent', (type, data) => {
   // Bot.log(util.inspect(data, false, null, true /* enable colors */))
   if (data.user === Bot.settings.trovo.name && type === 'userJoined') return;
 
-  Bot.triggerEvents(data.chatType, client, data, Bot.getServicesOutput());
+  Bot.triggerEvents(data.chatType, client, data);
 });
 
 client.on('chatMessage', (message) => {
-  Bot.processProcessors().then((process) => {
+  Bot.processProcessors(message).then((processors) => {
     // Bot.log(util.inspect(data, false, null, true /* enable colors */))
     if (!message || message.user === undefined) return;
     if (message.user === Bot.settings.trovo.name) return;
@@ -82,7 +82,7 @@ client.on('chatMessage', (message) => {
       message.args = args;
       message.prefix = Bot.settings.prefix;
       message.command = commandName;
-      command.execute(client, message, Bot.getServicesOutput(), Bot.log);
+      command.execute(client, message);
     } catch (err) {
       Bot.log(`Command Error(${commandName}): ${err}`);
       client.sendMessage(

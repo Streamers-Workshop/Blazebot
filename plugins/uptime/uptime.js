@@ -1,5 +1,4 @@
-const Modules = require('../../modules/Services.js');
-const settings = require('../../services/obs/obs.json');
+const Bot = require('../../modules/Bot.js');
 
 module.exports = {
   name: 'uptime',
@@ -14,11 +13,12 @@ module.exports = {
   settings: false, // Defining this as false will load the Settings file for this Plugin when the system loads this plugin.
   credits: `Made by Krammy.`, // MAKE SURE YOU FILL THIS IN GOD DAMNIT!
   execute(client, data, modules) {
-    if (Modules.getService('obs-controller-module')) {
+    if (Bot.getService('obs-controller-module')) {
+      const settings = Bot.getService('obs-controller-module').settings;
       if (!settings.active) {
-        console.log('Please enable the OBS Module to use this Function.');
+        Bot.log('Please enable the OBS Module to use this Function.');
       } else if (!modules.obs || modules.obs === undefined) {
-        console.log('Error with utilizing OBS plugin from the Modules');
+        Bot.log('Error with utilizing OBS plugin from the Bot');
       } else {
         modules.obs
           .send('GetStreamingStatus')
@@ -28,12 +28,12 @@ module.exports = {
               client.sendMessage(
                 `the stream has been live for: ${a[0]}h, ${a[1]}min, ${a[2].substr(0, 2)}secs`,
               );
-              // console.log(`${a[0]}h, ${a[1]}min, ${a[2].substr(0,2)}secs`);
+              // Bot.log(`${a[0]}h, ${a[1]}min, ${a[2].substr(0,2)}secs`);
             } else {
               client.sendMessage('Not LIVE');
             }
           })
-          .catch(console.error);
+          .catch(Bot.error);
       }
     } else {
       client.sendMessage(

@@ -1,7 +1,7 @@
 const SlobsJS = require('slobs.js');
 
 
-let slobs = null;
+var slobs = null;
 
 module.exports = {
   name: 'slobs-controller-module',

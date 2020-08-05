@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const Plugins = require('../../modules/Plugins.js');
+const Bot = require('../../modules/Bot.js');
 
 module.exports = {
   name: 'Create',
@@ -67,8 +67,8 @@ module.exports = { \r\
         const newPluginDir = path.join(__dirname, `./../`, newCommand, `/`, fileName);
         const plugin = require(newPluginDir);
 
-        Plugins.chat.set(plugin.command, plugin);
-        Plugins.plugins.set(newCommand, plugin);
+        Bot.chat.set(plugin.command, plugin);
+        Bot.plugins.set(newCommand, plugin);
       }
     });
   },

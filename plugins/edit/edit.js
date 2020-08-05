@@ -1,5 +1,5 @@
 const path = require('path');
-const Plugins = require('../../modules/Plugins.js');
+const Bot = require('../../modules/Bot.js');
 
 module.exports = {
   name: 'edit', // Name of the Plugin
@@ -15,16 +15,16 @@ module.exports = {
   credits: `Made by Krammy`, // MAKE SURE YOU FILL THIS IN GOD DAMNIT!
   execute(client, data) {
     const command = data.args[0];
-    const commands = Array.from(Plugins.chat.keys());
+    const commands = Array.from(Bot.chat.keys());
     const dir = path.join(__dirname, '..');
 
     if (commands.includes(command)) {
-      const plugin = Plugins.plugins.get(command);
+      const plugin = Bot.plugins.get(command);
       if (plugin.userCreated) {
-        const del = Plugins.plugins.get('delete');
+        const del = Bot.plugins.get('delete');
         del.erase(dir, plugin.command);
         delete require.cache[path.join(dir, command, `${command}.js`)];
-        const create = Plugins.plugins.get('create');
+        const create = Bot.plugins.get('create');
         create.make(data);
         client.sendMessage('Edited');
       } else {

@@ -1,4 +1,5 @@
-const settings = require('./hydrate.settings.json');
+const settings = require('./hydrate.json');
+const Bot = require('../../modules/Bot.js');
 
 module.exports = {
   name: 'Hydrate',
@@ -17,16 +18,16 @@ module.exports = {
     const startDate = Date().toString();
 
     if (!settings.active) {
-      console.log('Please change active to true for command to work');
+      Bot.log('Please change active to true for command to work');
       client.sendMessage('Streamer disabled this command');
     } else {
-      console.log(`starting hydration messages at ${startDate}`);
+      Bot.log(`starting hydration messages at ${startDate}`);
       client.sendMessage(
         `Great, I will make sure the streamer stays hydrated! 💧💧 (every ${settings.time} mins) `,
       );
       setInterval(() => {
         const dateTime = Date().toString();
-        console.log(`sending message at ${dateTime}`);
+        Bot.log(`sending message at ${dateTime}`);
         client.sendMessage(
           `Streamer, I recommend you drink some water! I will remind you again in ${settings.time} minutes`,
         );

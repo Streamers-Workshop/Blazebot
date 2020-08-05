@@ -1,4 +1,4 @@
-const Plugins = require('../../modules/Plugins.js');
+const Bot = require('../../modules/Bot.js');
 
 module.exports = {
   name: 'Command List',
@@ -13,7 +13,7 @@ module.exports = {
   settings: false, // Defining this as false will load the Settings file for this Plugin when the system loads this plugin.
   credits: 'Created by Rehkloos & Krammy',
   execute(client) {
-    const commands = Array.from(Plugins.chat.keys());
+    const commands = Array.from(Bot.chat.keys());
     let message = [];
 
     for (let i = 0; i <= commands.length - 1; i++) {

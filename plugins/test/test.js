@@ -11,6 +11,6 @@ module.exports = {
   userCreated: true,
   settings: false,
   execute(client) {
-    client.sendMessage('b');
+    client.sendMessage('This is only a test....');
   },
 };

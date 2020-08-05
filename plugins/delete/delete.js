@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const Plugins = require('../../modules/Plugins.js');
+const Bot = require('../../modules/Bot.js');
 
 module.exports = {
   name: 'Delete',
@@ -35,8 +35,8 @@ module.exports = {
   },
 
   erase(dir, command) {
-    Plugins.chat.delete(command); // delete plugin within instance
-    Plugins.plugins.delete(command);
+    Bot.chat.delete(command); // delete plugin within instance
+    Bot.plugins.delete(command);
     const pluginDir = path.join(dir, command);
 
     fs.rmdirSync(pluginDir, {

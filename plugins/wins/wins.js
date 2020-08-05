@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const settings = require('./wins.settings.json');
+const settings = require('./wins.json');
+const Bot = require('../../modules/Bot.js');
 
 const winsFile = path.join(__dirname, 'wins.txt');
 module.exports = {
@@ -34,7 +35,7 @@ module.exports = {
             if (!fs.existsSync(winsFile)) {
               fs.writeFile(winsFile, '0', (err) => {
                 // write increment to text file
-                if (err) return console.log(err);
+                if (err) return Bot.log(err);
                 client.sendMessage(`data for wins never existed, so wins reset to 0 as default`);
                 return false;
               });
@@ -55,7 +56,7 @@ module.exports = {
           const inc = incPlus(); // increase by 1
           fs.writeFile(winsFile, inc, (err) => {
             // write increment to text file
-            if (err) return console.log(err);
+            if (err) return Bot.log(err);
             client.sendMessage(`Wins updated to: ${inc}`);
             return false;
           });
@@ -68,7 +69,7 @@ module.exports = {
         } else {
           fs.writeFile(winsFile, reset, (err) => {
             // reset file number to 0
-            if (err) return console.log(err);
+            if (err) return Bot.log(err);
             client.sendMessage(`Wins counter has been reset to 0`);
             return false;
           });

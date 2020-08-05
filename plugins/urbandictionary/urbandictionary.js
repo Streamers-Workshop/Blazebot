@@ -1,4 +1,5 @@
 const https = require('https');
+const Bot = require('../../modules/Bot.js');
 
 module.exports = {
   name: 'Urban Dictionary',
@@ -43,7 +44,7 @@ module.exports = {
           });
         })
         .on('error', (err) => {
-          console.log(`Error: ${err.message}`);
+          Bot.log(`Error: ${err.message}`);
         });
     }
   },
