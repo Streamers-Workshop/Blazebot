@@ -4,109 +4,105 @@ global.appRoot = path.resolve(__dirname); // Hack to know the root of the Projec
 
 const trovojs = require('trovo.js');
 
-// Loading the Base Settings from this point on.
-const settings = require(path.join(__dirname, 'modules', 'Settings.js'));
-settings.loadSettings(path.join(__dirname, 'settings.json'));
+const client = new trovojs.BrowserClient();
 
-// Loading Modules
-const services = require(path.join(__dirname, 'modules', 'Services.js'));
-services.loadServices(path.join(__dirname, 'services'));
+const Bot = require(path.join(__dirname, 'modules', 'Bot.js'));
 
-const bot = new trovojs.BrowserClient();
+Bot.loadSettings(path.join(__dirname, 'settings.json'));
+Bot.loadServices(path.join(__dirname, 'services'));
+Bot.loadPlugins(path.join(__dirname, 'plugins'));
+Bot.loadProcessors(path.join(__dirname, 'processors'));
+
 
 const cooldowns = new Map();
 
-const plugins = require(path.join(__dirname, 'modules', 'Plugins.js'));
-plugins.loadPlugins(path.join(__dirname, 'plugins'));
+client.on('chatEvent', (type, data) => {
+  // Bot.log(util.inspect(data, false, null, true /* enable colors */))
+  if (data.user === Bot.settings.trovo.name && type === 'userJoined') return;
 
-const processors = require(path.join(__dirname, 'modules', 'Processors.js'));
-processors.loadProcessors(path.join(__dirname, 'processors'));
-
-bot.on('jsonData', () => {
-  // Currently we do not have anything using this data.
-  // console.log(util.inspect(data, false, null, true /* enable colors */))
+  Bot.triggerEvents(data.chatType, client, data, Bot.getServicesOutput());
 });
 
-bot.on('chatEvent', (type, data) => {
-  // console.log(util.inspect(data, false, null, true /* enable colors */))
-  if (data.user === settings.settings.trovo.name && type === 'userJoined') return;
+client.on('chatMessage', (message) => {
+  Bot.processProcessors().then((process) => {
+    // Bot.log(util.inspect(data, false, null, true /* enable colors */))
+    if (!message || message.user === undefined) return;
+    if (message.user === Bot.settings.trovo.name) return;
+    if (!message.content) return;
 
-  plugins.triggerEvents(data.chatType, bot, data, services.getServicesOutput());
-});
+    const args = message.content.slice(Bot.settings.prefix.length).split(/ +/);
+    const commandName = args.shift().toLowerCase();
 
-bot.on('chatMessage', (message) => {
-  // console.log(util.inspect(data, false, null, true /* enable colors */))
-  if (!message || message.user === undefined) return;
-  if (message.user === settings.settings.trovo.name) return;
-  if (!message.content) return;
+    const command = Bot.getChatCommand(commandName);
+    if (!command) return;
 
-  const args = message.content.slice(settings.settings.prefix.length).split(/ +/);
-  const commandName = args.shift().toLowerCase();
+    if (!cooldowns.has(command.name)) {
+      cooldowns.set(command.name, new Map());
+    }
 
-  const command = plugins.getChatCommand(commandName);
-  if (!command) return;
+    const now = Date.now();
+    const timestamps = cooldowns.get(command.name);
+    const cooldownAmount = (command.cooldown || 3) * 1000;
 
-  if (!cooldowns.has(command.name)) {
-    cooldowns.set(command.name, new Map());
-  }
+    if (
+      timestamps.has(message.user) &&
+      (message.badges === undefined ||
+        message.badges.indexOf('moderator') <= -1 ||
+        message.badges.indexOf('creator') <= -1)
+    ) {
+      const expirationTime = timestamps.get(message.user) + cooldownAmount;
 
-  const now = Date.now();
-  const timestamps = cooldowns.get(command.name);
-  const cooldownAmount = (command.cooldown || 3) * 1000;
+      if (now < expirationTime) {
+        const timeLeft = (expirationTime - now) / 1000;
+        client.sendMessage(
+          `Holdon for ${timeLeft.toFixed(1)} more second(s) before reusing the \`${
+            command.name
+          }\` command.`,
+          client,
+        );
+        return;
+      }
+    }
 
-  if (
-    timestamps.has(message.user) &&
-    (message.badges === undefined ||
-      message.badges.indexOf('moderator') <= -1 ||
-      message.badges.indexOf('creator') <= -1)
-  ) {
-    const expirationTime = timestamps.get(message.user) + cooldownAmount;
+    timestamps.set(message.user, now);
 
-    if (now < expirationTime) {
-      const timeLeft = (expirationTime - now) / 1000;
-      bot.sendMessage(
-        `Holdon for ${timeLeft.toFixed(1)} more second(s) before reusing the \`${
-          command.name
-        }\` command.`,
-        bot,
-      );
+    setTimeout(() => timestamps.delete(message.user), cooldownAmount);
+
+    if (
+      command.permissions !== undefined &&
+      command.permissions.length !== 0 &&
+      (!message.badges ||
+        command.permissions.filter((value) => message.badges.includes(value)).length === 0)
+    ) {
+      client.sendMessage('You do not have permission to use this command. Sorry.');
       return;
     }
-  }
 
-  timestamps.set(message.user, now);
-
-  setTimeout(() => timestamps.delete(message.user), cooldownAmount);
-
-  if (
-    command.permissions !== undefined &&
-    command.permissions.length !== 0 &&
-    (!message.badges ||
-      command.permissions.filter((value) => message.badges.includes(value)).length === 0)
-  ) {
-    bot.sendMessage('You do not have permission to use this command. Sorry.');
-    return;
-  }
-
-  try {
-    message.args = args;
-    message.prefix = settings.settings.prefix;
-    message.command = commandName;
-    command.execute(bot, message, services.getServicesOutput());
-  } catch (err) {
-    console.error(err);
-    bot.sendMessage(
+    try {
+      message.args = args;
+      message.prefix = Bot.settings.prefix;
+      message.command = commandName;
+      command.execute(client, message, Bot.getServicesOutput(), Bot.log);
+    } catch (err) {
+      Bot.log(`Command Error(${commandName}): ${err}`);
+      client.sendMessage(
+        'There was a error with processing your Command. Please Contact Bioblaze Payne#6459 and let him know.',
+      );
+    }
+  }).catch((e) => {
+    Bot.log(`Processing Error... ${e}`);
+    client.sendMessage(
       'There was a error with processing your Command. Please Contact Bioblaze Payne#6459 and let him know.',
     );
-  }
+  });
 });
 
-bot.on('ready', () => {
-  console.log('\nBot loaded and ready to mod!');
+client.on('ready', () => {
+  Bot.log('\nBot loaded and ready to mod!');
 });
 
-bot.login(
-  settings.settings.trovo.page,
-  settings.settings.trovo.email,
-  settings.settings.trovo.password,
+client.login(
+  Bot.settings.trovo.page,
+  Bot.settings.trovo.email,
+  Bot.settings.trovo.password,
 );
