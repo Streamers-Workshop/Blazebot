@@ -69,7 +69,7 @@ Bot.prototype.loadPlugins = async (directory) => {
           instance.plugins.set(dir, plugin);
           if (plugin.settings.active) {
             if (plugin.chat) {
-              instance.chat.set(plugin.command, plugin);
+              instance.chat.set(plugin.command.toLowerCase(), plugin);
             }
           }
           table.addRow(plugin.name, (plugin.settings.active ? 'Active' : 'Deactive'), 'LOADED');
