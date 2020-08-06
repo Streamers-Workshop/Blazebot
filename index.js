@@ -4,9 +4,11 @@ global.appRoot = path.resolve(__dirname); // Hack to know the root of the Projec
 
 const trovojs = require('trovo.js');
 
-const client = new trovojs.BrowserClient();
+
 
 const Bot = require(path.join(__dirname, 'modules', 'Bot.js'));
+
+const client = new trovojs.BrowserClient({ logger: Bot.log });
 
 Bot.loadSettings(path.join(__dirname, 'settings.json'));
 Bot.loadServices(path.join(__dirname, 'services'));
@@ -24,15 +26,17 @@ client.on('chatEvent', (type, data) => {
 });
 
 client.on('chatMessage', (message) => {
+  var i = 1;
   Bot.processProcessors(message).then((processors) => {
     // Bot.log(util.inspect(data, false, null, true /* enable colors */))
     if (!message || message.user === undefined) return;
     if (message.user === Bot.settings.trovo.name) return;
     if (!message.content) return;
 
+    if (!message.content.startsWith(Bot.settings.prefix, 0)) return;
+
     const args = message.content.slice(Bot.settings.prefix.length).split(/ +/);
     const commandName = args.shift().toLowerCase();
-
     const command = Bot.getChatCommand(commandName);
     if (!command) return;
 

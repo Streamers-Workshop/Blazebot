@@ -2,11 +2,8 @@ const fs = require('fs');
 const money = require('../casino/money.json');
 const cFunctions = require('../casino/cfunctions.js');
 
-<<<<<<< HEAD
-const Bot = require('../../modules/Bot.js');
 
-=======
->>>>>>> 2f65a93002ab79a360af452a75d6731abb743d3e
+const Bot = require('../../modules/Bot.js');
 module.exports = {
   name: 'points',
   description: 'Showing user total points.',
@@ -91,11 +88,8 @@ module.exports = {
       );
       fs.writeFile('./plugins/casino/money.json', JSON.stringify(money, null, 4), function (err) {
         if (err) {
-<<<<<<< HEAD
+
           Bot.log(err);
-=======
-          console.log(err);
->>>>>>> 2f65a93002ab79a360af452a75d6731abb743d3e
         }
       });
       return;
@@ -122,11 +116,8 @@ module.exports = {
       client.sendMessage(`500 points has been added to your account.`);
       fs.writeFile('./plugins/casino/money.json', JSON.stringify(money, null, 4), function (err) {
         if (err) {
-<<<<<<< HEAD
+
           Bot.log(err);
-=======
-          console.log(err);
->>>>>>> 2f65a93002ab79a360af452a75d6731abb743d3e
         }
       });
 
@@ -157,11 +148,8 @@ module.exports = {
       money[data.args[1].substring(1)].points = parseInt(data.args[2], 10);
       fs.writeFile('./plugins/casino/money.json', JSON.stringify(money, null, 4), function (err) {
         if (err) {
-<<<<<<< HEAD
+
           Bot.log(err);
-=======
-          console.log(err);
->>>>>>> 2f65a93002ab79a360af452a75d6731abb743d3e
         }
       });
     }

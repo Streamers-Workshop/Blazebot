@@ -2,11 +2,8 @@ const fs = require('fs');
 const money = require('../casino/money.json');
 const cFunctions = require('../casino/cfunctions.js');
 
-<<<<<<< HEAD
-const Bot = require('../../modules/Bot.js');
 
-=======
->>>>>>> 2f65a93002ab79a360af452a75d6731abb743d3e
+const Bot = require('../../modules/Bot.js');
 module.exports = {
   name: 'stand',
   description: 'Casino Pack BlackJack command',
@@ -63,11 +60,8 @@ module.exports = {
       money[data.user].blackjackBet = 0;
       fs.writeFile('./plugins/casino/money.json', JSON.stringify(money, null, 4), function (err) {
         if (err) {
-<<<<<<< HEAD
+
           Bot.log(err);
-=======
-          console.log(err);
->>>>>>> 2f65a93002ab79a360af452a75d6731abb743d3e
         }
       });
     } else if (dealerTotalS === playerTotalS) {
@@ -79,11 +73,8 @@ module.exports = {
       money[data.user].blackjackBet = 0;
       fs.writeFile('./plugins/casino/money.json', JSON.stringify(money, null, 4), function (err) {
         if (err) {
-<<<<<<< HEAD
+
           Bot.log(err);
-=======
-          console.log(err);
->>>>>>> 2f65a93002ab79a360af452a75d6731abb743d3e
         }
       });
     } else if (playerTotalS > dealerTotalS) {
@@ -95,11 +86,8 @@ module.exports = {
       money[data.user].blackjackBet = 0;
       fs.writeFile('./plugins/casino/money.json', JSON.stringify(money, null, 4), function (err) {
         if (err) {
-<<<<<<< HEAD
+
           Bot.log(err);
-=======
-          console.log(err);
->>>>>>> 2f65a93002ab79a360af452a75d6731abb743d3e
         }
       });
     } else if (playerTotalS < dealerTotalS) {
@@ -110,11 +98,7 @@ module.exports = {
       money[data.user].blackjackBet = 0;
       fs.writeFile('./plugins/casino/money.json', JSON.stringify(money, null, 4), function (err) {
         if (err) {
-<<<<<<< HEAD
           Bot.log(err);
-=======
-          console.log(err);
->>>>>>> 2f65a93002ab79a360af452a75d6731abb743d3e
         }
       });
     }

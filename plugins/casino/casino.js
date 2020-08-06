@@ -1,11 +1,7 @@
 const fs = require('fs');
 const money = require('./money.json');
 
-<<<<<<< HEAD
 const Bot = require('../../modules/Bot.js');
-
-=======
->>>>>>> 2f65a93002ab79a360af452a75d6731abb743d3e
 module.exports = {
   name: 'casino',
   description: 'Replies with casino commands',
@@ -36,11 +32,8 @@ module.exports = {
         );
         fs.writeFile('./plugins/casino/money.json', JSON.stringify(money, null, 4), function (err) {
           if (err) {
-<<<<<<< HEAD
+
             Bot.log(err);
-=======
-            console.log(err);
->>>>>>> 2f65a93002ab79a360af452a75d6731abb743d3e
           }
         });
         return;

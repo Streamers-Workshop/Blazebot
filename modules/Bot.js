@@ -72,10 +72,10 @@ Bot.prototype.loadPlugins = async (directory) => {
               instance.chat.set(plugin.command.toLowerCase(), plugin);
             }
           }
-          table.addRow(plugin.name, (plugin.settings.active ? 'Active' : 'Deactive'), 'LOADED');
+          table.addRow(plugin.name, (plugin.settings.active ? 'Active' : 'Inactive'), 'LOADED');
         } catch (e) {
           vorpal.log(
-            `Error Attempting to Load Plugin(${dir}) located at: ${path.join(directory, dir)}`,
+            `Error Attempting to Load Plugin(${dir}) located at: ${path.join(directory, dir)} / Error: ${e}`,
           );
         }
       }
@@ -113,7 +113,6 @@ Bot.prototype.triggerEvents = async (type, client, data) => {
 Bot.prototype.getChatCommand = (command) => {
   const data = instance.chat.get(command);
   if (!data) {
-    vorpal.log(`Invalid Chat Plugin Requested. Check your spelling for Plugin: ${plugin}`);
     return null;
   }
   return data;
@@ -135,12 +134,11 @@ Bot.prototype.loadProcessors = async (directory) => {
             const mod = instance.processors.get(processor.name);
             mod.activate();
           }
-          table.addRow(processor.name, (processor.settings.active ? 'Active' : 'Deactive'), 'LOADED');
+          table.addRow(processor.name, (processor.settings.active ? 'Active' : 'Inactive'), 'LOADED');
         } catch (e) {
           vorpal.log(
-            `Error Attempting to Load Processor(${dir}) located at: ${path.join(directory, dir)}`,
+            `Error Attempting to Load Processor(${dir}) located at: ${path.join(directory, dir)} / Error: ${e}`,
           );
-          vorpal.log(`Load Processor Error: ${e}`);
         }
       }
     }
@@ -160,10 +158,10 @@ Bot.prototype.getProcessor = (processor) => {
 Bot.prototype.processProcessors = (message) => {
   const data = [];
   /* eslint-disable no-unused-vars */
-  for (const [key, value] of instance.services.entries()) {
+  for (const [key, value] of instance.processors.entries()) {
     if (value.settings.active) {
       data.push(new Promise((res, rej) => {
-        value.process(message, vorpal.log, function(err) {
+        value.process(message, function(err) {
           if (err) rej(err);
           else res();
         })
@@ -190,7 +188,7 @@ Bot.prototype.loadServices = async (directory) => {
             const mod = instance.services.get(service.name);
             mod.activate();
           }
-          table.addRow(service.name, (service.settings.active ? 'Active' : 'Deactive'), 'LOADED');
+          table.addRow(service.name, (service.settings.active ? 'Active' : 'Inactive'), 'LOADED');
         } catch (e) {
           vorpal.log(
             `Error Attempting to Load Service(${dir}) located at: ${path.join(directory, dir)}`,
