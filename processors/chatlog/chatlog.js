@@ -13,7 +13,7 @@ module.exports = {
     let _date = new Date();
     let store = [_date.toISOString(), data.accountName, data.content];
     let date = [_date.getMonth(), _date.getDate(), _date.getFullYear()];
-    fs.appendFile(path.join(__dirname, `ChatLogs.${date.join('-')}.log`), store.join(", "), 'utf8', function (err) {
+    fs.appendFile(path.join(__dirname, `ChatLogs.${date.join('-')}.log`), `${store.join(", ")}\r\n`, 'utf8', function (err) {
       callback(err);
     });
   },

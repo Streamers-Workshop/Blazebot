@@ -26,7 +26,6 @@ client.on('chatEvent', (type, data) => {
 });
 
 client.on('chatMessage', (message) => {
-  var i = 1;
   Bot.processProcessors(message).then((processors) => {
     // Bot.log(util.inspect(data, false, null, true /* enable colors */))
     if (!message || message.user === undefined) return;
