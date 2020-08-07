@@ -27,8 +27,8 @@ module.exports = {
   name: 'alert-joined', // Name of the Plugin
   description:
     'Sends a message to chat of new follower. Saves latest follower to text file for obs&slobs.', // Description
-  chat: true, // Defines this as a Chat Command
-  event: false, // Is this a Event?
+  chat: false, // Defines this as a Chat Command
+  event: true, // Is this a Event?
   type: 5004, // Type Event
   command: 'joined', // This is the Command that is typed into Chat!
   permissions: [], // This is for Permissisons depending on the Platform.

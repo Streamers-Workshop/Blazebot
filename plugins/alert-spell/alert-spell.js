@@ -27,8 +27,8 @@ module.exports = {
   name: 'alert-spell', // Name of the Plugin
   description:
     'Sends a message to chat of new Spell. Saves latest spell caster to text file for obs&slobs.', // Description
-  chat: true, // Defines this as a Chat Command
-  event: false, // Is this a Event?
+  chat: false, // Defines this as a Chat Command
+  event: true, // Is this a Event?
   type: 5, // Type Event
   command: 'spell', // This is the Command that is typed into Chat!
   permissions: [], // This is for Permissisons depending on the Platform.

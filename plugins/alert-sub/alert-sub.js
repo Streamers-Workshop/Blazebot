@@ -29,8 +29,8 @@ module.exports = {
   name: 'alert-sub', // Name of the Plugin
   description:
     'Sends a message to chat of new Subscriber. Saves latest Subscriber to text file for obs&slobs.', // Description
-  chat: true, // Defines this as a Chat Command
-  event: false, // Is this a Event?
+  chat: false, // Defines this as a Chat Command
+  event: true, // Is this a Event?
   type: 5001, // Type Event
   command: 'sub', // This is the Command that is typed into Chat!
   permissions: [], // This is for Permissisons depending on the Platform.
