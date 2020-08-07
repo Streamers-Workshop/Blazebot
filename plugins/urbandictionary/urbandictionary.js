@@ -31,9 +31,8 @@ module.exports = {
             const obj = JSON.parse(ud);
             if (obj) {
               const udl = obj.list[0];
-              const { word } = udl;
               const def = udl.definition;
-              client.sendMessage(`@${data.user} ${word} - ${def}`);
+              client.sendMessage(`@${data.user} ${udl} - ${def}`);
             } else {
               const err = obj.errors[0];
               const errMsg = err.message;

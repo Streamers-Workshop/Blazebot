@@ -1,5 +1,6 @@
 {
-  "active": false,
+  "active": true,
+  "scene": "----------------ALERTS---------------",
   "source": "Alert Box Spell",
   "delay": 10
 }

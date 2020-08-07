@@ -1,9 +1,13 @@
 const fs = require('fs');
+const requireText = require('require-text');
+const path = require('path');
 const settings = require('./alert-follow.json');
 const Bot = require('../../modules/Bot.js');
+let followCount = requireText('./../../labels/followcount.txt', require);
 
 function toggleSource(obs) {
   const tobj = {
+    'scene-name': settings.scene,
     item: { name: settings.source },
     visible: true,
   };
@@ -25,8 +29,8 @@ module.exports = {
   name: 'alert-follow', // Name of the Plugin
   description:
     'Sends a message to chat of new follower. Saves latest follower to text file for obs&slobs.', // Description
-  chat: false, // Defines this as a Chat Command
-  event: true, // Is this a Event?
+  chat: true, // Defines this as a Chat Command
+  event: false, // Is this a Event?
   type: 5003, // Type Event
   command: 'follow', // This is the Command that is typed into Chat!
   permissions: [], // This is for Permissisons depending on the Platform.
@@ -34,10 +38,19 @@ module.exports = {
   cooldown: 0, // this is Set in Seconds, how long between the next usage of this command.
   settings: false, // Defining this as false will load the Settings file for this Plugin when the system loads this plugin.
   credits: `New follow system by Krammy. Original by Bioblaze Payne.`, // MAKE SURE YOU FILL THIS IN GOD DAMNIT!
-  execute(client, data, modules) {
+  execute(client, data) {
     if (settings.active) client.sendMessage(`Thanks @${data.user} for the Follow <3`);
 
-    fs.writeFile('./labels/latest-follow.txt', data.user, (err) => {
+    ++followCount;
+	fs.writeFile(path.join(Bot.root, 'labels', 'followcount.txt'), followCount, (err) => {
+      if (err) {
+        return console.log(err);
+      }
+      return true;
+    });
+
+
+    fs.writeFile(path.join(Bot.root, 'labels', 'latest-follow.txt'), data.user, (err) => {
       if (err) {
         return Bot.log(err);
       }
@@ -45,7 +58,7 @@ module.exports = {
     });
 
     const obs = Bot.getService('obs-controller-module');
-    if (obs.settings.active) toggleSource(modules.obs);
+    if (obs.settings.active) toggleSource(obs.output);
 
     const slobs = Bot.getService('slobs-controller-module');
     if (slobs.settings.active) {

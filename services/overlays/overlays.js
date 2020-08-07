@@ -18,7 +18,7 @@ app.get('/chat/:pageID', (req, res) => {
   try {
     const data = require(path.join(__dirname, 'http', 'data', `${req.params.pageID}.json`));
     data.tag = req.params.pageID;
-    data.port = process.env.HTTP_PORT;
+    data.port = settings.port;
     res.render('chat', data);
   } catch (e) {
     Bot.log(
@@ -26,7 +26,7 @@ app.get('/chat/:pageID', (req, res) => {
     );
     res.render('chat', {
       tag: req.params.pageID,
-      port: process.env.HTTP_PORT,
+      port: settings.port,
     });
   }
 });
@@ -34,7 +34,7 @@ app.get('/text/:pageID', (req, res) => {
   try {
     const data = require(path.join(__dirname, 'http', 'data', `${req.params.pageID}.json`));
     data.tag = req.params.pageID;
-    data.port = process.env.HTTP_PORT;
+    data.port = settings.port;
     res.render('text', data);
   } catch (e) {
     Bot.log(
@@ -42,7 +42,7 @@ app.get('/text/:pageID', (req, res) => {
     );
     res.render('text', {
       tag: req.params.pageID,
-      port: process.env.HTTP_PORT,
+      port: settings.port,
     });
   }
 });
@@ -50,7 +50,7 @@ app.get('/alert/:pageID', (req, res) => {
   try {
     const data = require(path.join(__dirname, 'http', 'data', `${req.params.pageID}.json`));
     data.tag = req.params.pageID;
-    data.port = process.env.HTTP_PORT;
+    data.port = settings.port;
     res.render('alert', data);
   } catch (e) {
     Bot.log(
@@ -58,7 +58,7 @@ app.get('/alert/:pageID', (req, res) => {
     );
     res.render('alert', {
       tag: req.params.pageID,
-      port: process.env.HTTP_PORT,
+      port: settings.port,
     });
   }
 });
@@ -69,7 +69,7 @@ const ws = new websocket.Server({ server });
 
 // Notifies all Connected Clients.
 ws.notifyAll = (data) => {
-  ws.server.clients.forEach((client) => {
+  ws.clients.forEach((client) => {
     client.send(JSON.stringify(data));
   });
 };

@@ -79,7 +79,7 @@ module.exports = {
         if (!settings.active) {
           client.sendMessage('Streamer disabled this command');
         } else {
-          client.sendMessage(`Example Usage: = !wins`);
+          client.sendMessage(`Example Usage: = !wins + , !wins reset`);
         }
     }
   },

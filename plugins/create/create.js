@@ -33,7 +33,6 @@ module.exports = {
     data.args = data.args.join(' ');
     const newCommand = data.args.substr(0, data.args.indexOf(' '));
     const commandOutput = data.args.substring(data.args.indexOf(' ') + 1);
-    const esCommandOutput = commandOutput.replace(/[\\$'"]/g, '\\$&'); // escaped_commandOutput
     const fileName = `${newCommand}.js`;
     const dir = `./plugins/${newCommand}`; // Create directory based on command name
     if (!fs.existsSync(dir)) {
@@ -55,14 +54,19 @@ module.exports = { \r\
     cooldown: 10, \r\
 	userCreated: true, \r\
     settings: false, \r\
-    execute(client) { \r\
-        client.sendMessage('${esCommandOutput}'); \r\
+    execute(client, data) { \r\
+        client.sendMessage(\`${commandOutput}\`); \r\
     }, \r\
 }; \
 `;
     fs.writeFile(filePath, fill, function a(err) {
       if (err) throw Error(err);
       else {
+		let jsonData = { active: true };
+		jsonData = JSON.stringify(jsonData);
+		fs.writeFile(`${dir}/${newCommand}.json`, jsonData ,function a(err){ if (err) throw Error(err) });
+		  
+		  
         // allows for reloading plugins modules initiate created file without rebooting Credit: kramitox (Krammy)
         const newPluginDir = path.join(__dirname, `./../`, newCommand, `/`, fileName);
         const plugin = require(newPluginDir);

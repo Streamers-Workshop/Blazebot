@@ -1,5 +1,6 @@
 {
-  "active": false,
-  "source": "Alert Box Joined",
+  "active": true,
+  "scene": "----------------ALERTS---------------",
+  "source": "JOINED",
   "delay": 10
 }

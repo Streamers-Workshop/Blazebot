@@ -38,7 +38,7 @@ module.exports = {
     Bot.chat.delete(command); // delete plugin within instance
     Bot.plugins.delete(command);
     const pluginDir = path.join(dir, command);
-
+	delete require.cache[path.join(dir, command, `${command}.js`)];
     fs.rmdirSync(pluginDir, {
       // check directory and args
       recursive: true, // delete parameters recursively

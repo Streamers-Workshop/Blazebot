@@ -15,6 +15,7 @@
     "prettier": "^2.0.5",
     "queue": "^6.0.1",
     "react": "^16.13.1",
+    "require-text": "0.0.1",
     "slobs.js": "^1.0.7",
     "sockjs": "^0.3.21",
     "sockjs-client": "^1.5.0",

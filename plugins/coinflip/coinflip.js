@@ -40,7 +40,7 @@ module.exports = {
         return;
       }
 
-      if (playerBet < 100) {
+      if (playerBet < 20) {
         client.sendMessage(
           `Please enter a valid bet amount. Minimum amount is 20 points. @${data.user}`,
         );
