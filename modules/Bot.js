@@ -37,6 +37,7 @@ function Bot() {
   this.processors = new Map();
   this.services = new Map();
   this.settings = null;
+  this.root = path.join(__dirname, "../");
 
   vorpal.log(
       `\r\n${figlet.textSync('Trovobot', {

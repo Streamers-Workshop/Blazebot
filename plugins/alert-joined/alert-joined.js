@@ -53,9 +53,11 @@ module.exports = {
       return true;
     });
 
+	//OBS SETTINGS
     const obs = Bot.getService('obs-controller-module');
     if (obs.settings.active) toggleSource(obs.output);
-
+	
+	//SLOBS SETTINGS
     const slobs = Bot.getService('slobs-controller-module');
     if (slobs.settings.active) {
       slobs.output.toggleSource(null, settings.source);
@@ -63,5 +65,16 @@ module.exports = {
         slobs.output.toggleSource(null, settings.source);
       }, settings.delay * 1000);
     }
+	
+	//HTTP SETTINGS
+	var service = Bot.getService('http-overlay-module');
+	if (service){
+		service.output.notifyAll({
+		  type: "text",
+		  page: "joined",
+		  name: data.user,
+		  message: "has joined the Stream!"
+		});
+	}
   },
 };

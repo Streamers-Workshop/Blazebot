@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "ip": "http://127.0.0.1:59650/api",
-  "token": ""
+  "token": "a8f3e1668946d53b30e65f30e2387eef3af5691f"
 }

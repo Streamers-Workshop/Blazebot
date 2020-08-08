@@ -1,7 +1,7 @@
 const SlobsJS = require('slobs.js');
 
 
-var slobs = null;
+var slobs = new SlobsJS();
 
 module.exports = {
   name: 'slobs-controller-module',
@@ -9,6 +9,6 @@ module.exports = {
   output: slobs,
   activate() {
     const settings = require('./slobs.json');
-    slobs = new SlobsJS(settings.ip, settings.token);
+    slobs.login(settings.ip, settings.token);
   },
 };

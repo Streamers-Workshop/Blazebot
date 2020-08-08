@@ -1,0 +1,14 @@
+{
+  "audio": "",
+  "video": {
+    "name": "fatkid.webm",
+    "type": "video/webm",
+    "options": ["loop"],
+    "classes": ["fullscreen"]
+  },
+  "gif": "",
+  "img": "",
+  "text": {
+    "duration": 6
+  }
+}

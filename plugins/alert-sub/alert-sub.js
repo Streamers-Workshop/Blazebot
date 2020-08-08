@@ -3,7 +3,7 @@ const path = require('path');
 const requireText = require('require-text');
 const settings = require('./alert-sub.json');
 const Bot = require('../../modules/Bot.js');
-let followCount = requireText('./../../labels/subcount.txt', require);
+let subCount = requireText('./../../labels/subcount.txt', require);
 
 function toggleSource(obs) {
   const tobj = {
@@ -42,9 +42,9 @@ module.exports = {
     if (settings.active) client.sendMessage(`Thanks @${data.user} for the Subscription <3`);
 
     ++subCount;
-	fs.writeFile(path.join(Bot.root, 'labels', 'subcount.txt'), followCount, (err) => {
+	fs.writeFile(path.join(Bot.root, 'labels', 'subcount.txt'), subCount, (err) => {
       if (err) {
-        return console.log(err);
+        return Bot.log(err);
       }
       return true;
     });
@@ -56,9 +56,11 @@ module.exports = {
       return true;
     });
 
+	//OBS SETTINGS
     const obs = Bot.getService('obs-controller-module');
     if (obs.settings.active) toggleSource(obs.output);
 
+	//SLOBS SETTINGS
     const slobs = Bot.getService('slobs-controller-module');
     if (slobs.settings.active) {
       slobs.output.toggleSource(null, settings.source);
@@ -66,5 +68,16 @@ module.exports = {
         slobs.output.toggleSource(null, settings.source);
       }, settings.delay * 1000);
     }
+	
+	//HTTP SETTINGS
+	var service = Bot.getService('http-overlay-module');
+	if (service){
+		service.output.notifyAll({
+		  type: "text",
+		  page: "sub",
+		  name: data.user,
+		  message: "has subscribed to the Stream!"
+		});
+	}
   },
 };
