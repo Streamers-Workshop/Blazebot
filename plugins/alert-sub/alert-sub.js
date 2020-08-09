@@ -28,8 +28,8 @@ module.exports = {
   name: 'alert-sub', // Name of the Plugin
   description:
     'Sends a message to chat of new Subscriber. Saves latest Subscriber to text file for obs&slobs.', // Description
-  chat: true, // Defines this as a Chat Command
-  event: false, // Is this a Event?
+  chat: false, // Defines this as a Chat Command
+  event: true, // Is this a Event?
   type: 5001, // Type Event
   command: 'sub', // This is the Command that is typed into Chat!
   permissions: [], // This is for Permissisons depending on the Platform.
@@ -55,9 +55,13 @@ module.exports = {
       return true;
     });
 
+
+	//OBS SETTINGS
     const obs = Bot.getService('obs-controller-module');
     if (obs.settings.active) toggleSource(obs.output);
 
+
+	//SLOBS SETTINGS
     const slobs = Bot.getService('slobs-controller-module');
     if (slobs.settings.active) {
       slobs.output.toggleSource(null, settings.source);
@@ -65,5 +69,16 @@ module.exports = {
         slobs.output.toggleSource(null, settings.source);
       }, settings.delay * 1000);
     }
+	
+	//HTTP OVERLAYS
+	var service = Bot.getService('http-overlay-module');
+	if (service){
+		service.output.notifyAll({
+		  type: "text",
+		  page: "sub",
+		  name: data.user,
+		  message: "has subbed the Stream!"
+		});
+	}
   },
 };

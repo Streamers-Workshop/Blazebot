@@ -29,8 +29,8 @@ module.exports = {
   name: 'alert-follow', // Name of the Plugin
   description:
     'Sends a message to chat of new follower. Saves latest follower to text file for obs&slobs.', // Description
-  chat: true, // Defines this as a Chat Command
-  event: false, // Is this a Event?
+  chat: false, // Defines this as a Chat Command
+  event: true, // Is this a Event?
   type: 5003, // Type Event
   command: 'follow', // This is the Command that is typed into Chat!
   permissions: [], // This is for Permissisons depending on the Platform.
@@ -57,9 +57,12 @@ module.exports = {
       return true;
     });
 
+	//OBS SETTINGS
     const obs = Bot.getService('obs-controller-module');
+	Bot.log(obs.output);
     if (obs.settings.active) toggleSource(obs.output);
 
+	//SLOBS SETTINGS
     const slobs = Bot.getService('slobs-controller-module');
     if (slobs.settings.active) {
       slobs.output.toggleSource(null, settings.source);
@@ -67,5 +70,16 @@ module.exports = {
         slobs.output.toggleSource(null, settings.source);
       }, settings.delay * 1000);
     }
+	
+	//HTTP SETTINGS
+	var service = Bot.getService('http-overlay-module');
+	if (service){
+		service.output.notifyAll({
+		  type: "text",
+		  page: "follow",
+		  name: data.user,
+		  message: "has followed the Stream!"
+		});
+	}
   },
 };
