@@ -1,5 +1,6 @@
-const DiscordRPC = require('discord-rpc');
 const Bot = require('../../modules/Bot.js');
+
+const DiscordRPC = require('discord-rpc');
 
 const settings = require('./discord-rpc.json');
 
@@ -24,6 +25,7 @@ async function setActivity() {
   if (!rpc) {
     return;
   }
+  Bot.log("TEST");
   if (!Bot.getService('obs-controller-module')) {
     return;
   }
@@ -68,7 +70,7 @@ module.exports = {
   varname: 'discordRpc',
   output: rpc,
   activate() {
-    rpc.login({ clientId: settings.clientID }).catch(Bot.error);
+    rpc.login({ clientId: settings.clientID }).catch(Bot.log);
   },
   setCount(count) {
     if (count > maxCount) {

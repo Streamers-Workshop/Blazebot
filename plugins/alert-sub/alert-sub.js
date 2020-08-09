@@ -1,9 +1,8 @@
 const fs = require('fs');
 const path = require('path');
-const requireText = require('require-text');
 const settings = require('./alert-sub.json');
 const Bot = require('../../modules/Bot.js');
-let subCount = requireText('./../../labels/subcount.txt', require);
+let subCount = fs.readFileSync(path.join(Bot.root, 'labels', 'subcount.txt')).toString();
 
 function toggleSource(obs) {
   const tobj = {
@@ -29,8 +28,8 @@ module.exports = {
   name: 'alert-sub', // Name of the Plugin
   description:
     'Sends a message to chat of new Subscriber. Saves latest Subscriber to text file for obs&slobs.', // Description
-  chat: false, // Defines this as a Chat Command
-  event: true, // Is this a Event?
+  chat: true, // Defines this as a Chat Command
+  event: false, // Is this a Event?
   type: 5001, // Type Event
   command: 'sub', // This is the Command that is typed into Chat!
   permissions: [], // This is for Permissisons depending on the Platform.
@@ -44,11 +43,11 @@ module.exports = {
     ++subCount;
 	fs.writeFile(path.join(Bot.root, 'labels', 'subcount.txt'), subCount, (err) => {
       if (err) {
-        return Bot.log(err);
+        return console.log(err);
       }
       return true;
     });
-    
+
     fs.writeFile(path.join(Bot.root, 'labels', 'latest-sub.txt'), data.user, (err) => {
       if (err) {
         return Bot.log(err);
@@ -56,11 +55,9 @@ module.exports = {
       return true;
     });
 
-	//OBS SETTINGS
     const obs = Bot.getService('obs-controller-module');
     if (obs.settings.active) toggleSource(obs.output);
 
-	//SLOBS SETTINGS
     const slobs = Bot.getService('slobs-controller-module');
     if (slobs.settings.active) {
       slobs.output.toggleSource(null, settings.source);
@@ -68,16 +65,5 @@ module.exports = {
         slobs.output.toggleSource(null, settings.source);
       }, settings.delay * 1000);
     }
-	
-	//HTTP SETTINGS
-	var service = Bot.getService('http-overlay-module');
-	if (service){
-		service.output.notifyAll({
-		  type: "text",
-		  page: "sub",
-		  name: data.user,
-		  message: "has subscribed to the Stream!"
-		});
-	}
   },
 };

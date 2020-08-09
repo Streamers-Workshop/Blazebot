@@ -1,9 +1,9 @@
 const fs = require('fs');
-const requireText = require('require-text');
 const path = require('path');
 const settings = require('./alert-follow.json');
 const Bot = require('../../modules/Bot.js');
-let followCount = requireText('./../../labels/followcount.txt', require);
+
+let followCount = fs.readFileSync(path.join(Bot.root, 'labels', 'followcount.txt')).toString();
 
 function toggleSource(obs) {
   const tobj = {
@@ -29,8 +29,8 @@ module.exports = {
   name: 'alert-follow', // Name of the Plugin
   description:
     'Sends a message to chat of new follower. Saves latest follower to text file for obs&slobs.', // Description
-  chat: false, // Defines this as a Chat Command
-  event: true, // Is this a Event?
+  chat: true, // Defines this as a Chat Command
+  event: false, // Is this a Event?
   type: 5003, // Type Event
   command: 'follow', // This is the Command that is typed into Chat!
   permissions: [], // This is for Permissisons depending on the Platform.

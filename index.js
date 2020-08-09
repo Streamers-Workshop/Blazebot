@@ -1,7 +1,5 @@
 const path = require('path');
 
-global.appRoot = path.resolve(__dirname); // Hack to know the root of the Project.
-
 const trovojs = require('trovo.js');
 
 
@@ -10,10 +8,22 @@ const Bot = require(path.join(__dirname, 'modules', 'Bot.js'));
 
 const client = new trovojs.BrowserClient({ logger: Bot.log });
 
+Bot.setRoot(path.resolve(__dirname));
 Bot.loadSettings(path.join(__dirname, 'settings.json'));
-Bot.loadServices(path.join(__dirname, 'services'));
-Bot.loadPlugins(path.join(__dirname, 'plugins'));
-Bot.loadProcessors(path.join(__dirname, 'processors'));
+
+Bot.loadLocalizationFiles(path.resolve(__dirname, 'localization')).then(() => {
+  Bot.loadServices(path.join(__dirname, 'services'));
+  Bot.loadPlugins(path.join(__dirname, 'plugins'));
+  Bot.loadProcessors(path.join(__dirname, 'processors'));
+  Bot.loadConsoleCommands();
+}).catch((e) => {
+  Bot.log("Utilizing Fallback Language: en");
+  Bot.defaultFallbackLocalization();
+  Bot.loadServices(path.join(__dirname, 'services'));
+  Bot.loadPlugins(path.join(__dirname, 'plugins'));
+  Bot.loadProcessors(path.join(__dirname, 'processors'));
+  Bot.loadConsoleCommands();
+});
 
 
 const cooldowns = new Map();
@@ -57,12 +67,11 @@ client.on('chatMessage', (message) => {
 
       if (now < expirationTime) {
         const timeLeft = (expirationTime - now) / 1000;
-        client.sendMessage(
-          `Holdon for ${timeLeft.toFixed(1)} more second(s) before reusing the \`${
-            command.name
-          }\` command.`,
-          client,
-        );
+
+        client.sendMessage(Bot.translate("bot.cooldown", {
+          timeLeft: timeLeft.toFixed(1),
+          name: command.name
+        }));
         return;
       }
     }
@@ -77,7 +86,7 @@ client.on('chatMessage', (message) => {
       (!message.badges ||
         command.permissions.filter((value) => message.badges.includes(value)).length === 0)
     ) {
-      client.sendMessage('You do not have permission to use this command. Sorry.');
+      client.sendMessage(Bot.translate("bot.missing_permissions"));
       return;
     }
 
@@ -87,21 +96,22 @@ client.on('chatMessage', (message) => {
       message.command = commandName;
       command.execute(client, message);
     } catch (err) {
-      Bot.log(`Command Error(${commandName}): ${err}`);
-      client.sendMessage(
-        'There was a error with processing your Command. Please Contact Bioblaze Payne#6459 and let him know.',
-      );
+      client.sendMessage(Bot.translate("bot.cmd_error"), {
+        name: commandName,
+        err: err
+      });
+      client.sendMessage(Bot.translate("bot.contact_creator"));
     }
   }).catch((e) => {
-    Bot.log(`Processing Error... ${e}`);
-    client.sendMessage(
-      'There was a error with processing your Command. Please Contact Bioblaze Payne#6459 and let him know.',
-    );
+    client.sendMessage(Bot.translate("bot.process_error"), {
+      err: e
+    });
+    client.sendMessage(Bot.translate("bot.contact_creator"));
   });
 });
 
 client.on('ready', () => {
-  Bot.log('\nBot loaded and ready to mod!');
+  Bot.log(Bot.translate("bot.ready"));
 });
 
 client.login(

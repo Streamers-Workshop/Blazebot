@@ -104,3 +104,4 @@ dist
 package-lock.json
 
 settings-.json
+/settings.dev.json

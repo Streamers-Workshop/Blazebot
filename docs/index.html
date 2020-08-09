@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Trovobot : Chat Bot utilizing Trovo.js as it&#39;s base.">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Trovobot</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/Bioblaze/TrovoBot">View on GitHub</a>
+
+          <h1 id="project_title">Trovobot</h1>
+          <h2 id="project_tagline">Chat Bot utilizing Trovo.js as it&#39;s base.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/Bioblaze/TrovoBot/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/Bioblaze/TrovoBot/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>
+<a id="install" class="anchor" href="#install" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Install Trovobot</h3>
+<ol type="1">
+  <li>First, please make sure you are using an <strong><em><a href="https://www.howtogeek.com/194041/how-to-open-the-command-prompt-as-administrator-in-windows-8.1/">administrative shell</a></em></strong>.</li>
+  <li>
+    <p>Install with Powershell</p>
+    <div>
+        <strong>NOTE:</strong> Please inspect <a href="https://bioblaze.github.io/TrovoBot/install.ps1">https://bioblaze.github.io/TrovoBot/install.ps1</a> prior to running any of these scripts to ensure safety. We already know it's safe, but you should verify the security and contents of <strong><em>any</em></strong> script from the internet you are not familiar with.
+        All of these scripts download a remote PowerShell script and execute it on your machine.
+    </div>
+    <p>With PowerShell, you must ensure <a href="https://go.microsoft.com/fwlink/?LinkID=135170">Get-ExecutionPolicy</a> is not Restricted. We suggest using <code>Bypass</code> to bypass the policy to get things installed or <code>AllSigned</code> for quite a bit more security.</p>
+    <ul>
+        <li>Run <code>Get-ExecutionPolicy</code>. If it returns <code>Restricted</code>, then run <code>Set-ExecutionPolicy AllSigned</code> or <code>Set-ExecutionPolicy Bypass -Scope Process</code>.</li>
+    </ul>
+    <p>Now run the following command:</p>
+    <div class="input-group">
+        <input type="text" class="form-control" value="Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://bioblaze.github.io/TrovoBot/install.ps1'))" aria-label="Install with powershell.exe command" readonly="">
+    </div>
+  </li>
+  <li>Paste the copied text into your shell and press Enter.</li>
+  <li>Wait a few seconds for the command to complete.</li>
+  <li>If you don't see any errors, you are ready to use Trovobot! Type <code>npm run start</code> or <code>node index.js</code> now.</li>
+</ol>
+<h3>
+<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<p>Randolph "Bioblaze Payne" Aarseth (<a href="https://github.com/Bioblaze">@Bioblaze</a>)[Creator]</p>
+<h3>
+<a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Support or Contact</h3>
+<p>Having trouble with Pages? Check out our <a href="https://help.github.com/pages">documentation</a> or <a href="https://github.com/contact">contact support</a> and we’ll help you sort it out.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Trovobot maintained by <a href="https://github.com/Bioblaze">Bioblaze</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+
+
+  </body>
+</html>
