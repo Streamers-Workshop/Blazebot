@@ -8,7 +8,6 @@ clear();
 const colors = require('colors'); // eslint-disable-line
 const figlet = require('figlet');
 const vorpal = require('vorpal')();
-vorpal.delimiter('\r\nTrovobot$'.underline.italic.grey).show();
 
 var inquirer = require('inquirer');
 var localizify = require('localizify');
@@ -318,6 +317,9 @@ Bot.prototype.loadSettings = async (directory) => {
   try {
     instance.settings = require(directory);
     instance.settingsfile = directory;
+    if (instance.settings.console) {
+      vorpal.delimiter('\r\nTrovobot$'.underline.italic.grey).show();
+    }
     vorpal.log('Settings Loaded....');
   } catch(e) {
     vorpal.log(`Unable to find Settings File: ${directory}`);

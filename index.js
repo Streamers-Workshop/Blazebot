@@ -20,14 +20,18 @@ Bot.loadLocalizationFiles(path.resolve(__dirname, 'localization')).then(() => {
   Bot.loadServices(path.join(__dirname, 'services'));
   Bot.loadPlugins(path.join(__dirname, 'plugins'));
   Bot.loadProcessors(path.join(__dirname, 'processors'));
-  Bot.loadConsoleCommands();
+  if (Bot.settings.console) {
+    Bot.loadConsoleCommands();
+  }
 }).catch((e) => {
   Bot.log("Utilizing Fallback Language: en");
   Bot.defaultFallbackLocalization();
   Bot.loadServices(path.join(__dirname, 'services'));
   Bot.loadPlugins(path.join(__dirname, 'plugins'));
   Bot.loadProcessors(path.join(__dirname, 'processors'));
-  Bot.loadConsoleCommands();
+  if (Bot.settings.console) {
+    Bot.loadConsoleCommands();
+  }
 });
 
 
