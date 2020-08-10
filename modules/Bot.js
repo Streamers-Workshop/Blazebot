@@ -46,6 +46,7 @@ function Bot() {
   this.processors = new Map();
   this.services = new Map();
   this.settings = null;
+  this.settingsfile = null;
   this.root = null;
   this.langs = [];
 
@@ -315,6 +316,7 @@ Bot.prototype.getService = (service) => {
 Bot.prototype.loadSettings = async (directory) => {
   try {
     instance.settings = require(directory);
+    instance.settingsfile = directory;
     vorpal.log('Settings Loaded....');
   } catch(e) {
     vorpal.log(`Unable to find Settings File: ${directory}`);
@@ -327,7 +329,7 @@ Bot.prototype.loadSettings = async (directory) => {
         "page": ""
       },
       "lang": "en"
-    }), 'utf8')
+    }, null, 2), 'utf8')
     vorpal.log(`Example Settings File Created.\r\nPlease edit the settings file, and restart the bot.`);
     process.exit(0);
   }
@@ -378,7 +380,20 @@ Bot.prototype.loadConsoleCommands = () => {
           vorpal.log(instance.translate("bot.setlang_switch", {
             to: args.lang,
             from: prev_lang
-          }))
+          }));
+          try {
+            var settings = fs.readFileSync(path.resolve(instance.settingsfile), 'utf8');
+            settings = JSON.parse(settings);
+            settings.lang = args.lang;
+            fs.writeFileSync(path.resolve(instance.settingsfile), JSON.stringify(settings, null, 2));
+            delete require.cache[require.resolve(path.resolve(instance.settingsfile))];
+            instance.settings = require(path.resolve(instance.settingsfile));
+            vorpal.log(instance.translate("bot.setlang_saved"));
+          } catch(e) {
+            vorpal.log(instance.translate("bot.setlang_save_error", {
+              e: e
+            }));
+          }
         } else {
           vorpal.log(instance.translate("bot.setlang_invalid", {
             langs: instance.langs.join(", ")

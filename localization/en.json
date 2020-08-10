@@ -89,6 +89,8 @@
     "setlang_invalid": "That is a invalid Language Option please try one of these Options: {langs}",
     "setlang_switch": "Changed Language to ({to}) from Language ({from})",
     "getlang_console": "Displays all Available Languages in the System",
-    "getlang_options": "Available Language Options: {langs}"
+    "getlang_options": "Available Language Options: {langs}",
+    "setlang_saved": "Settings file has been updated.",
+    "setlang_save_error": "Attempting to Update Settings failed\r\nError: {e}"
   }
 }
