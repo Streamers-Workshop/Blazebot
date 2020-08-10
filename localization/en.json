@@ -1,11 +1,10 @@
 {
   "bot": {
-    "cooldown": "Holdon for {timeLeft} more second(s) before reusing the `{name}` command.",
+    "cooldown": "Hold on for {timeLeft} more second(s) before reusing the `{name}` command.",
     "missing_permissions": "You do not have permission to use this command. Sorry.",
     "cmd_error": "Command Error({name}): {err}",
     "contact_creator": "There was a error with processing your Command. Please Contact Bioblaze Payne#6459 and let him know.",
     "process_error": "Processing Error: {err}",
-    "loaded": "\r\nBot loaded and ready to mod!",
     "lang_loaded": "Localization Files have been Loaded.....\r\nLocalization has been Set to: {lang}",
     "plugins": "PLUGINS",
     "plugin": "PLUGIN",
