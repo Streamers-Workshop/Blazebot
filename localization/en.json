@@ -91,6 +91,17 @@
     "getlang_console": "Displays all Available Languages in the System",
     "getlang_options": "Available Language Options: {langs}",
     "setlang_saved": "Settings file has been updated.",
-    "setlang_save_error": "Attempting to Update Settings failed\r\nError: {e}"
+    "setlang_save_error": "Attempting to Update Settings failed\r\nError: {e}",
+    "what_email": "What is the Email of the Bot Account?",
+    "what_password": "What is the Password of the Bot Account?",
+    "what_name": "What is the Name of the Bot Account?",
+    "what_page": "What is the URL/PAGE for the Streamer the Bot is Monitoring?",
+    "what_prefix": "What is the Prefix of the Bot Account?",
+    "what_lang": "What is the Default Language of the Bot Account? Available Langs: {langs}",
+    "acceptable_languages": "Only Languages Known: {langs}",
+    "setup_complete": "Setup has Completed, Settings are saved..",
+    "setup_error_save": "Failed to Setup and Save Settings\r\nError: {e}",
+    "setup_failed": "Failed to Setup\r\nError: {err}",
+    "setup_console": "Allows you to Setup the Settings.json from the Console directly."
   }
 }

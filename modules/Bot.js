@@ -417,37 +417,41 @@ Bot.prototype.loadConsoleCommands = () => {
       });
 
   vorpal
-    .command('setup', instance.translate("bot.getlang_console"))
+    .command('setup', instance.translate("bot.setup_console"))
     .action((args, callback) => {
       inquirer.prompt([{
         type: 'input',
         name: 'email',
-        message: 'What is the Email of the Bot Account?'
+        message: instance.translate("bot.what_email")
       }, {
         type: 'password',
         name: 'password',
-        message: 'What is the Password of the Bot Account?'
+        message: instance.translate("bot.what_password")
       }, {
         type: 'input',
         name: 'name',
-        message: 'What is the Name of the Bot Account?'
+        message: instance.translate("bot.what_name")
       }, {
         type: 'input',
         name: 'page',
-        message: 'What is the URL/PAGE for the Streamer the Bot is Monitoring?'
+        message: instance.translate("bot.what_page")
       }, {
         type: 'input',
         name: 'prefix',
-        message: 'What is the Prefix of the Bot Account?'
+        message: instance.translate("bot.what_prefix")
       }, {
         type: 'input',
         name: 'lang',
-        message: `What is the Default Language of the Bot Account? Available Langs: ${instance.langs.join(", ")}`,
+        message: instance.translate("bot.what_lang", {
+          langs: instance.langs.join(", ")
+        }),
         validate: (value) => {
           if (instance.langs.indexOf(value) > -1) {
             return true;
           } else {
-            return `Only Languages Known: ${instance.langs.join(", ")}`;
+            return instance.translate("bot.acceptable_languages", {
+              langs: instance.langs.join(", ")
+            });
           }
         }
       }]).then((answers) => {
@@ -466,13 +470,17 @@ Bot.prototype.loadConsoleCommands = () => {
           fs.writeFileSync(path.resolve(instance.settingsfile), JSON.stringify(settings, null, 2));
           delete require.cache[require.resolve(path.resolve(instance.settingsfile))];
           instance.settings = require(path.resolve(instance.settingsfile));
-          vorpal.log("Setup has Completed, Settings are saved..")
+          vorpal.log(instance.translate("bot.setup_complete"))
         } catch(e) {
-          vorpal.log(`Failed to Setup and Save Settings\r\nError: ${e}`);
+          vorpal.log(instance.translate("bot.setup_error_save", {
+            e: e
+          }));
         }
         callback();
       }).catch((err) => {
-        vorpal.log(`Failed to Setup\r\nError: ${err}`);
+        vorpal.log(instance.translate("bot.setup_failed", {
+          e: e
+        }));
         callback();
       })
     })
@@ -993,14 +1001,13 @@ vorpal
 Bot.prototype.defaultFallbackLocalization = () => {
   localizify.add('en', {
     "bot": {
-      "cooldown": "Holdon for {timeLeft} more second(s) before reusing the `{name}` command.",
+      "cooldown": "Hold-on for {timeLeft} more second(s) before reusing the `{name}` command.",
       "missing_permissions": "You do not have permission to use this command. Sorry.",
       "cmd_error": "Command Error({name}): {err}",
       "contact_creator": "There was a error with processing your Command. Please Contact Bioblaze Payne#6459 and let him know.",
       "process_error": "Processing Error: {err}",
-      "loaded": "\r\nBot loaded and ready to mod!",
       "lang_loaded": "Localization Files have been Loaded.....\r\nLocalization has been Set to: {lang}",
-      "active_plugins": "ACTIVE PLUGINS",
+      "plugins": "PLUGINS",
       "plugin": "PLUGIN",
       "status": "STATUS",
       "state": "STATE",
@@ -1027,7 +1034,76 @@ Bot.prototype.defaultFallbackLocalization = () => {
       "plugin_activate_desc": "Activates a Plugin.",
       "plugin_deactivate_desc": "Deactivates a Plugin.",
       "deactivate_all_plugins_desc": "Deactivates all Plugins.",
-      "activate_all_plugins_desc": "Activates all Plugins."
+      "activate_all_plugins_desc": "Activates all Plugins.",
+      "ready": "\r\nBot loaded and ready to mod!",
+      "plugin_name_invalid": "No Plugin found by that name, please check your Spelling and try again.",
+      "reloaded_plugin": "Reloaded Plugin~",
+      "reloaded_chat_plugin": "Reloaded Chat Plugin~",
+      "reloaded_plugin_added_chat": "Loaded Reloaded Plugin into Chat Commands..",
+      "no_plugins_loaded": "No Plugins Loaded into the System.",
+      "no_processors_loaded": "No Processors Loaded into the System.",
+      "no_services_loaded": "No Services Loaded into the System.",
+      "clear_console": "Will clear all the Console leaving only the Commandline Prompt for Trovobot",
+      "plugin_already_active": "Plugin already Active, cannot active plugin.",
+      "plugin_activated": "Activated Plugin, and updated Settings file for the Plugin.",
+      "plugin_activated_error": "Error while trying to Activate Plugin({name})\r\nError: {e}",
+      "plugin_already_inactive": "Plugin already Inactive, cannot deactivate plugin.",
+      "plugin_deactivated": "Deactivated Plugin, and updated Settings file for the Plugin.",
+      "plugin_deactivated_error": "Error while trying to Deactivate Plugin({name})\r\nError: {e}",
+      "plugins_deactivated": "All Plugins Deactivated, and updated the Settings file for each Plugin.",
+      "plugins_activated": "All Plugins Activated, and updated the Settings file for each Plugin.",
+      "processor_info_desc": "Gives you information on a Processor within the System~",
+      "processors_desc": "Displays a List of all Processors within Trovobot, that are LOADED.",
+      "processor_reload_desc": "Reloads a specific Processor.",
+      "processor_activate_desc": "Activates a Processor.",
+      "processor_deactivate_desc": "Deactivates a Processor.",
+      "deactivate_all_processors_desc": "Deactivates all Processors.",
+      "activate_all_processors_desc": "Activates all Processors.",
+  	  "processor_already_active": "Processor already Active, cannot active processor.",
+      "processor_activated": "Activated Processor, and updated Settings file for the Processor.",
+      "processor_activated_error": "Error while trying to Activate Processor({name})\r\nError: {e}",
+      "processor_already_inactive": "Processor already Inactive, cannot deactivate processor.",
+      "processor_deactivated": "Deactivated Processor, and updated Settings file for the Processor.",
+      "processor_deactivated_error": "Error while trying to Deactivate Processor({name})\r\nError: {e}",
+      "processors_deactivated": "All Processors Deactivated, and updated the Settings file for each Processor.",
+      "processors_activated": "All Processors Activated, and updated the Settings file for each Processor.",
+  	  "reloaded_processor": "Reloaded Processor~",
+  	  "processor_name_invalid": "No Processor found by that name, please check your Spelling and try again.",
+      "service_info_desc": "Gives you information on a Service within the System~",
+      "services_desc": "Displays a List of all Services within Trovobot, that are LOADED.",
+      "service_reload_desc": "Reloads a specific Service.",
+      "service_activate_desc": "Activates a Service.",
+      "service_deactivate_desc": "Deactivates a Service.",
+      "deactivate_all_services_desc": "Deactivates all Services.",
+      "activate_all_services_desc": "Activates all Services.",
+  	  "service_already_active": "Service already Active, cannot active service.",
+      "service_activated": "Activated Service, and updated Settings file for the Service.",
+      "service_activated_error": "Error while trying to Activate Service({name})\r\nError: {e}",
+      "service_already_inactive": "Service already Inactive, cannot deactivate service.",
+      "service_deactivated": "Deactivated Service, and updated Settings file for the Service.",
+      "service_deactivated_error": "Error while trying to Deactivate Service({name})\r\nError: {e}",
+      "services_deactivated": "All Services Deactivated, and updated the Settings file for each Service.",
+      "services_activated": "All Services Activated, and updated the Settings file for each Service.",
+  	  "reloaded_service": "Reloaded Service~",
+  	  "service_name_invalid": "No Service found by that name, please check your Spelling and try again.",
+      "setlang_console": "Sets the Language in the System",
+      "setlang_invalid": "That is a invalid Language Option please try one of these Options: {langs}",
+      "setlang_switch": "Changed Language to ({to}) from Language ({from})",
+      "getlang_console": "Displays all Available Languages in the System",
+      "getlang_options": "Available Language Options: {langs}",
+      "setlang_saved": "Settings file has been updated.",
+      "setlang_save_error": "Attempting to Update Settings failed\r\nError: {e}",
+      "what_email": "What is the Email of the Bot Account?",
+      "what_password": "What is the Password of the Bot Account?",
+      "what_name": "What is the Name of the Bot Account?",
+      "what_page": "What is the URL/PAGE for the Streamer the Bot is Monitoring?",
+      "what_prefix": "What is the Prefix of the Bot Account?",
+      "what_lang": "What is the Default Language of the Bot Account? Available Langs: {langs}",
+      "acceptable_languages": "Only Languages Known: {langs}",
+      "setup_complete": "Setup has Completed, Settings are saved..",
+      "setup_error_save": "Failed to Setup and Save Settings\r\nError: {e}",
+      "setup_failed": "Failed to Setup\r\nError: {err}",
+      "setup_console": "Allows you to Setup the Settings.json from the Console directly."
     }
   });
 }
