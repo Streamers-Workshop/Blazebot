@@ -47,6 +47,7 @@ function Bot() {
   this.services = new Map();
   this.settings = null;
   this.root = null;
+  this.langs = [];
 
   vorpal.log(
       `\r\n${figlet.textSync('Trovobot', {
@@ -87,6 +88,7 @@ Bot.prototype.loadLocalizationFiles = async (directory) => {
           try {
             const json = require(path.join(directory, file));
             let split = file.split(".");
+            instance.langs.push(split[0]);
             localizify.add(split[0], json);
           } catch (e) {
             vorpal.log(
@@ -138,6 +140,7 @@ Bot.prototype.loadPlugins = async (directory) => {
           const plugin = require(path.join(directory, dir, `${dir}.js`));
           var readme = fs.readFileSync(path.join(directory, dir, `README.md`), 'utf8');
           plugin.directory = path.join(directory, dir);
+          plugin.filename = `${dir}.js`;
           plugin.settings = require(path.join(directory, dir, `${dir}.json`));
           plugin.readme = readme;
           instance.plugins.set(dir, plugin);
@@ -145,8 +148,8 @@ Bot.prototype.loadPlugins = async (directory) => {
             if (plugin.chat) {
               instance.chat.set(plugin.command.toLowerCase(), plugin);
             }
-            table.addRow(plugin.name, (plugin.settings.active ? instance.translate("bot.active") : instance.translate("bot.inactive")), instance.translate("bot.loaded"));
           }
+          table.addRow(plugin.name, (plugin.settings.active ? instance.translate("bot.active") : instance.translate("bot.inactive")), instance.translate("bot.loaded"));
         } catch (e) {
           vorpal.log(instance.translate("bot.plugin_load_try_error", {
             name: dir,
@@ -159,7 +162,7 @@ Bot.prototype.loadPlugins = async (directory) => {
     if (table.__rows && table.__rows.length > 0) {
       vorpal.log(table.toString());
     } else {
-      vorpal.log()
+      vorpal.log(instance.translate("bot.no_plugins_loaded"))
     }
   });
 };
@@ -205,6 +208,7 @@ Bot.prototype.loadProcessors = async (directory) => {
         try {
           const processor = require(path.join(directory, dir, `${dir}.js`));
           processor.directory = path.join(directory, dir);
+          processor.filename = `${dir}.js`;
           var readme = fs.readFileSync(path.join(directory, dir, `README.md`), 'utf8');
           processor.settings = require(path.join(directory, dir, `${dir}.json`));
           processor.readme = readme;
@@ -212,8 +216,8 @@ Bot.prototype.loadProcessors = async (directory) => {
           if (processor.settings.active) {
             const mod = instance.processors.get(processor.name);
             mod.activate();
-            table.addRow(processor.name, (processor.settings.active ? instance.translate("bot.active") : instance.translate("bot.inactive")), instance.translate("bot.loaded"));
           }
+          table.addRow(processor.name, (processor.settings.active ? instance.translate("bot.active") : instance.translate("bot.inactive")), instance.translate("bot.loaded"));
         } catch (e) {
           vorpal.log(instance.translate("bot.processor_load_try_error", {
             name: dir,
@@ -225,6 +229,8 @@ Bot.prototype.loadProcessors = async (directory) => {
     }
     if (table.__rows && table.__rows.length > 0) {
       vorpal.log(table.toString());
+    } else {
+      vorpal.log(instance.translate("bot.no_processors_loaded"))
     }
   });
 };
@@ -270,6 +276,7 @@ Bot.prototype.loadServices = async (directory) => {
         try {
           const service = require(path.join(directory, dir, `${dir}.js`));
           service.directory = path.join(directory, dir);
+          service.filename = `${dir}.js`;
           var readme = fs.readFileSync(path.join(directory, dir, `README.md`), 'utf8').toString();
           service.settings = require(path.join(directory, dir, `${dir}.json`));
           service.readme = readme;
@@ -277,8 +284,8 @@ Bot.prototype.loadServices = async (directory) => {
           if (service.settings.active) {
             const mod = instance.services.get(service.name);
             mod.activate();
-            table.addRow(service.name, (service.settings.active ? instance.translate("bot.active") : instance.translate("bot.inactive")), instance.translate("bot.loaded"));
           }
+          table.addRow(service.name, (service.settings.active ? instance.translate("bot.active") : instance.translate("bot.inactive")), instance.translate("bot.loaded"));
         } catch (e) {
           vorpal.log(instance.translate("bot.service_load_try_error", {
             name: dir,
@@ -290,6 +297,8 @@ Bot.prototype.loadServices = async (directory) => {
     }
     if (table.__rows && table.__rows.length > 0) {
       vorpal.log(table.toString());
+    } else {
+      vorpal.log(instance.translate("bot.no_services_loaded"))
     }
   });
 };
@@ -338,6 +347,13 @@ Bot.prototype.addConsoleCommand = (name, desc, callback) => {
       .action(callback); // Must Contain args, callback
 }
 
+Bot.prototype.reloadConsoleCommands = () => {
+  var save_cmds = ["exit", "help"];
+  vorpal.commands = vorpal.commands.filter((x) => {
+    return (save_cmds.indexOf(x._name) > -1);
+  });
+  instance.loadConsoleCommands();
+};
 Bot.prototype.loadConsoleCommands = () => {
     /*
       zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzvbvvvbbnnnnnjjnnfffssuu5ftgrfxss',m
@@ -345,51 +361,550 @@ Bot.prototype.loadConsoleCommands = () => {
       Has the making of a little programmer <3 <3 <3 <3
     */
   vorpal
-      .command('plugin-info', instance.translate("bot.plugin_info_desc"))
+      .command('clear')
+      .description(instance.translate("bot.clear_console"))
       .action((args, callback) => {
-
+        process.stdout.write ("\u001B[2J\u001B[0;0f");
+          callback();
+      });
+  vorpal
+      .command('setlang <lang>')
+      .description(instance.translate("bot.setlang_console"))
+      .action((args, callback) => {
+        if (instance.langs.indexOf(args.lang) > -1) {
+          var prev_lang = localizify.getLocale();
+          localizify.setLocale(args.lang);
+          instance.reloadConsoleCommands();
+          vorpal.log(instance.translate("bot.setlang_switch", {
+            to: args.lang,
+            from: prev_lang
+          }))
+        } else {
+          vorpal.log(instance.translate("bot.setlang_invalid", {
+            langs: instance.langs.join(", ")
+          }))
+        }
+          callback();
+      });
+  vorpal
+      .command('getlangs', instance.translate("bot.getlang_console"))
+      .action((args, callback) => {
+        vorpal.log(instance.translate("bot.getlang_options", {
+          langs: instance.langs.join(", ")
+        }))
+          callback();
+      });
+  vorpal
+      .command('plugin-info <plugin>', instance.translate("bot.plugin_info_desc"))
+      .action((args, callback) => {
+        var plugin = instance.plugins.get(args.plugin);
+        if (!plugin) {
+          vorpal.log(instance.translate("bot.plugin_name_invalid"));
+        } else {
+          vorpal.log(marked(plugin.readme));
+        }
           callback()
       });
 
   vorpal
       .command('plugins', instance.translate("bot.plugins_desc"))
       .action((args, callback) => {
-
+        const table = new AsciiTable(instance.translate("bot.plugins"));
+        table.setHeading(instance.translate("bot.plugin"), instance.translate("bot.status"));
+        for (const [key, value] of instance.plugins.entries()) {
+          table.addRow(value.name, (value.settings.active ? instance.translate("bot.active") : instance.translate("bot.inactive")));
+        }
+        vorpal.log(table.toString());
           callback()
       });
 
   vorpal
-      .command('reload-plugin', instance.translate("bot.plugin_reload_desc"))
+      .command('reload-plugin <plugin>', instance.translate("bot.plugin_reload_desc"))
       .action((args, callback) => {
+        var plugin = instance.plugins.get(args.plugin);
+        if (!plugin) {
+          vorpal.log(instance.translate("bot.plugin_name_invalid"));
+        } else {
+          instance.plugins.delete(args.plugin);
+          delete require.cache[require.resolve(path.join(plugin.directory, plugin.filename))];
+          delete require.cache[require.resolve(path.join(plugin.directory, `${plugin.filename.split(".")[0]}.json`))];
+          var readme = fs.readFileSync(path.join(plugin.directory, `README.md`), 'utf8');
+          let dir = plugin.directory;
+          let file = plugin.filename;
+          plugin = require(path.join(dir, file));
+          plugin.directory = dir;
+          plugin.filename = file;
+          plugin.settings = require(path.join(dir, `${file.split(".")[0]}.json`));
+          plugin.readme = readme;
+          instance.plugins.set(args.plugin, plugin);
+          vorpal.log(instance.translate("bot.reloaded_plugin"))
+          if (instance.chat.has(plugin.command.toLowerCase())) {
+            instance.chat.delete(plugin.command.toLowerCase());
+            instance.chat.set(plugin.command.toLowerCase(), plugin);
+            vorpal.log(instance.translate("bot.reloaded_chat_plugin"))
+          } else if (plugin.settings.active) {
+            if (plugin.chat) {
+              vorpal.log(instance.translate("bot.reloaded_plugin_added_chat"))
+              instance.chat.set(plugin.command.toLowerCase(), plugin);
+            }
+          }
 
+        }
           callback()
       });
 
   vorpal
-      .command('activate-plugin', instance.translate("bot.plugin_activate_desc"))
+      .command('activate-plugin <plugin>', instance.translate("bot.plugin_activate_desc"))
       .action((args, callback) => {
-
+        var plugin = instance.plugins.get(args.plugin);
+        if (!plugin) {
+          vorpal.log(instance.translate("bot.plugin_name_invalid"));
+        } else {
+          if (plugin.settings.active) {
+            vorpal.log(instance.translate("bot.plugin_already_active"));
+          } else {
+            try {
+              delete require.cache[require.resolve(path.join(plugin.directory, `${plugin.filename.split(".")[0]}.json`))];
+              var settings = require(path.join(plugin.directory, `${plugin.filename.split(".")[0]}.json`));
+              settings.active = true;
+              fs.writeFileSync(path.join(plugin.directory, `${plugin.filename.split(".")[0]}.json`), JSON.stringify(settings, null, 2));
+              plugin.settings = settings;
+              if (plugin.chat) {
+                if (instance.chat.has(plugin.command.toLowerCase())) {
+                  instance.chat.delete(plugin.command.toLowerCase());
+                }
+                instance.chat.set(plugin.command.toLowerCase(), plugin);
+              }
+              instance.plugins.delete(args.plugin);
+              instance.plugins.set(args.plugin, plugin);
+              vorpal.log(instance.translate("bot.plugin_activated"));
+            } catch(e) {
+              vorpal.log(instance.translate("bot.plugin_activated_error", {
+                name: plugin.name,
+                e: e
+              }));
+            }
+          }
+        }
           callback()
       });
 
   vorpal
-      .command('deactivate-plugin', instance.translate("bot.plugin_deactivate_desc"))
+      .command('deactivate-plugin <plugin>', instance.translate("bot.plugin_deactivate_desc"))
       .action((args, callback) => {
-
+        var plugin = instance.plugins.get(args.plugin);
+        if (!plugin) {
+          vorpal.log(instance.translate("bot.plugin_name_invalid"));
+        } else {
+          if (!plugin.settings.active) {
+            vorpal.log(instance.translate("bot.plugin_already_inactive"));
+          } else {
+            try {
+              delete require.cache[require.resolve(path.join(plugin.directory, `${plugin.filename.split(".")[0]}.json`))];
+              var settings = require(path.join(plugin.directory, `${plugin.filename.split(".")[0]}.json`));
+              settings.active = false;
+              fs.writeFileSync(path.join(plugin.directory, `${plugin.filename.split(".")[0]}.json`), JSON.stringify(settings, null, 2));
+              plugin.settings = settings;
+              if (plugin.chat) {
+                if (instance.chat.has(plugin.command.toLowerCase())) {
+                  instance.chat.delete(plugin.command.toLowerCase());
+                }
+              }
+              instance.plugins.delete(args.plugin);
+              instance.plugins.set(args.plugin, plugin);
+              vorpal.log(instance.translate("bot.plugin_deactivated"));
+            } catch(e) {
+              vorpal.log(instance.translate("bot.plugin_deactivated_error", {
+                name: plugin.name,
+                e: e
+              }));
+            }
+          }
+        }
           callback()
       });
   vorpal
       .command('deactivate-all-plugins', instance.translate("bot.deactivate_all_plugins_desc"))
       .action((args, callback) => {
+        for (const [key, value] of instance.plugins.entries()) {
+          var plugin = value;
+          if (plugin.settings.active) {
+            try {
+              delete require.cache[require.resolve(path.join(plugin.directory, `${plugin.filename.split(".")[0]}.json`))];
+              var settings = require(path.join(plugin.directory, `${plugin.filename.split(".")[0]}.json`));
+              settings.active = false;
+              fs.writeFileSync(path.join(plugin.directory, `${plugin.filename.split(".")[0]}.json`), JSON.stringify(settings, null, 2));
+              plugin.settings = settings;
+              if (plugin.chat) {
+                if (instance.chat.has(plugin.command.toLowerCase())) {
+                  instance.chat.delete(plugin.command.toLowerCase());
+                }
+              }
+              instance.plugins.delete(args.plugin);
+              instance.plugins.set(args.plugin, plugin);
+            } catch(e) {
+              vorpal.log(instance.translate("bot.plugin_deactivated_error", {
+                name: plugin.name,
+                e: e
+              }));
+            }
 
+          }
+        }
+        vorpal.log(instance.translate("bot.plugins_deactivated"));
           callback()
       });
   vorpal
       .command('activate-all-plugins', instance.translate("bot.activate_all_plugins_desc"))
       .action((args, callback) => {
+        for (const [key, value] of instance.plugins.entries()) {
+          var plugin = value;
+          if (!plugin.settings.active) {
+            try {
+              delete require.cache[require.resolve(path.join(plugin.directory, `${plugin.filename.split(".")[0]}.json`))];
+              var settings = require(path.join(plugin.directory, `${plugin.filename.split(".")[0]}.json`));
+              settings.active = true;
+              fs.writeFileSync(path.join(plugin.directory, `${plugin.filename.split(".")[0]}.json`), JSON.stringify(settings, null, 2));
+              plugin.settings = settings;
+              if (plugin.chat) {
+                if (instance.chat.has(plugin.command.toLowerCase())) {
+                  instance.chat.delete(plugin.command.toLowerCase());
+                }
+                instance.chat.set(plugin.command.toLowerCase(), plugin);
+              }
+              instance.plugins.delete(args.plugin);
+              instance.plugins.set(args.plugin, plugin);
+            } catch(e) {
+              vorpal.log(instance.translate("bot.plugin_activated_error", {
+                name: plugin.name,
+                e: e
+              }));
+            }
 
+          }
+        }
+        vorpal.log(instance.translate("bot.plugins_activated"));
           callback()
       });
+
+vorpal
+    .command('processor-info <processor>', instance.translate("bot.processor_info_desc"))
+    .action((args, callback) => {
+      var processor = instance.processors.get(args.processor);
+      if (!processor) {
+        vorpal.log(instance.translate("bot.processor_name_invalid"));
+      } else {
+        vorpal.log(marked(processor.readme));
+      }
+        callback()
+    });
+
+vorpal
+    .command('processors', instance.translate("bot.processors_desc"))
+    .action((args, callback) => {
+      const table = new AsciiTable(instance.translate("bot.processors"));
+      table.setHeading(instance.translate("bot.processor"), instance.translate("bot.status"));
+      for (const [key, value] of instance.processors.entries()) {
+        table.addRow(value.name, (value.settings.active ? instance.translate("bot.active") : instance.translate("bot.inactive")));
+      }
+      vorpal.log(table.toString());
+        callback()
+    });
+
+vorpal
+    .command('reload-processor <processor>', instance.translate("bot.processor_reload_desc"))
+    .action((args, callback) => {
+      var processor = instance.processors.get(args.processor);
+      if (!processor) {
+        vorpal.log(instance.translate("bot.processor_name_invalid"));
+      } else {
+        instance.processors.delete(args.processor);
+        delete require.cache[require.resolve(path.join(processor.directory, processor.filename))];
+        delete require.cache[require.resolve(path.join(processor.directory, `${processor.filename.split(".")[0]}.json`))];
+        var readme = fs.readFileSync(path.join(processor.directory, `README.md`), 'utf8');
+        let dir = processor.directory;
+        let file = processor.filename;
+        processor = require(path.join(dir, file));
+        processor.directory = dir;
+        processor.filename = file;
+        processor.settings = require(path.join(dir, `${file.split(".")[0]}.json`));
+        processor.readme = readme;
+        instance.processors.set(args.processor, processor);
+        vorpal.log(instance.translate("bot.reloaded_processor"))
+      }
+        callback()
+    });
+
+vorpal
+    .command('activate-processor <processor>', instance.translate("bot.processor_activate_desc"))
+    .action((args, callback) => {
+      var processor = instance.processors.get(args.processor);
+      if (!processor) {
+        vorpal.log(instance.translate("bot.processor_name_invalid"));
+      } else {
+        if (processor.settings.active) {
+          vorpal.log(instance.translate("bot.processor_already_active"));
+        } else {
+          try {
+            delete require.cache[require.resolve(path.join(processor.directory, `${processor.filename.split(".")[0]}.json`))];
+            var settings = require(path.join(processor.directory, `${processor.filename.split(".")[0]}.json`));
+            settings.active = true;
+            fs.writeFileSync(path.join(processor.directory, `${processor.filename.split(".")[0]}.json`), JSON.stringify(settings, null, 2));
+            processor.settings = settings;
+            instance.processors.delete(args.processor);
+            instance.processors.set(args.processor, processor);
+            vorpal.log(instance.translate("bot.processor_activated"));
+          } catch(e) {
+            vorpal.log(instance.translate("bot.processor_activated_error", {
+              name: processor.name,
+              e: e
+            }));
+          }
+        }
+      }
+        callback()
+    });
+
+vorpal
+    .command('deactivate-processor <processor>', instance.translate("bot.processor_deactivate_desc"))
+    .action((args, callback) => {
+      var processor = instance.processors.get(args.processor);
+      if (!processor) {
+        vorpal.log(instance.translate("bot.processor_name_invalid"));
+      } else {
+        if (!processor.settings.active) {
+          vorpal.log(instance.translate("bot.processor_already_inactive"));
+        } else {
+          try {
+            delete require.cache[require.resolve(path.join(processor.directory, `${processor.filename.split(".")[0]}.json`))];
+            var settings = require(path.join(processor.directory, `${processor.filename.split(".")[0]}.json`));
+            settings.active = false;
+            fs.writeFileSync(path.join(processor.directory, `${processor.filename.split(".")[0]}.json`), JSON.stringify(settings, null, 2));
+            processor.settings = settings;
+            instance.processors.delete(args.processor);
+            instance.processors.set(args.processor, processor);
+            vorpal.log(instance.translate("bot.processor_deactivated"));
+          } catch(e) {
+            vorpal.log(instance.translate("bot.processor_deactivated_error", {
+              name: processor.name,
+              e: e
+            }));
+          }
+        }
+      }
+        callback()
+    });
+vorpal
+    .command('deactivate-all-processors', instance.translate("bot.deactivate_all_processors_desc"))
+    .action((args, callback) => {
+      for (const [key, value] of instance.processors.entries()) {
+        var processor = value;
+        if (processor.settings.active) {
+          try {
+            delete require.cache[require.resolve(path.join(processor.directory, `${processor.filename.split(".")[0]}.json`))];
+            var settings = require(path.join(processor.directory, `${processor.filename.split(".")[0]}.json`));
+            settings.active = false;
+            fs.writeFileSync(path.join(processor.directory, `${processor.filename.split(".")[0]}.json`), JSON.stringify(settings, null, 2));
+            processor.settings = settings;
+            instance.processors.delete(args.processor);
+            instance.processors.set(args.processor, processor);
+          } catch(e) {
+            vorpal.log(instance.translate("bot.processor_deactivated_error", {
+              name: processor.name,
+              e: e
+            }));
+          }
+
+        }
+      }
+      vorpal.log(instance.translate("bot.processors_deactivated"));
+        callback()
+    });
+vorpal
+    .command('activate-all-processors', instance.translate("bot.activate_all_processors_desc"))
+    .action((args, callback) => {
+      for (const [key, value] of instance.processors.entries()) {
+        var processor = value;
+        if (!processor.settings.active) {
+          try {
+            delete require.cache[require.resolve(path.join(processor.directory, `${processor.filename.split(".")[0]}.json`))];
+            var settings = require(path.join(processor.directory, `${processor.filename.split(".")[0]}.json`));
+            settings.active = true;
+            fs.writeFileSync(path.join(processor.directory, `${processor.filename.split(".")[0]}.json`), JSON.stringify(settings, null, 2));
+            processor.settings = settings;
+            instance.processors.delete(args.processor);
+            instance.processors.set(args.processor, processor);
+          } catch(e) {
+            vorpal.log(instance.translate("bot.processor_activated_error", {
+              name: processor.name,
+              e: e
+            }));
+          }
+
+        }
+      }
+      vorpal.log(instance.translate("bot.processors_activated"));
+        callback()
+    });
+    vorpal
+        .command('service-info <service>', instance.translate("bot.service_info_desc"))
+        .action((args, callback) => {
+          var service = instance.services.get(args.service);
+          if (!service) {
+            vorpal.log(instance.translate("bot.service_name_invalid"));
+          } else {
+            vorpal.log(marked(service.readme));
+          }
+            callback()
+        });
+
+    vorpal
+        .command('services', instance.translate("bot.services_desc"))
+        .action((args, callback) => {
+          const table = new AsciiTable(instance.translate("bot.services"));
+          table.setHeading(instance.translate("bot.service"), instance.translate("bot.status"));
+          for (const [key, value] of instance.services.entries()) {
+            table.addRow(value.name, (value.settings.active ? instance.translate("bot.active") : instance.translate("bot.inactive")));
+          }
+          vorpal.log(table.toString());
+            callback()
+        });
+
+    vorpal
+        .command('reload-service <service>', instance.translate("bot.service_reload_desc"))
+        .action((args, callback) => {
+          var service = instance.services.get(args.service);
+          if (!service) {
+            vorpal.log(instance.translate("bot.service_name_invalid"));
+          } else {
+            instance.services.delete(args.service);
+            delete require.cache[require.resolve(path.join(service.directory, service.filename))];
+            delete require.cache[require.resolve(path.join(service.directory, `${service.filename.split(".")[0]}.json`))];
+            var readme = fs.readFileSync(path.join(service.directory, `README.md`), 'utf8');
+            let dir = service.directory;
+            let file = service.filename;
+            service = require(path.join(dir, file));
+            service.directory = dir;
+            service.filename = file;
+            service.settings = require(path.join(dir, `${file.split(".")[0]}.json`));
+            service.readme = readme;
+            instance.services.set(args.service, service);
+            vorpal.log(instance.translate("bot.reloaded_service"))
+          }
+            callback()
+        });
+
+    vorpal
+        .command('activate-service <service>', instance.translate("bot.service_activate_desc"))
+        .action((args, callback) => {
+          var service = instance.services.get(args.service);
+          if (!service) {
+            vorpal.log(instance.translate("bot.service_name_invalid"));
+          } else {
+            if (service.settings.active) {
+              vorpal.log(instance.translate("bot.service_already_active"));
+            } else {
+              try {
+                delete require.cache[require.resolve(path.join(service.directory, `${service.filename.split(".")[0]}.json`))];
+                var settings = require(path.join(service.directory, `${service.filename.split(".")[0]}.json`));
+                settings.active = true;
+                fs.writeFileSync(path.join(service.directory, `${service.filename.split(".")[0]}.json`), JSON.stringify(settings, null, 2));
+                service.settings = settings;
+                instance.services.delete(args.service);
+                instance.services.set(args.service, service);
+                vorpal.log(instance.translate("bot.service_activated"));
+              } catch(e) {
+                vorpal.log(instance.translate("bot.service_activated_error", {
+                  name: service.name,
+                  e: e
+                }));
+              }
+            }
+          }
+            callback()
+        });
+
+    vorpal
+        .command('deactivate-service <service>', instance.translate("bot.service_deactivate_desc"))
+        .action((args, callback) => {
+          var service = instance.services.get(args.service);
+          if (!service) {
+            vorpal.log(instance.translate("bot.service_name_invalid"));
+          } else {
+            if (!service.settings.active) {
+              vorpal.log(instance.translate("bot.service_already_inactive"));
+            } else {
+              try {
+                delete require.cache[require.resolve(path.join(service.directory, `${service.filename.split(".")[0]}.json`))];
+                var settings = require(path.join(service.directory, `${service.filename.split(".")[0]}.json`));
+                settings.active = false;
+                fs.writeFileSync(path.join(service.directory, `${service.filename.split(".")[0]}.json`), JSON.stringify(settings, null, 2));
+                service.settings = settings;
+                instance.services.delete(args.service);
+                instance.services.set(args.service, service);
+                vorpal.log(instance.translate("bot.service_deactivated"));
+              } catch(e) {
+                vorpal.log(instance.translate("bot.service_deactivated_error", {
+                  name: service.name,
+                  e: e
+                }));
+              }
+            }
+          }
+            callback()
+        });
+    vorpal
+        .command('deactivate-all-services', instance.translate("bot.deactivate_all_services_desc"))
+        .action((args, callback) => {
+          for (const [key, value] of instance.services.entries()) {
+            var service = value;
+            if (service.settings.active) {
+              try {
+                delete require.cache[require.resolve(path.join(service.directory, `${service.filename.split(".")[0]}.json`))];
+                var settings = require(path.join(service.directory, `${service.filename.split(".")[0]}.json`));
+                settings.active = false;
+                fs.writeFileSync(path.join(service.directory, `${service.filename.split(".")[0]}.json`), JSON.stringify(settings, null, 2));
+                service.settings = settings;
+                instance.services.delete(args.service);
+                instance.services.set(args.service, service);
+              } catch(e) {
+                vorpal.log(instance.translate("bot.service_deactivated_error", {
+                  name: service.name,
+                  e: e
+                }));
+              }
+
+            }
+          }
+          vorpal.log(instance.translate("bot.services_deactivated"));
+            callback()
+        });
+    vorpal
+        .command('activate-all-services', instance.translate("bot.activate_all_services_desc"))
+        .action((args, callback) => {
+          for (const [key, value] of instance.services.entries()) {
+            var service = value;
+            if (!service.settings.active) {
+              try {
+                delete require.cache[require.resolve(path.join(service.directory, `${service.filename.split(".")[0]}.json`))];
+                var settings = require(path.join(service.directory, `${service.filename.split(".")[0]}.json`));
+                settings.active = true;
+                fs.writeFileSync(path.join(service.directory, `${service.filename.split(".")[0]}.json`), JSON.stringify(settings, null, 2));
+                service.settings = settings;
+                instance.services.delete(args.service);
+                instance.services.set(args.service, service);
+              } catch(e) {
+                vorpal.log(instance.translate("bot.service_activated_error", {
+                  name: service.name,
+                  e: e
+                }));
+              }
+
+            }
+          }
+          vorpal.log(instance.translate("bot.services_activated"));
+            callback()
+        });
 };
 
 Bot.prototype.defaultFallbackLocalization = () => {
