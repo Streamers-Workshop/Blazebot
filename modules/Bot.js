@@ -10,6 +10,7 @@ const figlet = require('figlet');
 const vorpal = require('vorpal')();
 vorpal.delimiter('\r\nTrovobot$'.underline.italic.grey).show();
 
+var inquirer = require('inquirer');
 var localizify = require('localizify');
 localizify = new localizify.Instance();
 
@@ -328,7 +329,8 @@ Bot.prototype.loadSettings = async (directory) => {
         "name": "",
         "page": ""
       },
-      "lang": "en"
+      "lang": "en",
+      "console": true
     }, null, 2), 'utf8')
     vorpal.log(`Example Settings File Created.\r\nPlease edit the settings file, and restart the bot.`);
     process.exit(0);
@@ -369,6 +371,7 @@ Bot.prototype.loadConsoleCommands = () => {
         process.stdout.write ("\u001B[2J\u001B[0;0f");
           callback();
       });
+
   vorpal
       .command('setlang <lang>')
       .description(instance.translate("bot.setlang_console"))
@@ -401,6 +404,7 @@ Bot.prototype.loadConsoleCommands = () => {
         }
           callback();
       });
+
   vorpal
       .command('getlangs', instance.translate("bot.getlang_console"))
       .action((args, callback) => {
@@ -409,6 +413,68 @@ Bot.prototype.loadConsoleCommands = () => {
         }))
           callback();
       });
+
+  vorpal
+    .command('setup', instance.translate("bot.getlang_console"))
+    .action((args, callback) => {
+      inquirer.prompt([{
+        type: 'input',
+        name: 'email',
+        message: 'What is the Email of the Bot Account?'
+      }, {
+        type: 'password',
+        name: 'password',
+        message: 'What is the Password of the Bot Account?'
+      }, {
+        type: 'input',
+        name: 'name',
+        message: 'What is the Name of the Bot Account?'
+      }, {
+        type: 'input',
+        name: 'page',
+        message: 'What is the URL/PAGE for the Streamer the Bot is Monitoring?'
+      }, {
+        type: 'input',
+        name: 'prefix',
+        message: 'What is the Prefix of the Bot Account?'
+      }, {
+        type: 'input',
+        name: 'lang',
+        message: `What is the Default Language of the Bot Account? Available Langs: ${instance.langs.join(", ")}`,
+        validate: (value) => {
+          if (instance.langs.indexOf(value) > -1) {
+            return true;
+          } else {
+            return `Only Languages Known: ${instance.langs.join(", ")}`;
+          }
+        }
+      }]).then((answers) => {
+        try {
+          var settings = {
+            "prefix": answers.prefix,
+            "trovo": {
+              "email": answers.email,
+              "password": answers.password,
+              "name": answers.name,
+              "page": answers.page
+            },
+            "lang": answers.lang,
+            "console": true
+          };
+          fs.writeFileSync(path.resolve(instance.settingsfile), JSON.stringify(settings, null, 2));
+          delete require.cache[require.resolve(path.resolve(instance.settingsfile))];
+          instance.settings = require(path.resolve(instance.settingsfile));
+          vorpal.log("Setup has Completed, Settings are saved..")
+        } catch(e) {
+          vorpal.log(`Failed to Setup and Save Settings\r\nError: ${e}`);
+        }
+        callback();
+      }).catch((err) => {
+        vorpal.log(`Failed to Setup\r\nError: ${err}`);
+        callback();
+      })
+    })
+
   vorpal
       .command('plugin-info <plugin>', instance.translate("bot.plugin_info_desc"))
       .action((args, callback) => {

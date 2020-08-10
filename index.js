@@ -2,14 +2,19 @@ const path = require('path');
 
 const trovojs = require('trovo.js');
 
-
+var DEV = false;
 
 const Bot = require(path.join(__dirname, 'modules', 'Bot.js'));
 
 const client = new trovojs.BrowserClient({ logger: Bot.log });
 
 Bot.setRoot(path.resolve(__dirname));
-Bot.loadSettings(path.join(__dirname, 'settings.json'));
+
+if (DEV) {
+  Bot.loadSettings(path.join(__dirname, "..", 'settings.dev.json'));
+} else {
+  Bot.loadSettings(path.join(__dirname, 'settings.json'));
+}
 
 Bot.loadLocalizationFiles(path.resolve(__dirname, 'localization')).then(() => {
   Bot.loadServices(path.join(__dirname, 'services'));

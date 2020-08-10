@@ -6,5 +6,6 @@
     "name": "",
     "page": "https://trovo.live/Bioblaze"
   },
-  "lang": "en"
+  "lang": "en",
+  "console": true
 }
