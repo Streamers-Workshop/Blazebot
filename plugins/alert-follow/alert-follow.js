@@ -42,9 +42,9 @@ module.exports = {
     if (settings.active) client.sendMessage(`Thanks @${data.user} for the Follow <3`);
 
     ++followCount;
-	fs.writeFile(path.join(Bot.root, 'labels', 'followcount.txt'), followCount, (err) => {
+	  fs.writeFile(path.join(Bot.root, 'labels', 'followcount.txt'), followCount.toString(), (err) => {
       if (err) {
-        return console.log(err);
+        return Bot.log(err);
       }
       return true;
     });
@@ -59,7 +59,6 @@ module.exports = {
 
 	//OBS SETTINGS
     const obs = Bot.getService('obs-controller-module');
-	Bot.log(obs.output);
     if (obs.settings.active) toggleSource(obs.output);
 
 	//SLOBS SETTINGS

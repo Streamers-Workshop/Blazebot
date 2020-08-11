@@ -45,14 +45,16 @@ module.exports = {
       }
       return true;
     });
-
-    fs.writeFile(path.join(Bot.root, 'labels', 'viewcount.txt'), data['live.viewers'], (err) => {
-      if (err) {
-        return Bot.log(err);
-      }
-      return true;
-    });
-
+	
+	if (undefined !== data['live.viewers'])
+    {
+		fs.writeFile(path.join(Bot.root, 'labels', 'viewcount.txt'), data['live.viewers'], (err) => {
+		  if (err) {
+			return Bot.log(err);
+		  }
+		  return true;
+		});
+	}
 	//OBS SETTINGS
     const obs = Bot.getService('obs-controller-module');
     if (obs.settings.active) toggleSource(obs.output);

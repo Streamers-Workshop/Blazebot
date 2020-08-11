@@ -39,11 +39,12 @@ module.exports = {
   credits: `New Subscriber system by Krammy. Original by Bioblaze Payne.`, // MAKE SURE YOU FILL THIS IN GOD DAMNIT!
   execute(client, data) {
     if (settings.active) client.sendMessage(`Thanks @${data.user} for the Subscription <3`);
-
+    
+	subCount = parseInt(subCount);
     ++subCount;
-	fs.writeFile(path.join(Bot.root, 'labels', 'subcount.txt'), subCount, (err) => {
+	fs.writeFile(path.join(Bot.root, 'labels', 'subcount.txt'), subCount.toString(), (err) => {
       if (err) {
-        return console.log(err);
+        return Bot.log(err);
       }
       return true;
     });

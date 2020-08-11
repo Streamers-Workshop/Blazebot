@@ -65,7 +65,7 @@ module.exports = { \r\
 		let jsonData = { active: true };
 		jsonData = JSON.stringify(jsonData);
 		fs.writeFile(`${dir}/${newCommand}.json`, jsonData ,function a(err){ if (err) throw Error(err) });
-		  
+		fs.writeFile(`${dir}/README.md`, " " ,function a(err){ if (err) throw Error(err) });
 		  
         // allows for reloading plugins modules initiate created file without rebooting Credit: kramitox (Krammy)
         const newPluginDir = path.join(__dirname, `./../`, newCommand, `/`, fileName);
