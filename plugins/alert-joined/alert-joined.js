@@ -41,18 +41,16 @@ module.exports = {
 
     fs.writeFile(path.join(Bot.root, 'labels', 'latest-join.txt'), data.user, (err) => {
       if (err) {
-        return Bot.log(err);
+        Bot.log(`Error writing latest-join.txt : ${err}`);
       }
-      return true;
     });
 	
-	if (undefined !== data['live.viewers'])
+	if (data['live.viewers'] !== undefined)
     {
 		fs.writeFile(path.join(Bot.root, 'labels', 'viewcount.txt'), data['live.viewers'], (err) => {
 		  if (err) {
-			return Bot.log(err);
+			Bot.log(`Error writing viewcount.txt : ${err}`);
 		  }
-		  return true;
 		});
 	}
 	//OBS SETTINGS

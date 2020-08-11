@@ -44,17 +44,15 @@ module.exports = {
     ++followCount;
 	  fs.writeFile(path.join(Bot.root, 'labels', 'followcount.txt'), followCount.toString(), (err) => {
       if (err) {
-        return Bot.log(err);
+        Bot.log(`Error writing followcount.txt : ${err}`);
       }
-      return true;
     });
 
 
     fs.writeFile(path.join(Bot.root, 'labels', 'latest-follow.txt'), data.user, (err) => {
       if (err) {
-        return Bot.log(err);
+        Bot.log(`Error writing latest-follow.txt : ${err}`);
       }
-      return true;
     });
 
 	//OBS SETTINGS

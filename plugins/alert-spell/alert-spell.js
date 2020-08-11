@@ -41,9 +41,8 @@ module.exports = {
 
     fs.writeFile(path.join(Bot.root, 'labels', 'latest-spell.txt'), data.user, (err) => {
       if (err) {
-        return Bot.log(err);
+        Bot.log(`Error writing latest-spell.txt : ${err}`);
       }
-      return true;
     });
 
 
