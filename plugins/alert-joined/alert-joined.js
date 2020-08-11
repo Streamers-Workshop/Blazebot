@@ -41,18 +41,18 @@ module.exports = {
 
     fs.writeFile(path.join(Bot.root, 'labels', 'latest-join.txt'), data.user, (err) => {
       if (err) {
-        return Bot.log(err);
+        Bot.log(`Error writing latest-join.txt : ${err}`);
       }
-      return true;
     });
-
-    fs.writeFile(path.join(Bot.root, 'labels', 'viewcount.txt'), data['live.viewers'], (err) => {
-      if (err) {
-        return Bot.log(err);
-      }
-      return true;
-    });
-
+	
+	if (data['live.viewers'] !== undefined)
+    {
+		fs.writeFile(path.join(Bot.root, 'labels', 'viewcount.txt'), data['live.viewers'], (err) => {
+		  if (err) {
+			Bot.log(`Error writing viewcount.txt : ${err}`);
+		  }
+		});
+	}
 	//OBS SETTINGS
     const obs = Bot.getService('obs-controller-module');
     if (obs.settings.active) toggleSource(obs.output);
