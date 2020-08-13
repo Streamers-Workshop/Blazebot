@@ -5,9 +5,10 @@ Made by Rehkloos
 Description: fetch xkcd comics.
 
 ## Trigger:
-!xkcd
+> !xkcd latest\
+> !xkcd random
 
-`example: !xkcd`
+`example: !xkcd latest or !xkcd random`
 
 ## Requirements:
 None.
