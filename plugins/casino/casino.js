@@ -40,5 +40,11 @@ module.exports = {
       }
       client.sendMessage(`You already have an account in our casino. @${data.user}`);
     }
+	if (data.args[0] != `register`) {
+	client.sendMessage(
+          `Please open an account with !casino register command to play casino. @${data.user}`,
+        );
+			}		
   },
 };
+
