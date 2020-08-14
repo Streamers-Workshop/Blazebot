@@ -44,7 +44,7 @@ module.exports = {
 	client.sendMessage(
           `Please open an account with !casino register command to play casino. @${data.user}`,
         );
-			}		
+    }		
   },
 };
 
