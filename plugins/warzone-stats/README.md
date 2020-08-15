@@ -7,7 +7,7 @@ Description: Replies with Warzone stat information From tracker.gg
 ## Trigger:
 !warzone-stats
 
-`example: !valorant-stats`
+`example: !warzone-stats`
 
 ## Requirements:
 - Nothing
