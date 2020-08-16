@@ -1,17 +1,15 @@
 
 ## About
-Created by Teabagz check out my channel https://trovo.live/Bagz, Updated to TrovoBot 2.0 by Wikinger1988
+Created by Teabagz, Updated to TrovoBot 2.0 by Wikinger1988 & modified by Rehkloos
 
 Description: Replies with Warzone stat information From tracker.gg
 
 ## Trigger:
-!warzone-stats
+> !warzone-stats (atvi = activision ID) (Nickname#TAG)\
+> !warzone-stats (xbl = xbox live) (Nickname#TAG)\
+> !warzone-stats (battlenet = battlenet)  (Nickname#TAG)
 
-`example: !warzone-stats`
+`example: !warzone-stats atvi Rehkloos#7807168`
 
 ## Requirements:
 - Nothing
-
-## stats.Settings.json
-
-In order to pull your stats you will need to edit the stats.Settings.json file to your own details platform acceptable options are: atvi = activision ID psn = ps4 xbl = xbox live battlenet = battlenet playerName = your player name
