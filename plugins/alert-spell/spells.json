@@ -1,0 +1,65 @@
+{    
+    "spellTest": "",
+    "spells": {
+        "On Fire": {
+            "scene": "Spells",
+            "source": "ON_FIRE",
+            "delay": 2
+        },
+        "Stay Safe": {
+            "scene": "Spells",
+            "source": "STAYSAFE",
+            "delay": 2
+        },
+        "Rose": {
+            "scene": "Spells",
+            "source": "ROSE",
+            "delay": 2
+        },
+        "Cash Bang": {
+            "scene": "Spells",
+            "source": "CASHBANG",
+            "delay": 2
+        },
+        "EZ": {
+            "scene": "Spells",
+            "source": "ZU",
+            "delay": 2
+        },
+        "HYPE": {
+            "scene": "Spells",
+            "source": "HYPE",
+            "delay": 2
+        },
+        "GGWP": {
+            "scene": "Spells",
+            "source": "GG",
+            "delay": 2
+        },
+        "Cake": {
+            "scene": "Spells",
+            "source": "CAKE",
+            "delay": 2
+        },
+        "Winner": {
+            "scene": "Spells",
+            "source":  "WINNER",
+            "delay": 2
+        },    
+        "Shiny Unicorn": {
+            "scene": "Spells",
+            "source": "SHINY",
+            "delay": 2
+        },
+        "Bravo!": {
+            "scene": "Spells",
+            "source": "BRAVO",
+            "delay": 2
+        },
+        "EXAMPLE_SPELL_NAME": {
+            "scene": "Spells",
+            "source": "OBS_SOURCE_NAME",
+            "delay": 2
+        }
+    }
+}

@@ -1,6 +1,7 @@
 {
-  "active": false,
+  "active": true,
   "scene": "----------------ALERTS---------------",
+  "useSpells": true,
   "source": "SPELL",
-  "delay": 10
+  "delay": 1
 }
