@@ -1065,6 +1065,61 @@ vorpal
 
 Bot.prototype.defaultFallbackLocalization = () => {
   localizify.add('en', {
+    "processors": {
+      "chatlog": {
+        "activated": "Chatlog Processor Activated.",
+        "deactivated": "Chatlog Processor Deactivated."
+      }
+    },
+    "plugins": {
+      "bot": {
+        "activated": "Bot Information Plugin Activated",
+        "deactivated": "Bot Information Plugin Deactivated",
+        "findme": "@{user} Hey!, you can find me on https://github.com/Bioblaze/TrovoBot",
+        "questions": "@{user} If you would like to meet me in person or have other questions, feel free to contact us at https://discord.gg/Kc7fyx2",
+        "wiki": "@{user} Read our commands Wiki for more information on what they do at https://github.com/Bioblaze/TrovoBot/wiki/Default-Commands",
+        "consolecommand": "This bot was created by Bioblaze Payne",
+        "consolecommanddesc": "Tells you information about the Bot itself."
+      },
+      "shoutout": {
+        "activated": "Shout-out has been Activated",
+        "deactivated": "Shout-out has been Deactivated",
+        "mentionuser": "Check out {mention} at https://trovo.live/{user} - They are an awesome streamer and deserve some community love!",
+        "mentionaccount": "Check out {account} at https://trovo.live/{account} - They are an awesome streamer and deserve some community love!"
+      },
+      "say": {
+        "activated": "Say has been Activated",
+        "deactivated": "Say has been Deactivated",
+        "nomessage": "You have to put a message."
+      },
+      "ping": {
+        "activated": "Ping has been Activated",
+        "deactivated": "Ping has been Deactivated",
+        "pong": "@{user} Pong I dare say."
+      }
+    },
+    "services": {
+      "discordrpc": {
+        "activated": "Discord RPC Service Activated",
+        "deactivated": "Discord RPC Service Deactivated",
+        "rpcerror": "Issue with Discord RPC, is Discord Connected?\r\nError: {error}",
+        "clearerr": "Issue Clearing the Activity for Discord RPC.\r\nError: {error}",
+        "streamstopped": "Stream has stopped, Clearing the Discord RPC Activity.",
+        "seterr": "Issue setting the Activity in Discord RPC.\r\nError: {error}"
+      },
+      "obs": {
+        "activated": "OBS Service Activated",
+        "deactivated": "OBS Service Deactivated",
+        "connected": "Connected to OBS",
+        "retry_attempt": "Unable to connect to OBS. Attempting to reconnect: {count} of {max}",
+        "stopping_retry": "Stopping OBS connection attempts"
+      },
+      "http": {
+        "activated": "HTTP Overlay Module Started on Port({settings.port})",
+        "deactivated": "HTTP Overlay has Shut down.",
+        "failed_route": "[HTTP] ({route}) {pageID}.json is not found, does it exist at {location}?\r\nError: {error}"
+      }
+    },
     "bot": {
       "cooldown": "Hold-on for {timeLeft} more second(s) before reusing the `{name}` command.",
       "missing_permissions": "You do not have permission to use this command. Sorry.",
