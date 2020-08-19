@@ -2,7 +2,7 @@ const path = require('path');
 
 const trovojs = require('trovo.js');
 
-var DEV = true;
+var DEV = false;
 
 const Bot = require(path.join(__dirname, 'modules', 'Bot.js'));
 
