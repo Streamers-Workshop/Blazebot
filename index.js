@@ -1,4 +1,5 @@
 const path = require('path');
+const util = require('util');
 
 const trovojs = require('trovo.js');
 
@@ -46,7 +47,7 @@ client.on('chatEvent', (type, data) => {
 });
 
 client.on('chatMessage', (message) => {
-  Bot.log(util.inspect(data, false, null, true /* enable colors */))
+  //Bot.log(util.inspect(message, false, null, true /* enable colors */))
   Bot.processProcessors(message).then((skip) => {
     if (skip) return;
     if (!message || message.user === undefined) return;
