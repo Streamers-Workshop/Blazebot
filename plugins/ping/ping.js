@@ -1,3 +1,5 @@
+const Bot = require('../../modules/Bot.js');
+
 module.exports = {
   name: 'ping', // Name of the Plugin
   description: "PING",

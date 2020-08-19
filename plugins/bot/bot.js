@@ -1,3 +1,5 @@
+const Bot = require('../../modules/Bot.js');
+
 module.exports = {
   name: 'Bot',
   description: "Tells you about where to find Information about the Bot.",

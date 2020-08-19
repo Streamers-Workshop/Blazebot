@@ -1,3 +1,5 @@
+const Bot = require('../../modules/Bot.js');
+
 module.exports = {
   name: 'say',
   description: "You can say something as the Bot~",

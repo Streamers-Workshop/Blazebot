@@ -1,3 +1,5 @@
+const Bot = require('../../modules/Bot.js');
+
 module.exports = {
   name: 'shout-out',
   description: "Give a shoutout to another User in Chat.",

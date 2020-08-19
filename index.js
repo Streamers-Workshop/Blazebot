@@ -46,9 +46,9 @@ client.on('chatEvent', (type, data) => {
 });
 
 client.on('chatMessage', (message) => {
+  Bot.log(util.inspect(data, false, null, true /* enable colors */))
   Bot.processProcessors(message).then((skip) => {
     if (skip) return;
-    // Bot.log(util.inspect(data, false, null, true /* enable colors */))
     if (!message || message.user === undefined) return;
     if (message.user === Bot.settings.trovo.name) return;
     if (!message.content) return;
