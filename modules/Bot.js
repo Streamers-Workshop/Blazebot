@@ -190,10 +190,14 @@ Bot.prototype.triggerEvents = async (type, client, data) => {
 };
 
 Bot.prototype.getChatCommand = (command) => {
-  const data = instance.plugins.find(plugin => plugin.command && plugin.command.includes(command));
+  var data = null;
+  for (const [key, value] of instance.plugins.entries()) {
+    if (value.command && value.command === command) {
+      data = value;
+    }
+  }
   if (!data) {
     vorpal.log(instance.translate("bot.get_chat_command_error", { command: command }));
-    return null;
   }
   return data;
 };

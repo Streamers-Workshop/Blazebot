@@ -108,17 +108,20 @@ client.on('chatMessage', (message) => {
       message.command = commandName;
       command.execute(client, message);
     } catch (err) {
-      client.sendMessage(Bot.translate("bot.cmd_error"), {
+      client.sendMessage(Bot.translate("bot.cmd_error", {
         name: commandName,
         err: err
-      });
+      }));
       client.sendMessage(Bot.translate("bot.contact_creator"));
     }
   }).catch((e) => {
-    client.sendMessage(Bot.translate("bot.process_error"), {
-      err: e
-    });
-    client.sendMessage(Bot.translate("bot.contact_creator"));
+    console.log(e);
+    if (e) {
+      client.sendMessage(Bot.translate("bot.process_error", {
+        err: e
+      }));
+      client.sendMessage(Bot.translate("bot.contact_creator"));
+    }
   });
 });
 

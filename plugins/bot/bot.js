@@ -21,7 +21,7 @@ module.exports = {
     client.sendMessage(Bot.translate("plugins.bot.questions", {
       user: data.user
     }));
-    client.sendMessage(Bot.translate("plugns.bot.wiki", {
+    client.sendMessage(Bot.translate("plugins.bot.wiki", {
       user: data.user
     }));
   },
