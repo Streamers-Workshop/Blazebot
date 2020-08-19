@@ -219,9 +219,9 @@ Bot.prototype.loadProcessors = async (directory) => {
           processor.readme = readme;
           if (processor.settings.active) {
             processor.activate();
-          }
-          if (processor.console && typeof(processor.console) === 'function') {
-            processor.console();
+            if (processor.console && typeof(processor.console) === 'function') {
+              processor.console();
+            }
           }
           instance.processors.set(processor.name, processor);
           table.addRow(processor.name, (processor.settings.active ? instance.translate("bot.active") : instance.translate("bot.inactive")), instance.translate("bot.loaded"));
@@ -294,9 +294,9 @@ Bot.prototype.loadServices = async (directory) => {
           service.readme = readme;
           if (service.settings.active) {
             service.activate();
-          }
-          if (service.console && typeof(service.console) === 'function') {
-            service.console();
+            if (service.console && typeof(service.console) === 'function') {
+              service.console();
+            }
           }
           instance.services.set(service.name, service);
           table.addRow(service.name, (service.settings.active ? instance.translate("bot.active") : instance.translate("bot.inactive")), instance.translate("bot.loaded"));
