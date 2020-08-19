@@ -42,7 +42,6 @@ function Bot() {
   arguments.callee._singletonInstance = this;
 
   this.plugins = new Map();
-  this.chat = new Map();
   this.processors = new Map();
   this.services = new Map();
   this.settings = null;
@@ -75,6 +74,10 @@ const getJsonFiles = (source) =>
 
 Bot.prototype.setRoot = (directory) => {
   instance.root = directory;
+};
+
+Bot.prototype.setData = (directory) => {
+  instance.data = directory;
 };
 
 Bot.prototype.loadLocalizationFiles = async (directory) => {
@@ -144,12 +147,13 @@ Bot.prototype.loadPlugins = async (directory) => {
           plugin.filename = `${dir}.js`;
           plugin.settings = require(path.join(directory, dir, `${dir}.json`));
           plugin.readme = readme;
-          instance.plugins.set(dir, plugin);
           if (plugin.settings.active) {
-            if (plugin.chat) {
-              instance.chat.set(plugin.command.toLowerCase(), plugin);
-            }
+            plugin.activate();
           }
+          if (plugin.console && typeof(plugin.console) === 'function') {
+            plugin.console();
+          }
+          instance.plugins.set(dir, plugin);
           table.addRow(plugin.name, (plugin.settings.active ? instance.translate("bot.active") : instance.translate("bot.inactive")), instance.translate("bot.loaded"));
         } catch (e) {
           vorpal.log(instance.translate("bot.plugin_load_try_error", {
@@ -179,14 +183,14 @@ Bot.prototype.getPlugin = (plugin) => {
 
 Bot.prototype.triggerEvents = async (type, client, data) => {
   for (const [key, value] of instance.plugins.entries()) {
-    if (value.event && value.type === type) {
+    if (value.event && value.event === type) {
       value.execute(client, data);
     }
   }
 };
 
 Bot.prototype.getChatCommand = (command) => {
-  const data = instance.chat.get(command);
+  const data = instance.plugins.find(plugin => plugin.command && plugin.command.includes(command));
   if (!data) {
     vorpal.log(instance.translate("bot.get_chat_command_error", { command: command }));
     return null;
@@ -213,11 +217,13 @@ Bot.prototype.loadProcessors = async (directory) => {
           var readme = fs.readFileSync(path.join(directory, dir, `README.md`), 'utf8');
           processor.settings = require(path.join(directory, dir, `${dir}.json`));
           processor.readme = readme;
-          instance.processors.set(processor.name, processor);
           if (processor.settings.active) {
-            const mod = instance.processors.get(processor.name);
-            mod.activate();
+            processor.activate();
           }
+          if (processor.console && typeof(processor.console) === 'function') {
+            processor.console();
+          }
+          instance.processors.set(processor.name, processor);
           table.addRow(processor.name, (processor.settings.active ? instance.translate("bot.active") : instance.translate("bot.inactive")), instance.translate("bot.loaded"));
         } catch (e) {
           vorpal.log(instance.translate("bot.processor_load_try_error", {
@@ -251,15 +257,20 @@ Bot.prototype.processProcessors = (message) => {
   for (const [key, value] of instance.processors.entries()) {
     if (value.settings.active) {
       data.push(new Promise((res, rej) => {
-        value.process(message, function(err) {
+        value.process(message, function(err, skip) {
           if (err) rej(err);
-          else res();
+          else res(skip);
         })
       }));
     }
   }
   /* eslint-enable no-unused-vars */
-  return Promise.all(data);
+  return Promise.all(data).then((check) => {
+    var balance = check.filter((x) => {
+      return x;
+    });
+    return (balance.length > 1);
+  });
 };
 
 Bot.prototype.loadServices = async (directory) => {
@@ -281,11 +292,13 @@ Bot.prototype.loadServices = async (directory) => {
           var readme = fs.readFileSync(path.join(directory, dir, `README.md`), 'utf8').toString();
           service.settings = require(path.join(directory, dir, `${dir}.json`));
           service.readme = readme;
-          instance.services.set(service.name, service);
           if (service.settings.active) {
-            const mod = instance.services.get(service.name);
-            mod.activate();
+            service.activate();
           }
+          if (service.console && typeof(service.console) === 'function') {
+            service.console();
+          }
+          instance.services.set(service.name, service);
           table.addRow(service.name, (service.settings.active ? instance.translate("bot.active") : instance.translate("bot.inactive")), instance.translate("bot.loaded"));
         } catch (e) {
           vorpal.log(instance.translate("bot.service_load_try_error", {
@@ -347,11 +360,22 @@ Bot.prototype.log = (value) => {
   vorpal.log(value);
 };
 
+Bot.prototype.translog = (value) => {
+  if (data) return vorpal.log(localizify.translate(key, data));
+  else return vorpal.log(localizify.translate(key));
+};
+
 Bot.prototype.addConsoleCommand = (name, desc, callback) => {
   vorpal
       .command(name, desc)
       .action(callback); // Must Contain args, callback
 }
+
+Bot.prototype.removeConsoleCommands = (arr) => {
+  vorpal.commands = vorpal.commands.filter((x) => {
+    return (arr.indexOf(x._name) > -1);
+  });
+};
 
 Bot.prototype.reloadConsoleCommands = () => {
   var save_cmds = ["exit", "help"];
@@ -359,7 +383,23 @@ Bot.prototype.reloadConsoleCommands = () => {
     return (save_cmds.indexOf(x._name) > -1);
   });
   instance.loadConsoleCommands();
+  for (const [key, value] of instance.plugins.entries()) {
+    if (value.console && typeof(value.console) === 'function') {
+      value.console();
+    }
+  }
+  for (const [key, value] of instance.services.entries()) {
+    if (value.console && typeof(value.console) === 'function') {
+      value.console();
+    }
+  }
+  for (const [key, value] of instance.processors.entries()) {
+    if (value.console && typeof(value.console) === 'function') {
+      value.console();
+    }
+  }
 };
+
 Bot.prototype.loadConsoleCommands = () => {
     /*
       zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzvbvvvbbnnnnnjjnnfffssuu5ftgrfxss',m
@@ -516,6 +556,9 @@ Bot.prototype.loadConsoleCommands = () => {
         if (!plugin) {
           vorpal.log(instance.translate("bot.plugin_name_invalid"));
         } else {
+          if (plugin.settings.active) {
+            plugin.deactivate();
+          }
           instance.plugins.delete(args.plugin);
           delete require.cache[require.resolve(path.join(plugin.directory, plugin.filename))];
           delete require.cache[require.resolve(path.join(plugin.directory, `${plugin.filename.split(".")[0]}.json`))];
@@ -527,18 +570,14 @@ Bot.prototype.loadConsoleCommands = () => {
           plugin.filename = file;
           plugin.settings = require(path.join(dir, `${file.split(".")[0]}.json`));
           plugin.readme = readme;
-          instance.plugins.set(args.plugin, plugin);
-          vorpal.log(instance.translate("bot.reloaded_plugin"))
-          if (instance.chat.has(plugin.command.toLowerCase())) {
-            instance.chat.delete(plugin.command.toLowerCase());
-            instance.chat.set(plugin.command.toLowerCase(), plugin);
-            vorpal.log(instance.translate("bot.reloaded_chat_plugin"))
-          } else if (plugin.settings.active) {
-            if (plugin.chat) {
-              vorpal.log(instance.translate("bot.reloaded_plugin_added_chat"))
-              instance.chat.set(plugin.command.toLowerCase(), plugin);
+          if (plugin.settings.active) {
+            plugin.activate();
+            if (plugin.console && typeof(plugin.console) === 'function') {
+              plugin.console();
             }
           }
+          instance.plugins.set(args.plugin, plugin);
+          vorpal.log(instance.translate("bot.reloaded_plugin"))
 
         }
           callback()
@@ -560,11 +599,9 @@ Bot.prototype.loadConsoleCommands = () => {
               settings.active = true;
               fs.writeFileSync(path.join(plugin.directory, `${plugin.filename.split(".")[0]}.json`), JSON.stringify(settings, null, 2));
               plugin.settings = settings;
-              if (plugin.chat) {
-                if (instance.chat.has(plugin.command.toLowerCase())) {
-                  instance.chat.delete(plugin.command.toLowerCase());
-                }
-                instance.chat.set(plugin.command.toLowerCase(), plugin);
+              plugin.activate();
+              if (plugin.console && typeof(plugin.console) === 'function') {
+                plugin.console();
               }
               instance.plugins.delete(args.plugin);
               instance.plugins.set(args.plugin, plugin);
@@ -591,16 +628,12 @@ Bot.prototype.loadConsoleCommands = () => {
             vorpal.log(instance.translate("bot.plugin_already_inactive"));
           } else {
             try {
+              plugin.deactivate();
               delete require.cache[require.resolve(path.join(plugin.directory, `${plugin.filename.split(".")[0]}.json`))];
               var settings = require(path.join(plugin.directory, `${plugin.filename.split(".")[0]}.json`));
               settings.active = false;
               fs.writeFileSync(path.join(plugin.directory, `${plugin.filename.split(".")[0]}.json`), JSON.stringify(settings, null, 2));
               plugin.settings = settings;
-              if (plugin.chat) {
-                if (instance.chat.has(plugin.command.toLowerCase())) {
-                  instance.chat.delete(plugin.command.toLowerCase());
-                }
-              }
               instance.plugins.delete(args.plugin);
               instance.plugins.set(args.plugin, plugin);
               vorpal.log(instance.translate("bot.plugin_deactivated"));
@@ -621,16 +654,12 @@ Bot.prototype.loadConsoleCommands = () => {
           var plugin = value;
           if (plugin.settings.active) {
             try {
+              plugin.deactivate();
               delete require.cache[require.resolve(path.join(plugin.directory, `${plugin.filename.split(".")[0]}.json`))];
               var settings = require(path.join(plugin.directory, `${plugin.filename.split(".")[0]}.json`));
               settings.active = false;
               fs.writeFileSync(path.join(plugin.directory, `${plugin.filename.split(".")[0]}.json`), JSON.stringify(settings, null, 2));
               plugin.settings = settings;
-              if (plugin.chat) {
-                if (instance.chat.has(plugin.command.toLowerCase())) {
-                  instance.chat.delete(plugin.command.toLowerCase());
-                }
-              }
               instance.plugins.delete(args.plugin);
               instance.plugins.set(args.plugin, plugin);
             } catch(e) {
@@ -657,11 +686,9 @@ Bot.prototype.loadConsoleCommands = () => {
               settings.active = true;
               fs.writeFileSync(path.join(plugin.directory, `${plugin.filename.split(".")[0]}.json`), JSON.stringify(settings, null, 2));
               plugin.settings = settings;
-              if (plugin.chat) {
-                if (instance.chat.has(plugin.command.toLowerCase())) {
-                  instance.chat.delete(plugin.command.toLowerCase());
-                }
-                instance.chat.set(plugin.command.toLowerCase(), plugin);
+              plugin.activate();
+              if (plugin.console && typeof(plugin.console) === 'function') {
+                plugin.console();
               }
               instance.plugins.delete(args.plugin);
               instance.plugins.set(args.plugin, plugin);
@@ -709,6 +736,9 @@ vorpal
       if (!processor) {
         vorpal.log(instance.translate("bot.processor_name_invalid"));
       } else {
+        if (processor.settings.active) {
+          processor.deactivate();
+        }
         instance.processors.delete(args.processor);
         delete require.cache[require.resolve(path.join(processor.directory, processor.filename))];
         delete require.cache[require.resolve(path.join(processor.directory, `${processor.filename.split(".")[0]}.json`))];
@@ -720,6 +750,12 @@ vorpal
         processor.filename = file;
         processor.settings = require(path.join(dir, `${file.split(".")[0]}.json`));
         processor.readme = readme;
+        if (processor.settings.active) {
+          processor.activate();
+          if (processor.console && typeof(processor.console) === 'function') {
+            processor.console();
+          }
+        }
         instance.processors.set(args.processor, processor);
         vorpal.log(instance.translate("bot.reloaded_processor"))
       }
@@ -737,12 +773,16 @@ vorpal
           vorpal.log(instance.translate("bot.processor_already_active"));
         } else {
           try {
+            instance.processors.delete(args.processor);
             delete require.cache[require.resolve(path.join(processor.directory, `${processor.filename.split(".")[0]}.json`))];
             var settings = require(path.join(processor.directory, `${processor.filename.split(".")[0]}.json`));
             settings.active = true;
             fs.writeFileSync(path.join(processor.directory, `${processor.filename.split(".")[0]}.json`), JSON.stringify(settings, null, 2));
             processor.settings = settings;
-            instance.processors.delete(args.processor);
+            processor.activate();
+            if (processor.console && typeof(processor.console) === 'function') {
+              processor.console();
+            }
             instance.processors.set(args.processor, processor);
             vorpal.log(instance.translate("bot.processor_activated"));
           } catch(e) {
@@ -767,12 +807,13 @@ vorpal
           vorpal.log(instance.translate("bot.processor_already_inactive"));
         } else {
           try {
+            processor.deactivate();
+            instance.processors.delete(args.processor);
             delete require.cache[require.resolve(path.join(processor.directory, `${processor.filename.split(".")[0]}.json`))];
             var settings = require(path.join(processor.directory, `${processor.filename.split(".")[0]}.json`));
             settings.active = false;
             fs.writeFileSync(path.join(processor.directory, `${processor.filename.split(".")[0]}.json`), JSON.stringify(settings, null, 2));
             processor.settings = settings;
-            instance.processors.delete(args.processor);
             instance.processors.set(args.processor, processor);
             vorpal.log(instance.translate("bot.processor_deactivated"));
           } catch(e) {
@@ -792,12 +833,13 @@ vorpal
         var processor = value;
         if (processor.settings.active) {
           try {
+            processor.deactivate();
+            instance.processors.delete(args.processor);
             delete require.cache[require.resolve(path.join(processor.directory, `${processor.filename.split(".")[0]}.json`))];
             var settings = require(path.join(processor.directory, `${processor.filename.split(".")[0]}.json`));
             settings.active = false;
             fs.writeFileSync(path.join(processor.directory, `${processor.filename.split(".")[0]}.json`), JSON.stringify(settings, null, 2));
             processor.settings = settings;
-            instance.processors.delete(args.processor);
             instance.processors.set(args.processor, processor);
           } catch(e) {
             vorpal.log(instance.translate("bot.processor_deactivated_error", {
@@ -818,12 +860,16 @@ vorpal
         var processor = value;
         if (!processor.settings.active) {
           try {
+            instance.processors.delete(args.processor);
             delete require.cache[require.resolve(path.join(processor.directory, `${processor.filename.split(".")[0]}.json`))];
             var settings = require(path.join(processor.directory, `${processor.filename.split(".")[0]}.json`));
             settings.active = true;
             fs.writeFileSync(path.join(processor.directory, `${processor.filename.split(".")[0]}.json`), JSON.stringify(settings, null, 2));
             processor.settings = settings;
-            instance.processors.delete(args.processor);
+            processor.activate();
+            if (processor.console && typeof(processor.console) === 'function') {
+              processor.console();
+            }
             instance.processors.set(args.processor, processor);
           } catch(e) {
             vorpal.log(instance.translate("bot.processor_activated_error", {
@@ -868,6 +914,9 @@ vorpal
           if (!service) {
             vorpal.log(instance.translate("bot.service_name_invalid"));
           } else {
+            if (service.settings.active) {
+              service.deactivate();
+            }
             instance.services.delete(args.service);
             delete require.cache[require.resolve(path.join(service.directory, service.filename))];
             delete require.cache[require.resolve(path.join(service.directory, `${service.filename.split(".")[0]}.json`))];
@@ -879,6 +928,12 @@ vorpal
             service.filename = file;
             service.settings = require(path.join(dir, `${file.split(".")[0]}.json`));
             service.readme = readme;
+            if (service.settings.active) {
+              service.activate();
+              if (service.console && typeof(service.console) === 'function') {
+                service.console();
+              }
+            }
             instance.services.set(args.service, service);
             vorpal.log(instance.translate("bot.reloaded_service"))
           }
@@ -901,6 +956,10 @@ vorpal
                 settings.active = true;
                 fs.writeFileSync(path.join(service.directory, `${service.filename.split(".")[0]}.json`), JSON.stringify(settings, null, 2));
                 service.settings = settings;
+                service.activate();
+                if (service.console && typeof(service.console) === 'function') {
+                  service.console();
+                }
                 instance.services.delete(args.service);
                 instance.services.set(args.service, service);
                 vorpal.log(instance.translate("bot.service_activated"));
@@ -926,6 +985,7 @@ vorpal
               vorpal.log(instance.translate("bot.service_already_inactive"));
             } else {
               try {
+                service.deactivate();
                 delete require.cache[require.resolve(path.join(service.directory, `${service.filename.split(".")[0]}.json`))];
                 var settings = require(path.join(service.directory, `${service.filename.split(".")[0]}.json`));
                 settings.active = false;
@@ -951,6 +1011,7 @@ vorpal
             var service = value;
             if (service.settings.active) {
               try {
+                service.deactivate();
                 delete require.cache[require.resolve(path.join(service.directory, `${service.filename.split(".")[0]}.json`))];
                 var settings = require(path.join(service.directory, `${service.filename.split(".")[0]}.json`));
                 settings.active = false;
@@ -982,6 +1043,10 @@ vorpal
                 settings.active = true;
                 fs.writeFileSync(path.join(service.directory, `${service.filename.split(".")[0]}.json`), JSON.stringify(settings, null, 2));
                 service.settings = settings;
+                service.activate();
+                if (service.console && typeof(service.console) === 'function') {
+                  service.console();
+                }
                 instance.services.delete(args.service);
                 instance.services.set(args.service, service);
               } catch(e) {

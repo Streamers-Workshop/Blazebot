@@ -2,10 +2,5 @@
   "active": false,
   "address": "localhost",
   "port": 4444,
-  "disappearDelay": 10000,
-  "groupName": "Trovo",
-  "spellsSource": "Spells",
-  "followSource": "Follow",
-  "subbedSource": "Subbed",
-  "joinedSource": "Joined"
+  "retry_count": 5
 }

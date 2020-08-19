@@ -1,24 +1,32 @@
 module.exports = {
   name: 'Bot',
-  description: 'Lets the bot introduce himself',
-  chat: true, // Defines this as a Chat Command
-  event: false, // Is this a Event?
-  type: 5004, // Type Event
+  description: "Tells you about where to find Information about the Bot.",
+  author: "Created by Takkes, Updated by Rehkloos, Updated by Bioblaze Payne <bioblazepayne@gmail.com> (https://github.com/Bioblaze)",
+  license: "Apache-2.0",
   command: 'bot', // This is the Command that is typed into Chat!
   permissions: [], // This is for Permissisons depending on the Platform.
-  alias: [], // Alias commands that preform interesting things.
   cooldown: 60, // this is Set in Seconds, how long between the next usage of this command.
-  settings: false, // Defining this as false will load the Settings file for this Plugin when the system loads this plugin.
-  credits: 'Created by Takkes, Updated by Rehkloos',
-  execute(client, data) {
-    client.sendMessage(
-      `@${data.user} Hey!, you can find me on https://github.com/Bioblaze/TrovoBot .`,
-    );
-    client.sendMessage(
-      `@${data.user} If you would like to meet me in person or have other questions, feel free to contact us at https://discord.gg/Kc7fyx2 .`,
-    );
-    client.sendMessage(
-      `@${data.user} Read our commands Wiki for more information on what they do at https://github.com/Bioblaze/TrovoBot/wiki/Default-Commands .`,
-    );
+  console() {
+    Bot.addConsoleCommand("bot", Bot.translate("plugins.bot.consolecommanddesc"), (args, callback) => {
+      Bot.log(Bot.translate("plugins.bot.consolecommand"))
+    });
   },
+  execute(client, data) {
+    client.sendMessage(Bot.translate("plugins.bot.findme", {
+      user: data.user
+    }));
+    client.sendMessage(Bot.translate("plugins.bot.questions", {
+      user: data.user
+    }));
+    client.sendMessage(Bot.translate("plugns.bot.wiki", {
+      user: data.user
+    }));
+  },
+  activate() {
+    Bot.log(Bot.translate("plugins.bot.activated"))
+  },
+  deactivate() {
+    Bot.log(Bot.translate("plugins.bot.deactivated"))
+    Bot.removeConsoleCommands(["bot"]);
+  }
 };

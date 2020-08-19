@@ -6,6 +6,11 @@
     "name": "",
     "page": ""
   },
+  "owner": {
+    "name": "",
+    "email": "",
+    "password": ""
+  },
   "lang": "en",
   "console": true
 }

@@ -86,15 +86,18 @@
     socket.onmessage = function(event) {
       if (!event.data) return;
       //console.log(event.data);
-      var data = JSON.parse(event.data);
-      if (data.type == "text") {
-        if (data.page == tag) {
-          if (timeout) {
-            pending.push(data)
-            console.log('Placing a incoming Event into Pending.');
-          } else {
-            processText(data);
-
+      if (event.data == "PING") {
+        socket.send("PONG");
+      } else {
+        var data = JSON.parse(event.data);
+        if (data.type == "text") {
+          if (data.page == tag) {
+            if (timeout) {
+              pending.push(data)
+              console.log('Placing a incoming Event into Pending.');
+            } else {
+              processText(data);
+            }
           }
         }
       }

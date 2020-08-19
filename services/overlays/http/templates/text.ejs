@@ -163,20 +163,20 @@
     };
 
     socket.onmessage = function(event) {
-      //if (!event.data) return;
-      console.log(event);
-      var data = JSON.parse(event.data);
-	  console.log(typeof(data));
-      if (data["type"] === "text") {
-	    console.log("processing");
-        if (data.page == tag) {
-		  
-          if (timeout) {
-            pending.push(data)
-            console.log('Placing a incoming Event into Pending.');
-          } else {
-            processText(data);
-            
+      if (!event.data) return;
+      //console.log(event.data);
+      if (event.data == "PING") {
+        socket.send("PONG");
+      } else {
+        var data = JSON.parse(event.data);
+        if (data.type == "text") {
+          if (data.page == tag) {
+            if (timeout) {
+              pending.push(data)
+              console.log('Placing a incoming Event into Pending.');
+            } else {
+              processText(data);
+            }
           }
         }
       }

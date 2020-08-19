@@ -1,31 +1,28 @@
-const settings = require('./shout-out.json');
 module.exports = {
   name: 'shout-out',
-  description: 'Shout out command',
-  chat: true,
-  event: false,
-  type: 5004,
+  description: "Give a shoutout to another User in Chat.",
+  author: "Made by ssrjazz, updated by Krammy, Updated by Bioblaze Payne <bioblazepayne@gmail.com> (https://github.com/Bioblaze)",
+  license: "Apache-2.0",
   command: 'so',
   permissions: ['moderator', 'creator'],
   cooldown: 10,
-  settings: false,
-  credits: `Made by ssrjazz, updated by Bioblaze & Krammy`,
   execute(client, data) {
     const soUsername = data.args[0];
-    if (!settings.active) {
-      client.sendMessage('Streamer disabled this command');
-    } else {
     if (soUsername.charAt(0) === '@') {
-      client.sendMessage(
-        `Check out ${data.args[0]} at https://trovo.live/${data.args[0].substr(
-          1,
-        )} - They are an awesome streamer and deserve some community love!`,
-      );
+      client.sendMessage(Bot.translate("plugins.shoutout.mentionuser", {
+        user: data.args[0].substr(1),
+        mention: data.args[0]
+      }));
     } else {
-      client.sendMessage(
-        `Check out @${data.args[0]} at https://trovo.live/${data.args[0]} - They are an awesome streamer and deserve some community love!`,
-      );
+      client.sendMessage(Bot.translate("plugins.shoutout.mentionaccount", {
+        account: data.args[0]
+      }));
     }
-  }
   },
+  activate() {
+    Bot.log(Bot.translate("plugins.shoutout.activated"))
+  },
+  deactivate() {
+    Bot.log(Bot.translate("plugins.shoutout.deactivated"))
+  }
 };

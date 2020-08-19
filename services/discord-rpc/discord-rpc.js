@@ -4,80 +4,99 @@ const DiscordRPC = require('discord-rpc');
 
 const settings = require('./discord-rpc.json');
 
-DiscordRPC.register(settings.clientID);
-
-const rpc = new DiscordRPC.Client({ transport: 'ipc' });
-
-let started = false;
-let linked = false;
-let maxCount = 2;
-let curCount = 1;
-let streamTitle = 'Streaming Starting...';
-let streamStarted = Date.now() / 1000;
-
-function onStreamStarted() {
-  started = true;
-  streamStarted = Date.now() / 1000;
-  streamTitle = settings.streamTitle;
-}
-
-async function setActivity() {
-  if (!rpc) {
-    return;
-  }
-  Bot.log("TEST");
-  if (!Bot.getService('obs-controller-module')) {
-    return;
-  }
-  const mod = Bot.getService('obs-controller-module');
-  if (!mod.settings) return;
-  if (!mod.settings.active) return;
-  if (!linked) {
-    mod.output.on('StreamStarted', onStreamStarted);
-    linked = true;
-  }
-
-  const data = {
-    details: settings.streamTitle,
-    state: 'Viwers: ',
-    startTimestamp: streamStarted,
-    partySize: curCount,
-    partyMax: maxCount,
-    largeImageKey: '1_2',
-    largeImageText: 'Powered by TrovoBot',
-    instance: false,
-  };
-
-  if (started) {
-    data.startTimestamp = streamStarted;
-    data.details = streamTitle;
-  }
-
-  rpc.setActivity(data);
-}
-
-rpc.on('ready', () => {
-  setActivity();
-
-  // activity can only be set every 15 seconds
-  setInterval(() => {
-    setActivity();
-  }, 15e3);
-});
+var streamStarted = null;
+var viewers = 1;
+var total = 2;
+var streamTitle = null;
 
 module.exports = {
   name: 'discord-rpc',
-  varname: 'discordRpc',
-  output: rpc,
+  description: "Provides a Discord Activity for Trovo.live provided by Trovobot.",
+  author: "Bioblaze Payne <bioblazepayne@gmail.com> (https://github.com/Bioblaze)",
+  license: "Apache-2.0",
   activate() {
-    rpc.login({ clientId: settings.clientID }).catch(Bot.log);
+    DiscordRPC.register(settings.clientID);
+    this.rpc = new DiscordRPC.Client({ transport: 'ipc' });
+    this.rpc.on('ready', () => {
+      this.setActivity()
+      this.timer = setInterval(() => {
+        this.setActivity()
+      }, 15e3)
+    })
+    this.rpc.on('error', (err) => {
+      Bot.log(Bot.translate("services.discordrpc.rpcerror", {
+        error: err
+      }));
+    });
+
+    Bot.log(Bot.translate("services.discordrpc.activated"));
   },
-  setCount(count) {
-    if (count > maxCount) {
-      maxCount = count + 1;
-      curCount = count;
-    } else {
-      curCount = count > 0 ? count : 1;
+  deactivate() {
+    if (this.timer) {
+      clearInterval(this.timer);
     }
+    if (this.rpc) {
+      this.rpc.clearActivity().then(() => {
+        this.rpc.destroy();
+      }).catch((err) => {
+        Bot.log(Bot.translate("services.discordrpc.clearerr", {
+          error: err
+        }));
+      })
+    }
+    Bot.log(Bot.translate("services.discordrpc.deactivated"));
+  },
+  setActivity() {
+    if (this.rpc) {
+
+      if (!this.obs) {
+        if (Bot.getService('obs-controller')) {
+          this.obs = Bot.getService('obs-controller');
+          if (this.obs.settings.active) {
+            this.obs.output().on('StreamStarted', () => {
+              streamStarted = Date.now() / 1000;
+            });
+            this.obs.output().on('StreamStopped', () => {
+              streamStarted = null;
+              this.rpc.clearActivity().then(() => {
+                Bot.log(Bot.translate("services.discordrpc.streamstopped"));
+              }).catch((err) => {
+                Bot.log(Bot.translate("services.discordrpc.clearerr", {
+                  error: err
+                }));
+              })
+            });
+          }
+        }
+      }
+
+      if (streamStarted) {
+        const data = {
+          state: 'Viwers: ',
+          startTimestamp: streamStarted,
+          partySize: viewers > 1 ? viewers : 1,
+          partyMax: total,
+          largeImageKey: '1_2',
+          largeImageText: settings.player ? settings.player : 'Trovobot',
+          instance: false,
+          details: streamTitle ? streamTitle : settings.title
+        }
+
+        this.rpc.setActivity(data).catch((err) => {
+          Bot.log(Bot.translate("services.discordrpc.seterr", {
+            error: err
+          }));
+        });
+      }
+    }
+  },
+  setViewers(_viewers) {
+    viewers = _viewers > 1 ? _viewers : 1;
+    if (viewers > total) {
+      total = viewers + 1;
+    }
+  },
+  output() {
+    return this.rpc;
   },
 };

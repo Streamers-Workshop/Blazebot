@@ -1,7 +1,7 @@
-# Plugin
+# Bot Information Plugin
 
 ## Created by: Bioblaze Payne
 
 ### What this is.
 
-No idea. This is Copy/Pasta for quickiness sakes.
+Provides information on the Actual Bot, along with the Discord Link & Help Documentation on the Github.

@@ -14,54 +14,7 @@ app.set('view engine', 'ejs');
 
 app.use(express.static(path.join(__dirname, 'http', 'public')));
 
-app.get('/chat/:pageID', (req, res) => {
-  try {
-    const data = require(path.join(__dirname, 'http', 'data', `${req.params.pageID}.json`));
-    data.tag = req.params.pageID;
-    data.port = settings.port;
-    res.render('chat', data);
-  } catch (e) {
-    Bot.log(
-      `[HTTP] (Chat Route) ${req.params.pageID}.json is not found, does it exist in /modules/http/data?\n${e}`,
-    );
-    res.render('chat', {
-      tag: req.params.pageID,
-      port: settings.port,
-    });
-  }
-});
-app.get('/text/:pageID', (req, res) => {
-  try {
-    const data = require(path.join(__dirname, 'http', 'data', `${req.params.pageID}.json`));
-    data.tag = req.params.pageID;
-    data.port = settings.port;
-    res.render('text', data);
-  } catch (e) {
-    Bot.log(
-      `[HTTP] (Text Route) ${req.params.pageID}.json is not found, does it exist in /modules/http/data?\n${e}`,
-    );
-    res.render('text', {
-      tag: req.params.pageID,
-      port: settings.port,
-    });
-  }
-});
-app.get('/alert/:pageID', (req, res) => {
-  try {
-    const data = require(path.join(__dirname, 'http', 'data', `${req.params.pageID}.json`));
-    data.tag = req.params.pageID;
-    data.port = settings.port;
-    res.render('alert', data);
-  } catch (e) {
-    Bot.log(
-      `[HTTP] (Alert Route) ${req.params.pageID}.json is not found, does it exist in /modules/http/data?\n${e}`,
-    );
-    res.render('alert', {
-      tag: req.params.pageID,
-      port: settings.port,
-    });
-  }
-});
+app.use(require(path.join(__dirname, 'http', 'routes.js')));
 
 const server = http.createServer(app);
 
@@ -74,17 +27,33 @@ ws.notifyAll = (data) => {
   });
 };
 
-ws.on('connection', () => {
-  Bot.log('Page Connected');
+ws.on('connection', (client) => {
+  client.send("PING");
+  client.on('message', (message) => {
+    if (message == "PONG") {
+      setTimeout(function() {
+        client.send("PING");
+      }, 5000);
+    }
+  });
 });
 
 module.exports = {
-  name: 'http-overlay-module',
-  varname: 'overlay',
-  output: ws,
+  name: 'http-overlay-controller',
+  description: "Intergrates a Websocket Server and a HTTP Server which can be used for Overlays in Trovobot, or to Control Trovobot Directly <3.",
+	author: "Bioblaze Payne <bioblazepayne@gmail.com> (https://github.com/Bioblaze)",
+	license: "Apache-2.0",
+  output() {
+    return ws;
+  },
   activate() {
     server.listen(settings.port, () => {
       Bot.log(`HTTP Overlay Module Started on Port(${settings.port})`);
     });
   },
+  deactivate() {
+    server.close(() => {
+      Bot.log('HTTP Overlay has Shut down.');
+    })
+  }
 };

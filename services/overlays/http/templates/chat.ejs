@@ -14,15 +14,18 @@
         console.log("[open] Connection established");
       };
 
-      socket.onmessage = function(event, type, data) {
-        if (event == "chat") {
-          if (type == tag) {
-            var json = JSON.parse(data);
+      socket.onmessage = function(event) {
+        if (!event.data) return;
+        //console.log(event.data);
+        if (event.data == "PING") {
+          socket.send("PONG");
+        } else {
+          var data = JSON.parse(event.data);
 
-          }
         }
-        console.log(`[message] Data received from server: `, event, type, data);
+        //console.log(`[message] Data received from server: `, event);
       };
+
 
       socket.onclose = function(event) {
         if (event.wasClean) {

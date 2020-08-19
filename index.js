@@ -2,13 +2,14 @@ const path = require('path');
 
 const trovojs = require('trovo.js');
 
-var DEV = false;
+var DEV = true;
 
 const Bot = require(path.join(__dirname, 'modules', 'Bot.js'));
 
 const client = new trovojs.BrowserClient({ logger: Bot.log });
 
 Bot.setRoot(path.resolve(__dirname));
+Bot.setData(path.join(__dirname, 'data'));
 
 if (DEV) {
   Bot.loadSettings(path.join(__dirname, "..", 'settings.dev.json'));
@@ -45,7 +46,8 @@ client.on('chatEvent', (type, data) => {
 });
 
 client.on('chatMessage', (message) => {
-  Bot.processProcessors(message).then((processors) => {
+  Bot.processProcessors(message).then((skip) => {
+    if (skip) return;
     // Bot.log(util.inspect(data, false, null, true /* enable colors */))
     if (!message || message.user === undefined) return;
     if (message.user === Bot.settings.trovo.name) return;
