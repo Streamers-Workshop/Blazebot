@@ -11,6 +11,7 @@ module.exports = {
   console() {
     Bot.addConsoleCommand("bot", Bot.translate("plugins.bot.consolecommanddesc"), (args, callback) => {
       Bot.log(Bot.translate("plugins.bot.consolecommand"))
+      callback();
     });
   },
   execute(client, data) {
