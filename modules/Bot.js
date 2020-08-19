@@ -149,9 +149,9 @@ Bot.prototype.loadPlugins = async (directory) => {
           plugin.readme = readme;
           if (plugin.settings.active) {
             plugin.activate();
-          }
-          if (plugin.console && typeof(plugin.console) === 'function') {
-            plugin.console();
+            if (plugin.console && typeof(plugin.console) === 'function') {
+              plugin.console();
+            }
           }
           instance.plugins.set(dir, plugin);
           table.addRow(plugin.name, (plugin.settings.active ? instance.translate("bot.active") : instance.translate("bot.inactive")), instance.translate("bot.loaded"));
