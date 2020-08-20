@@ -173,6 +173,32 @@ Bot.prototype.loadPlugins = async (directory) => {
   });
 };
 
+Bot.prototype.unloadPlugins = async (directory) => {
+  fs.access(directory, (err) => {
+    if (err) {
+      vorpal.log(instance.translate("bot.plugin_unload_access_error", {
+        directory: directory,
+        err: err
+      }));
+    } else {
+      const directories = getDirectories(directory);
+      for (const dir of directories) {
+        try {
+          instance.plugins.delete(dir);
+          delete require.cache[require.resolve(path.join(directory, dir, `${dir}.js`))];
+          delete require.cache[require.resolve(path.join(directory, dir, `${dir}.json`))];
+        } catch (e) {
+          vorpal.log(instance.translate("bot.plugin_unload_try_error", {
+            name: dir,
+            dir: path.join(directory, dir),
+            err: e
+          }));
+        }
+      }
+    }
+  });
+};
+
 Bot.prototype.getPlugin = (plugin) => {
   const data = instance.plugins.get(plugin);
   if (!data) {
