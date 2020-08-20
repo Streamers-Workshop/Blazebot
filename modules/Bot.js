@@ -47,6 +47,7 @@ function Bot() {
   this.settings = null;
   this.settingsfile = null;
   this.root = null;
+  this.data = null;
   this.langs = [];
 
   vorpal.log(
@@ -183,8 +184,14 @@ Bot.prototype.getPlugin = (plugin) => {
 
 Bot.prototype.triggerEvents = async (type, client, data) => {
   for (const [key, value] of instance.plugins.entries()) {
-    if (value.event && value.event === type) {
-      value.execute(client, data);
+    if (value.event) {
+      if (value.event === type) {
+        value.execute(client, data);
+      } else if (typeof(value.event) === 'array') {
+        if (value.event.indexOf(type) > -1) {
+          value.execute(client, data);
+        }
+      }
     }
   }
 };
@@ -255,13 +262,13 @@ Bot.prototype.getProcessor = (processor) => {
   return data;
 };
 
-Bot.prototype.processProcessors = (message) => {
+Bot.prototype.processProcessors = (message, client) => {
   const data = [];
   /* eslint-disable no-unused-vars */
   for (const [key, value] of instance.processors.entries()) {
     if (value.settings.active) {
       data.push(new Promise((res, rej) => {
-        value.process(message, function(err, skip) {
+        value.process(message, client, function(err, skip) {
           if (err) rej(err);
           else res(skip);
         })

@@ -1,0 +1,6 @@
+{
+  "active": false,
+  "commands": {
+    "test": "This is only a Test."
+  }
+}

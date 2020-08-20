@@ -3,7 +3,7 @@ const util = require('util');
 
 const trovojs = require('trovo.js');
 
-var DEV = false;
+var DEV = true;
 
 const Bot = require(path.join(__dirname, 'modules', 'Bot.js'));
 
@@ -40,15 +40,15 @@ Bot.loadLocalizationFiles(path.resolve(__dirname, 'localization')).then(() => {
 const cooldowns = new Map();
 
 client.on('chatEvent', (type, data) => {
-  // Bot.log(util.inspect(data, false, null, true /* enable colors */))
+   Bot.log(util.inspect(data, false, null, true /* enable colors */))
   if (data.user === Bot.settings.trovo.name && type === 'userJoined') return;
 
   Bot.triggerEvents(data.chatType, client, data);
 });
 
 client.on('chatMessage', (message) => {
-  //Bot.log(util.inspect(message, false, null, true /* enable colors */))
-  Bot.processProcessors(message).then((skip) => {
+  Bot.log(util.inspect(message, false, null, true /* enable colors */))
+  Bot.processProcessors(message, client).then((skip) => {
     if (skip) return;
     if (!message || message.user === undefined) return;
     if (message.user === Bot.settings.trovo.name) return;
