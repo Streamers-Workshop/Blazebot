@@ -49,6 +49,7 @@ function Bot() {
   this.root = null;
   this.data = null;
   this.langs = [];
+  this.client = null;
 
   vorpal.log(
       `\r\n${figlet.textSync('Trovobot', {
@@ -72,6 +73,10 @@ const getJsonFiles = (source) =>
     .filter((dirent) => !dirent.isDirectory())
     .filter((dirent) => (dirent.name.indexOf('.json') > -1))
     .map((dirent) => dirent.name);
+
+Bot.prototype.setClient = (data) => {
+  instance.client = data;
+};
 
 Bot.prototype.setRoot = (directory) => {
   instance.root = directory;
@@ -174,6 +179,7 @@ Bot.prototype.loadPlugins = async (directory) => {
 };
 
 Bot.prototype.unloadPlugins = async (directory) => {
+
   fs.access(directory, (err) => {
     if (err) {
       vorpal.log(instance.translate("bot.plugin_unload_access_error", {
@@ -210,10 +216,11 @@ Bot.prototype.getPlugin = (plugin) => {
 
 Bot.prototype.triggerEvents = async (type, client, data) => {
   for (const [key, value] of instance.plugins.entries()) {
+    
     if (value.event) {
       if (value.event === type) {
         value.execute(client, data);
-      } else if (typeof(value.event) === 'array') {
+      } else if (Array.isArray(value.event)) {
         if (value.event.indexOf(type) > -1) {
           value.execute(client, data);
         }

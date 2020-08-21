@@ -6,16 +6,18 @@ const Bot = require('../../modules/Bot.js');
 var obs = null;
 var timeout = null;
 var count = 1;
+var connected = false;
 
 function connect() {
 	obs.connect({ address: `${settings.address}:${settings.port}`, password: settings.password }).then(() => {
 		Bot.log(Bot.translate("services.obs.connected"));
+		connected = true;
 	}).catch((e) => {
 
 
 		if (count <= settings.retry_count)
 		{
-			Bot.log(Bot.translate("services.obs.connected"), {
+			Bot.log(Bot.translate("services.obs.retry_attempt"), {
 				count: count,
 				max: settings.retry_count
 			});
@@ -40,6 +42,37 @@ module.exports = {
   output() {
 		return obs;
 	},
+  toggleSource(scene, source)
+  {
+	var m_visible = false;
+	obs.send('GetSceneItemProperties', {
+		'scene-name': scene,
+		item: { name: source }}).then(
+			function a(data, err){
+				if (err)
+				{
+					Bot.log(Bot.translate("services.obs.no_source"), {
+					source: source,
+					scene: scene
+					});
+				}
+				m_visible = !data.visible;
+
+				const tobj = {
+					'scene-name': scene,
+					item: { name: source },
+					visible: m_visible,
+				  };
+				
+				obs.send('SetSceneItemProperties', tobj).catch((err) => {
+					Bot.log(Bot.translate("services.obs.no_source"), {
+						source: source,
+						scene: scene
+					});
+				});
+			});
+	
+  },
   activate() {
 		if (!obs) {
 			obs = new OBSWebSocket();

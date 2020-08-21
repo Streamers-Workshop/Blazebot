@@ -3,12 +3,13 @@ const util = require('util');
 
 const trovojs = require('trovo.js');
 
-var DEV = true;
+var DEV = false;
 
 const Bot = require(path.join(__dirname, 'modules', 'Bot.js'));
 
 const client = new trovojs.BrowserClient({ logger: Bot.log });
 
+Bot.setClient(client);
 Bot.setRoot(path.resolve(__dirname));
 Bot.setData(path.join(__dirname, 'data'));
 
