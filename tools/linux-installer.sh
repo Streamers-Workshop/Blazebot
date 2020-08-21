@@ -1,39 +1,124 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+###############################################################
+### TrovoBot Install Script
+###
+### Copyright (C) 2020 Andre Saddler
+###
+### By: Andre Saddler (Rehkloos)
+### Email: contact@rehkloos.com
+### Webpage: https://rehkloos.com
+###
+### Licensed under the Apache License, Version 2.0 (the "License");
+### you may not use this file except in compliance with the License.
+### You may obtain a copy of the License at
+###
+###    http://www.apache.org/licenses/LICENSE-2.0
+###
+### Unless required by applicable law or agreed to in writing, software
+### distributed under the License is distributed on an "AS IS" BASIS,
+### WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+### See the License for the specific language governing permissions and
+### limitations under the License.
+################################################################
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+version="2.0.0"
+link="https://github.com/Bioblaze/TrovoBot/archive/${version}.zip"
 
+# Script can be executed only in linux
+#linux=$(echo "$OSTYPE" | grep "linux")
+#[ -z $linux ] && echo "Script Cannot be executed on another operation system. Only Linux." && exit 1
 
-echo "Do you want to continue?"
-read usr
-echo ""
+color(){
+	RED=`tput setaf 1`
+	GRN=`tput setaf 2`
+	YLLW=`tput setaf 3`
+	NC=`tput sgr0` # No Color
+}
 
-if [[ $usr = y || $usr = Y ]]; then
+# Help menu
+help(){
+  echo "-h | --help                   : this screen"
+  echo "-i | --install                : install"
+  echo "-d | --download zip           : download latest TrovoBot build"
+  echo "no args                       : start installer w/ menu"
+}
 
-RED=`tput setaf 1`
-GRN=`tput setaf 2`
-YLLW=`tput setaf 3`
-NC=`tput sgr0` # No Color
+# Check OS
+function checkos(){
+    if [ -f /etc/redhat-release ];then
+        OS='CentOS'
+    elif [ ! -z "`cat /etc/issue | grep bian`" ];then
+        OS='Debian'
+    elif [ ! -z "`cat /etc/issue | grep Ubuntu`" ];then
+        OS='Ubuntu'
+    else
+        echo "Not support OS, Please reinstall OS and retry!"
+        exit 1
+    fi
+}
 
-c=nodejs
-if [[ $(dpkg-query -f'${Status}' --show $c 2>/dev/null) = *\ installed ]];
+trovodl(){
+	echo "${GRN} Downloading TrovoBot ${NC}"
+	wget -q -O tmp.zip ${link} && unzip tmp.zip && rm tmp.zip
+	echo "${GRN} Renaming Trovobot directory ${NC}"
+	find $DIR -depth -type d -name 'TrovoBot*' -exec mv {} TrovoBot \;
+	echo "${GRN} Finished Download ${NC}"
+}
+
+depds(){
+	# Install nodejs
+	c=nodejs
+	if [[ $(dpkg-query -f'${Status}' --show $c 2>/dev/null) = *\ installed ]];
+	then
+		echo "${GRN} $c already installed.  Skipping. ${NC}"
+	else
+		echo "${RED} $c was not found, installing dependencies ${NC}" 2>&1
+	  curl -sL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+	fi
+
+	# Install yarn
+	c=yarn
+	if [[ $(dpkg-query -f'${Status}' --show $c 2>/dev/null) = *\ installed ]];
+	then
+		echo "${GRN} $c already installed.  Skipping. ${NC}"
+	else
+		echo "${RED} $c was not found, installing dependencies ${NC}" 2>&1
+		curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+		echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+	fi
+}
+
+#update
+update(){
+	color
+	if [[ -d "$DIR/TrovoBot" ]];
 then
-	echo "${GRN} $c already installed.  Skipping. ${NC}"
-else
-	echo "${RED} $c was not found, installing dependencies ${NC}" 2>&1
-  curl -sL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+	cd $DIR/TrovoBot
+	echo "${YLLW} updating dependencies ${NC}"
+	yarn update > /dev/null 2>&1 &
+	while kill -0 $! 2> /dev/null; do
+	    echo -n '.'
+	    sleep 1
+	done
+elif [[ ! -d "$DIR/TrovoBot"  ]]; then
+	echo "${RED} 'TrovoBot' directory does not exist ${NC}"
+	exit 0
 fi
+}
 
-c=yarn
-if [[ $(dpkg-query -f'${Status}' --show $c 2>/dev/null) = *\ installed ]];
-then
-	echo "${GRN} $c already installed.  Skipping. ${NC}"
-else
-	echo "${RED} $c was not found, installing dependencies ${NC}" 2>&1
-	curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-	echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-fi
+# Full environment install
+install(){
+
+trovodl # Download TrovoBot from ZIP
 
 tput reset
+
+depds # setup nodejs and yarn sources
+
+color
+
 tput cup 3 19
 tput setaf 3
 echo "Enter System Password Below to Continue"
@@ -56,13 +141,84 @@ else
 fi
 done
 
-cd $DIR/..
-
+if [[ -d "$DIR/TrovoBot" ]];
+then
+cd $DIR/TrovoBot
 echo "${YLLW} Installing dependencies ${NC}"
 yarn install > /dev/null 2>&1 &
 while kill -0 $! 2> /dev/null; do
     echo -n '.'
     sleep 1
 done
+elif [[ ! -d "$DIR/TrovoBot"  ]]; then
+	echo "${RED} 'TrovoBot' directory does not exist ${NC}"
+	exit 0
+fi
+}
 
+
+function manageMenu() {
+	tput reset
+	color
+	echo '
+               ________                                       _______               __
+              /        |                                     /       \             /  |
+              $$$$$$$$/______    ______   __     __  ______  $$$$$$$  |  ______   _$$ |_
+		 $$ | /      \  /      \ /  \   /  |/      \ $$ |__$$ | /      \ / $$   |
+		 $$ |/$$$$$$  |/$$$$$$  |$$  \ /$$//$$$$$$  |$$    $$< /$$$$$$  |$$$$$$/
+		 $$ |$$ |  $$/ $$ |  $$ | $$  /$$/ $$ |  $$ |$$$$$$$  |$$ |  $$ |  $$ | __
+		 $$ |$$ |      $$ \__$$ |  $$ $$/  $$ \__$$ |$$ |__$$ |$$ \__$$ |  $$ |/  |
+		 $$ |$$ |      $$    $$/    $$$/   $$    $$/ $$    $$/ $$    $$/   $$  $$/
+		 $$/ $$/        $$$$$$/      $/     $$$$$$/  $$$$$$$/   $$$$$$/     $$$$/
+
+
+																																								 '
+	echo ""
+	echo ""
+	echo "${YLLW}   What do you want to do?${NC}"
+	echo "${YLLW}   1) Fully Install TrovoBot ${NC}"
+	echo "${YLLW}   2) Update TrovoBot dependencies ${NC}"
+  echo "${YLLW}   3) Download TrovoBot ZIP (only) ${NC}"
+	echo "${YLLW}   4) Exit ${NC}"
+	until [[ ${MENU_OPTION} =~ ^[1-4]$ ]]; do
+		read -rp "Select an option [1-4]: " MENU_OPTION
+	done
+	case "${MENU_OPTION}" in
+	1)
+		install
+		;;
+	2)
+		update
+		;;
+	3)
+		trovodl
+		;;
+	4)
+		exit 0
+		;;
+	esac
+}
+
+checkos
+if [[ "$OS" == 'Ubuntu' || "$OS" == 'Debian' ]]; then
+# non-gui arguments
+while (( "$#" )); do
+  case $1 in
+    -h|--help) help
+               exit 0;;
+    -i|--install) install
+                  exit 0;;
+	  -u|--update) update
+							    exit 0;;
+		-d|--download) trovodl
+									 exit 0;;
+  esac
+  shift
+done
+
+manageMenu
+
+elif [[ ! "$OS" == 'Ubuntu' || ! "$OS" == 'Debian' ]]; then
+	color
+	echo "${RED} This script does not support your operating system' ${NC}"
 fi
