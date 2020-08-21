@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-
+const settings = require('../overlays.json');
 const Bot = require('../../../modules/Bot.js');
 
 const app = express.Router();

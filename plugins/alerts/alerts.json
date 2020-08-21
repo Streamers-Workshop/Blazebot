@@ -1,0 +1,38 @@
+{
+  "active": false,
+  "test": true,
+  "alerts": {
+    "follow": {
+      "active": true,
+      "scene": "-ALERTS-",
+      "source": "FOLLOW",
+      "delay": 10,
+      "message": "Thank you {{user}} for the Follow!",
+      "httpMessage": "has followed the stream!"
+    },
+    "sub": {
+      "active": true,
+      "scene": "-ALERTS-",
+      "source": "SUB",
+      "delay": 10,
+      "message": "Thank you {{user}} for the Sub!",
+      "httpMessage": "has subbed to the stream!"
+    },
+    "spell": {
+      "active": true,
+      "scene": "-ALERTS-",
+      "source": "SPELL",
+      "delay": 10,
+      "message": "Thank you {{user}} for the Spells!",
+      "httpMessage": "has cast a spell!"
+    },
+    "joined": {
+      "active": true,
+      "scene": "-ALERTS-",
+      "source": "JOINED",
+      "delay": 10,
+      "message": "Welcome {{user}} , hope you enjoy the stream!",
+      "httpMessage": "has joined the stream!"
+    }
+  }
+}

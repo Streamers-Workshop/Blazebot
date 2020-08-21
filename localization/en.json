@@ -46,7 +46,16 @@
       "deactivated": "OBS Service Deactivated",
       "connected": "Connected to OBS",
       "retry_attempt": "Unable to connect to OBS. Attempting to reconnect: {count} of {max}",
-      "stopping_retry": "Stopping OBS connection attempts"
+      "stopping_retry": "Stopping OBS connection attempts",
+      "no_source": "Couldn't find Source: {source} in Scene: {scene}"
+    },
+    "slobs":
+    {
+      "activated": "SLOBS Service Activated",
+      "deactivated": "SLOBS Service Deactivated",
+      "error": "Slobs Error: {error}",
+      "close": "Slobs Closed. Reason: {close}",
+      "connected": "Connected to SLOBS"
     },
     "http": {
       "activated": "HTTP Overlay Module Started on Port({settings.port})",

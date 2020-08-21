@@ -216,6 +216,7 @@ Bot.prototype.getPlugin = (plugin) => {
 
 Bot.prototype.triggerEvents = async (type, client, data) => {
   for (const [key, value] of instance.plugins.entries()) {
+    
     if (value.event) {
       if (value.event === type) {
         value.execute(client, data);
