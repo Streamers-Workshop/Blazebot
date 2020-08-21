@@ -1,8 +1,8 @@
-Plugin by ssrjazz. Updates by Bioblaze Payne & Krammy
+# Plugin by ssrjazz. Updates by Bioblaze Payne & Krammy
 
-Description: Used to shoutout a user in your channel in the hopes your community supports them.
+## Description: Used to shoutout a user in your channel in the hopes your community supports them.
 
-Trigger:
+### Trigger:
 !so
 
-Requirements: None.
+### Requirements: None.

@@ -6,7 +6,7 @@
 Alerts for Trovo streams
 
 ### Trigger.
-Automatic
+For testing purposes, a creator can use: "!alerts follow" , "!alerts sub" , "!alerts spell" , "!alerts joined"
 
 ### Setup.
 OBS: https://github.com/Bioblaze/TrovoBot/wiki/OBS-Alerts

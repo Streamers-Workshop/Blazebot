@@ -1,12 +1,10 @@
 # Plugin
 
-## Created by: EarWaxCandy, updated by Rehkloos, Krammy & Bioblaze Payne
+## Created by: Rehkloos
 
 ### What this is.
-8-ball fortune.
+A command to get the local time of where the bot is hosted. (Hopefully streamers local time).
 
 ### Trigger.
-!8ball <question>
-
-ex: !8ball will I win?
+!time
 
