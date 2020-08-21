@@ -24,6 +24,7 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 version="2.0.0"
+nodeLTS="12.18.3"
 link="https://github.com/Bioblaze/TrovoBot/archive/${version}.zip"
 
 # Script can be executed only in linux
@@ -31,17 +32,20 @@ link="https://github.com/Bioblaze/TrovoBot/archive/${version}.zip"
 #[ -z $linux ] && echo "Script Cannot be executed on another operation system. Only Linux." && exit 1
 
 color(){
-	RED=`tput setaf 1`
-	GRN=`tput setaf 2`
-	YLLW=`tput setaf 3`
-	NC=`tput sgr0` # No Color
+  RED=`tput setaf 1`
+  GRN=`tput setaf 2`
+  YLLW=`tput setaf 3`
+  NC=`tput sgr0` # No Color
 }
+
+unameOut="$(uname -s)"
 
 # Help menu
 help(){
   echo "-h | --help                   : this screen"
   echo "-i | --install                : install"
-  echo "-d | --download zip           : download latest TrovoBot build"
+  echo "-d | --download               : download latest TrovoBot build"
+  echo "-m | --mac                    : macOS install"
   echo "no args                       : start installer w/ menu"
 }
 
@@ -53,58 +57,93 @@ function checkos(){
         OS='Debian'
     elif [ ! -z "`cat /etc/issue | grep Ubuntu`" ];then
         OS='Ubuntu'
+    elif [[ ! -z "$(uname)" == "Darwin" ]]; then
+        OS='Darwin'
     else
         echo "Not support OS, Please reinstall OS and retry!"
         exit 1
     fi
 }
 
+macinstall(){
+  color
+  curlDL="curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash"
+
+  if [[ ! "$OS" == 'Ubuntu' || ! "$OS" == 'Debian' || "$OS" == 'Darwin' ]]; then
+  touch ~/.bash_profile # create bash_profile
+    touch ~/.bashrc # create bashrc
+  touch ~/.zshrc # create zshrc
+  touch ~/.profile # create profile
+  $curlDL
+    sleep 2
+
+  echo "${RED} Installing nodejs via nvm ${NC}"
+  nvm install $nodeLTS # install current node LTS
+  nvm use $nodeLTS
+  sleep 1
+
+  echo "${RED} getting latest NPM ${NC}"
+  npm install -g npm@latest
+  sleep 2
+
+    echo "${RED} now installing YARN ${NC}"
+  npm install -g yarn
+
+
+  source ~/.bash_profile
+  elif [[ "$OS" == 'Ubuntu' || "$OS" == 'Debian' || ! "$OS" == 'Darwin' ]]; then
+    echo "${RED} This option is for MacOS not Linux based distros, re-run script and choose correct menu option ${NC}"
+  fi
+}
+
 trovodl(){
-	echo "${GRN} Downloading TrovoBot ${NC}"
-	wget -q -O tmp.zip ${link} && unzip tmp.zip && rm tmp.zip
-	echo "${GRN} Renaming Trovobot directory ${NC}"
-	find $DIR -depth -type d -name 'TrovoBot*' -exec mv {} TrovoBot \;
-	echo "${GRN} Finished Download ${NC}"
+  color
+  echo "${GRN} Downloading TrovoBot ${NC}"
+  wget -q -O tmp.zip ${link} && unzip tmp.zip && rm tmp.zip
+  echo "${GRN} Renaming Trovobot directory ${NC}"
+  find $DIR -depth -type d -name 'TrovoBot*' -exec mv {} TrovoBot \;
+  echo "${GRN} Finished Download ${NC}"
 }
 
 depds(){
-	# Install nodejs
-	c=nodejs
-	if [[ $(dpkg-query -f'${Status}' --show $c 2>/dev/null) = *\ installed ]];
-	then
-		echo "${GRN} $c already installed.  Skipping. ${NC}"
-	else
-		echo "${RED} $c was not found, installing dependencies ${NC}" 2>&1
-	  curl -sL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
-	fi
+  color
+  # Install nodejs
+  c=nodejs
+  if [[ $(dpkg-query -f'${Status}' --show $c 2>/dev/null) = *\ installed ]];
+  then
+  echo "${GRN} $c already installed.  Skipping. ${NC}"
+  else
+  echo "${RED} $c was not found, installing dependencies ${NC}" 2>&1
+    curl -sL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+  fi
 
-	# Install yarn
-	c=yarn
-	if [[ $(dpkg-query -f'${Status}' --show $c 2>/dev/null) = *\ installed ]];
-	then
-		echo "${GRN} $c already installed.  Skipping. ${NC}"
-	else
-		echo "${RED} $c was not found, installing dependencies ${NC}" 2>&1
-		curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-		echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-	fi
+  # Install yarn
+  c=yarn
+  if [[ $(dpkg-query -f'${Status}' --show $c 2>/dev/null) = *\ installed ]];
+  then
+  echo "${GRN} $c already installed.  Skipping. ${NC}"
+  else
+  echo "${RED} $c was not found, installing dependencies ${NC}" 2>&1
+  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+  echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+  fi
 }
 
 #update
 update(){
-	color
-	if [[ -d "$DIR/TrovoBot" ]];
+  color
+  if [[ -d "$DIR/TrovoBot" ]];
 then
-	cd $DIR/TrovoBot
-	echo "${YLLW} updating dependencies ${NC}"
-	yarn update > /dev/null 2>&1 &
-	while kill -0 $! 2> /dev/null; do
-	    echo -n '.'
-	    sleep 1
-	done
+  cd $DIR/TrovoBot
+  echo "${YLLW} updating dependencies ${NC}"
+  yarn update > /dev/null 2>&1 &
+  while kill -0 $! 2> /dev/null; do
+      echo -n '.'
+      sleep 1
+  done
 elif [[ ! -d "$DIR/TrovoBot"  ]]; then
-	echo "${RED} 'TrovoBot' directory does not exist ${NC}"
-	exit 0
+  echo "${RED} 'TrovoBot' directory does not exist ${NC}"
+  exit 0
 fi
 }
 
@@ -137,7 +176,8 @@ then
    echo "${GRN} $pkg already installed.  Skipping. ${NC}"
 else
    echo "${RED} $pkg was not found, installing... ${NC}" 2>&1
-	 sudo -v; sudo apt-get --allow -y install $c 2>/dev/null
+ elif [[ ! -z "$(uname)" == "Darwin" ]]; then
+   sudo -v; sudo apt-get --allow -y install $c 2>/dev/null
 fi
 done
 
@@ -151,16 +191,16 @@ while kill -0 $! 2> /dev/null; do
     sleep 1
 done
 elif [[ ! -d "$DIR/TrovoBot"  ]]; then
-	echo "${RED} 'TrovoBot' directory does not exist ${NC}"
-	exit 0
+  echo "${RED} 'TrovoBot' directory does not exist ${NC}"
+  exit 0
 fi
 }
 
 
 function manageMenu() {
-	tput reset
-	color
-	echo '
+  tput reset
+  color
+  echo '
                ________                                       _______               __
               /        |                                     /       \             /  |
               $$$$$$$$/______    ______   __     __  ______  $$$$$$$  |  ______   _$$ |_
@@ -173,34 +213,38 @@ function manageMenu() {
 
 
 																																								 '
-	echo ""
-	echo ""
-	echo "${YLLW}   What do you want to do?${NC}"
-	echo "${YLLW}   1) Fully Install TrovoBot ${NC}"
-	echo "${YLLW}   2) Update TrovoBot dependencies ${NC}"
+  echo ""
+  echo ""
+  echo "${YLLW}   What do you want to do?${NC}"
+  echo "${YLLW}   1) Fully Install TrovoBot ${NC}"
+  echo "${YLLW}   2) Update TrovoBot dependencies ${NC}"
   echo "${YLLW}   3) Download TrovoBot ZIP (only) ${NC}"
-	echo "${YLLW}   4) Exit ${NC}"
-	until [[ ${MENU_OPTION} =~ ^[1-4]$ ]]; do
-		read -rp "Select an option [1-4]: " MENU_OPTION
-	done
-	case "${MENU_OPTION}" in
-	1)
-		install
-		;;
-	2)
-		update
-		;;
-	3)
-		trovodl
-		;;
-	4)
-		exit 0
-		;;
-	esac
+  echo "${YLLW}   4) MacOS install (non linux-base) ${NC}"
+  echo "${YLLW}   5) Exit ${NC}"
+  until [[ ${MENU_OPTION} =~ ^[1-4]$ ]]; do
+  read -rp "Select an option [1-4]: " MENU_OPTION
+  done
+  case "${MENU_OPTION}" in
+  1)
+  install
+  ;;
+  2)
+  update
+  ;;
+  3)
+  trovodl
+  ;;
+  4)
+  macinstall
+  ;;
+  5)
+  exit 0
+  ;;
+  esac
 }
 
 checkos
-if [[ "$OS" == 'Ubuntu' || "$OS" == 'Debian' ]]; then
+if [[ "$OS" == 'Ubuntu' || "$OS" == 'Debian' || "$OS" == 'Darwin'  ]]; then
 # non-gui arguments
 while (( "$#" )); do
   case $1 in
@@ -208,17 +252,19 @@ while (( "$#" )); do
                exit 0;;
     -i|--install) install
                   exit 0;;
-	  -u|--update) update
-							    exit 0;;
-		-d|--download) trovodl
-									 exit 0;;
+    -u|--update) update
+                  exit 0;;
+    -d|--download) trovodl
+                  exit 0;;
+    -m|--mac) macinstall
+                  exit 0;;
   esac
   shift
 done
 
 manageMenu
 
-elif [[ ! "$OS" == 'Ubuntu' || ! "$OS" == 'Debian' ]]; then
-	color
-	echo "${RED} This script does not support your operating system' ${NC}"
+elif [[ ! "$OS" == 'Ubuntu' || ! "$OS" == 'Debian' || "$OS" == 'Darwin' ]]; then
+  color
+  echo "${RED} This script does not support your operating system' ${NC}"
 fi
