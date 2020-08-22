@@ -26,43 +26,47 @@ module.exports = {
         var cmd = data.args[0];
         switch (cmd) {
             case "start":
-                if (data.args.length == 1) {
-                    client.sendMessage(Bot.translate("plugins.poll.startUsage"));
-                    return false;
-                }
-                if (!pfunction.isPollActive()) {
-                    var arg = [];
-                    var prevArg = "";
-                    var voteItems = "";
-                    var notTheSame = true;
-                    data.args.forEach(element => {
-                        if (!adminCommands.includes(element) && !userCommands.includes(element)) {
-                            if(element != prevArg) {
-                                arg.push(element);
-                                voteItems += `${element} | `;
-                                prevArg = element;
-                            } else {
-                                notTheSame = false;
+                if(pfunction.hasPermission(data)) {
+                    if (data.args.length == 1) {
+                        client.sendMessage(Bot.translate("plugins.poll.startUsage"));
+                        return false;
+                    }
+                    if (!pfunction.isPollActive()) {
+                        var arg = [];
+                        var prevArg = "";
+                        var voteItems = "";
+                        var notTheSame = true;
+                        data.args.forEach(element => {
+                            if (!adminCommands.includes(element) && !userCommands.includes(element)) {
+                                if(element != prevArg) {
+                                    arg.push(element);
+                                    voteItems += `${element} | `;
+                                    prevArg = element;
+                                } else {
+                                    notTheSame = false;
+                                }
                             }
-                        }
-                    });
-                    if(notTheSame) {
-                        voteItems = voteItems.substring(0, voteItems.length - 3);
-                        if (pfunction.startVote(arg)) {
-                            client.sendMessage(Bot.translate("plugins.poll.pollstarted", {
-                                votelist: voteItems
-                            }));
+                        });
+                        if(notTheSame) {
+                            voteItems = voteItems.substring(0, voteItems.length - 3);
+                            if (pfunction.startVote(arg)) {
+                                client.sendMessage(Bot.translate("plugins.poll.pollstarted", {
+                                    votelist: voteItems
+                                }));
+                            }
+                        } else {
+                            client.sendMessage(Bot.translate("plugins.poll.sameValues"));
+                            pfunction.resetVote();
                         }
                     } else {
-                        client.sendMessage(Bot.translate("plugins.poll.sameValues"));
-                        pfunction.resetVote();
+                        client.sendMessage(Bot.translate("plugins.poll.pollRunning"));
                     }
                 } else {
-                    client.sendMessage(Bot.translate("plugins.poll.pollRunning"));
+                    client.sendMessage(Bot.translate("plugins.poll.permissions"));
                 }
-
                 break;
             case "stop":
+                if(pfunction.hasPermission(data)) {
                 if(pfunction.isPollActive()) {
                     var winner = pfunction.getWinner();
                     var res = winner.split("|");
@@ -75,10 +79,17 @@ module.exports = {
                 } else {
                     client.sendMessage(Bot.translate("plugins.poll.pollNotRunning"));
                 }
+                } else {
+                    client.sendMessage(Bot.translate("plugins.poll.permissions"));
+                }
                 break;
             case "reset":
-                pfunction.resetVote();
-                client.sendMessage(Bot.translate("plugins.poll.voteReseted"))
+                if(pfunction.hasPermission(data)) {
+                    pfunction.resetVote();
+                    client.sendMessage(Bot.translate("plugins.poll.voteReseted"));
+                } else {
+                    client.sendMessage(Bot.translate("plugins.poll.permissions"));
+                }
                 break;
             case "getList":
                 if(pfunction.isPollActive()) {

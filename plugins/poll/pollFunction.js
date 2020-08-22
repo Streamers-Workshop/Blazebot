@@ -16,6 +16,12 @@ function startVote(args) {
     return active;
 }
 
+function hasPermission(data) {
+    if(data.badges == "creator" || data.badges == "moderator") {
+        return true;
+    }
+    return false;
+}
 
 function stopVote() {
     var winner = getWinner();
@@ -79,4 +85,4 @@ function isPollActive() {
     return active;
 }
 
-module.exports = { startVote, isItemInList , isPollActive, getList, getWinner, resetVote, stopVote, placeVote, hasUserVoted };
+module.exports = { startVote, isItemInList , isPollActive, getList, getWinner, resetVote, stopVote, placeVote, hasUserVoted,hasPermission };
