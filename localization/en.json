@@ -6,6 +6,7 @@
     }
   },
   "plugins": {
+    
     "bot": {
       "activated": "Bot Information Plugin Activated",
       "deactivated": "Bot Information Plugin Deactivated",
@@ -30,7 +31,32 @@
       "activated": "Ping has been Activated",
       "deactivated": "Ping has been Deactivated",
       "pong": "@{user} Pong I dare say."
-    }
+    },
+    "poll": {
+      "activated": "Poll System aktivated",
+      "deactivated": "Poll System Deactivated",
+      "permissions": "You don't have permission to do that!",
+          
+      "pollstarted": "Poll started, type !poll {votelist}",      
+      "startUsage": "Usage: !poll start <voteItem1> <voteItem2> ...",
+      "pollRunning": "Poll already running",
+      
+      "pollstopped": "Poll is finished. Winner is:",
+      "results": "{voteItem}: {votes}",
+      
+      "pollNotRunning": "There is no poll running!",      
+      "alreadyVoted": "Only 1 vote for each User. @{user}",
+      "startFailed": "The start failed, please try again",
+      "missingargs": "Usage: !poll <voteItem> | getList | Moderator & creator: {commandlist}",
+      "somethingsWrong": "Something went wrong try again or contact the Streamer or the Mods",
+      "itemNotInList": "{item} is not in the Votelist. Type: !poll getList to see a list of items to vote for",    
+      "sameValues": "Vote items can't be the same Values poll will be reseted",
+
+      "uservoted": "Thanks for Voting. @{user}",
+      "voteReseted": "The vote has stopped and the List was cleared!",
+      "winner": "{name} with {votes} votes!"
+      
+      }
   },
   "services": {
     "discordrpc": {
