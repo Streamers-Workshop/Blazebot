@@ -15,6 +15,12 @@
       "consolecommand": "This bot was created by Bioblaze Payne",
       "consolecommanddesc": "Tells you information about the Bot itself."
     },
+    "instagram": {
+      "activated": "IG has been Activated",
+      "deactivated": "IGhas been Deactivated",
+      "error": "IG Error: {error}",
+      "info": "@{user} streamer's latest instagram post - https://www.instagram.com/p/{result}"
+    },
     "shoutout": {
       "activated": "Shout-out has been Activated",
       "deactivated": "Shout-out has been Deactivated",
