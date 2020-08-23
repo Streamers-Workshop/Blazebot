@@ -56,7 +56,13 @@
       "voteReseted": "The vote has stopped and the List was cleared!",
       "winner": "{name} with {votes} votes!"
       
-      }
+      },
+      "xkcd": {
+      "activated": "XKCD has been Activated",
+      "deactivated": "XKCD has been Deactivated",
+      "error": "XKCD Error: {error}",
+      "processed": "@{user} - {result}"
+    }
   },
   "services": {
     "discordrpc": {

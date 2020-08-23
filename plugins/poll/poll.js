@@ -5,7 +5,7 @@ const pfunction = require("./pollFunction.js");
 module.exports = {
     name: 'poll', // Name of the Plugin
     description: "Little Poll system",
-    author: "Bioblaze Payne <bioblazepayne@gmail.com> (https://github.com/Bioblaze)",
+    author: "Made by Bulllox",
     license: "Apache-2.0",
     command: 'poll', // This is the Command that is typed into Chat!
     permissions: [], // This is for Permissisons depending on the Platform.
