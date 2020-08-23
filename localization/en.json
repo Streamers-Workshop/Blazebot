@@ -30,6 +30,12 @@
       "activated": "Ping has been Activated",
       "deactivated": "Ping has been Deactivated",
       "pong": "@{user} Pong I dare say."
+    },
+    "xkcd": {
+      "activated": "XKCD has been Activated",
+      "deactivated": "XKCD has been Deactivated",
+      "error": "XKCD Error: {error}",
+      "processed": "@{user} - {result}"
     }
   },
   "services": {
