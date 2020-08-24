@@ -15,6 +15,24 @@
       "consolecommand": "This bot was created by Bioblaze Payne",
       "consolecommanddesc": "Tells you information about the Bot itself."
     },
+    "google": {
+      "activated": "Google search has been Activated",
+      "deactivated": "Google search has been Deactivated",
+      "processed": "@{user} - {result}",
+      "args": "Example Usage: = !google search <word> , !google random"
+    },
+    "gamep": {
+      "activated": "game picker has been Activated",
+      "deactivated": "game picker has been Deactivated",
+      "processed": "@{user} randomly picked {result}",
+      "incorrect": "@{user} incorrect argument user must use 'pick' to initiate game randomizer"
+    },
+    "instagram": {
+      "activated": "IG has been Activated",
+      "deactivated": "IGhas been Deactivated",
+      "error": "IG Error: {error}",
+      "info": "@{user} streamer's latest instagram post - https://www.instagram.com/p/{result}"
+    },
     "shoutout": {
       "activated": "Shout-out has been Activated",
       "deactivated": "Shout-out has been Deactivated",
