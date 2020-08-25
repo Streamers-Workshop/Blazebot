@@ -75,6 +75,13 @@
       "processed": "@{user} randomly picked {result}",
       "incorrect": "@{user} incorrect argument user must use 'pick' to initiate game randomizer"
     },
+    "hydrate": {
+      "activated": "Hydrate has been Activated",
+      "deactivated": "Hydrate has been Deactivated",
+      "error": "Hydrate Error: {error}",
+      "start": "Great, I will make sure the streamer stays hydrated! 💧",
+      "interval": "Streamer, I recommend you drink some water! I will remind you again in 30 minutes"
+    },
     "instagram": {
       "activated": "IG has been Activated",
       "deactivated": "IGhas been Deactivated",
@@ -102,6 +109,12 @@
       "activated":"Time Plugin has been Activated",
       "deactivated": "Time Plugin has been Deactivated",
       "message" : "The streamers local time is: {time}"
+    },
+    "urbandictionary": {
+      "activated": "Urbandictionary has been Activated",
+      "deactivated": "Urbandictionary has been Deactivated",
+      "error": "Urbandictionary Error: {error}",
+      "info": "@{user} {word} - {definition}"
     },
     "xkcd": {
       "activated": "XKCD has been Activated",
