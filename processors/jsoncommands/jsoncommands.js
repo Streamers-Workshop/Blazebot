@@ -10,8 +10,8 @@ const Bot = require('../../modules/Bot.js');
 var settings = {};
 
 module.exports = {
-  name: 'chatlog',
-  description: "Records all Chat to a Textfile.",
+  name: 'json-commands',
+  description: "Allows for the use of commands from a json file.",
   author: "Bioblaze Payne <bioblazepayne@gmail.com> (https://github.com/Bioblaze)",
   license: "Apache-2.0",
   activate() {
@@ -19,21 +19,33 @@ module.exports = {
       Bot.loadPlugins(path.join(__dirname, 'plugins'));
     }
     settings = require('./jsoncommands.json');
-    Bot.log(Bot.translate("processors.chatlog.activated"));
+    Bot.log(Bot.translate("processors.jsoncommands.activated"));
   },
   deactivate() {
+    if (fs.existsSync(path.join(__dirname, 'plugins'))) {
+      Bot.unloadPlugins(path.join(__dirname, 'plugins'));
+    }
     settings = {};
-    Bot.log(Bot.translate("processors.chatlog.deactivated"));
+    Bot.log(Bot.translate("processors.jsoncommands.deactivated"));
   },
   process(data, client, callback) {
+
     if (typeof(data.content) === 'string') {
-      var args = data.content.split(" ");
-      if (settings.commands[args[0]] != undefined) {
-        var template = Handlebars.compile(settings.commands[args[0]]);
+    var firstChar = data.content.charAt(0);
+    var args = data.content.slice(Bot.settings.prefix.length).split(/ +/);
+    var commandName = args[0].toLowerCase();
+
+    if (Bot.settings.prefix == firstChar && settings.commands[commandName] !== undefined) {
+        var template = Handlebars.compile(settings.commands[commandName]);
         client.sendMessage(template({
           data: data,
           settings: settings
         }));
+        callback(null, true);
+      }
+    else
+      {
+        callback(null, false);
       }
     }
   },
