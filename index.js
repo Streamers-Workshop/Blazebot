@@ -55,7 +55,7 @@ client.on('chatMessage', (message) => {
     if (!message || message.user === undefined) return;
     if (message.user === Bot.settings.trovo.name) return;
     if (!message.content) return;
-    Bot.log(message);
+    //Bot.log(message);
     if (!message.content.startsWith(Bot.settings.prefix, 0)) return;
 
     const args = message.content.slice(Bot.settings.prefix.length).split(/ +/);
