@@ -3,9 +3,57 @@
     "chatlog": {
       "activated": "Chatlog Processor Activated.",
       "deactivated": "Chatlog Processor Deactivated."
+    },
+    "jsoncommands":{
+      "plugins":{
+        "create":{
+          "exists_error" : "{com} already exists!",
+          "error_writing": "Error writing {fileName} : {error}",
+          "no_args":"You didn't specify a response",
+          "created": "Command: {com} , has been added.",
+          "activated": "jsoncommands - Create plugin has been Activated.",
+          "deactivated": "jsoncommands - Create plugin has been Activated."
+        },
+        "edit":{
+          "edited":"Command {command}, has been edited.",
+          "error_writing": "Error writing {fileName} : {error}",
+          "no_args":"You didn't specify a response",
+          "no_command":"{command} doesn't exist or is a pre-installed command",
+          "activated": "jsoncommands - Edit Plugin Activated",
+          "deactivated": "jsoncommands - Edit Plugin Deactivated"
+        },
+        "delete":{
+          "no_command":"{command} doesn't exist or is a pre-installed command",
+          "error_writing": "Error writing {fileName} : {error}",
+          "deleted":"Command {command}, has been deleted",
+          "activated":"jsoncommands - Delete Plugin Activated",
+          "deactivated": "jsoncommands - Delete Plugin Deactivated"
+        }
+      },
+      "activated": "Json Commands has been Activated.",
+      "deactivated": "Json Commands has been Deactivated.",
+      "no_command": "{command} doesn't exist or is a pre-installed command",
+      "existsError": "{com} already exists!",
+      "no_args" : "You didn't specify a response",
+      "errorEditing": "You didn't specify what you'd like to edit the command to.",
+      "errorWriting": "Error writing {fileName} : {error}",
+      "created": "Command: {command}, has been added.",
+      "edited": "Command {command}, has been edited.",
+      "deleted": "Command {command}, has been deleted"
     }
   },
   "plugins": {
+    "8ball":
+    {
+      "activated": "8-Ball Plugin Activated",
+      "deactivated": "8-ball Plugin Deactivated"
+    },
+    "alerts":
+    {
+      "activated" : "Alerts have been Activated",
+      "deactivated" : "Alerts have been Deactivated",
+      "error_writing" : "Error writing {fileName} : {error}"
+    },
     "bot": {
       "activated": "Bot Information Plugin Activated",
       "deactivated": "Bot Information Plugin Deactivated",
@@ -48,6 +96,12 @@
       "activated": "Ping has been Activated",
       "deactivated": "Ping has been Deactivated",
       "pong": "@{user} Pong I dare say."
+    },
+    "time":
+    {
+      "activated":"Time Plugin has been Activated",
+      "deactivated": "Time Plugin has been Deactivated",
+      "message" : "The streamers local time is: {time}"
     },
     "xkcd": {
       "activated": "XKCD has been Activated",

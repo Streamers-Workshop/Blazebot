@@ -21,7 +21,10 @@ function write2File(fileName, data)
     }
     fs.writeFileSync(path.join(Bot.root, 'labels', fileName), data, (err) => {
         if (err) {
-          Bot.log(`Error writing ${fileName} : ${err}`);
+          Bot.log(Bot.translate("plugins.alerts.error_writing", {
+            fileName: fileName,
+            error: err
+          }));
         }
       });
 }
@@ -63,7 +66,7 @@ module.exports = {
   description: "Trigger for all the alerts.",
   author: "Made by Krammy",
   license: "Apache-2.0",
-  permissions: [], // This is for Permissisons depending on the Platform.
+  permissions: ['creator'], // This is for Permissisons depending on the Platform.
   event: [FOLLOW,SUBS,JOINED,SPELL], // Type Event
   command: 'alerts', // This is the Command that is typed into Chat!
   cooldown: 10, // this is Set in Seconds, how long between the next usage of this command.
