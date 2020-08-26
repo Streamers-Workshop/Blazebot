@@ -1,5 +1,6 @@
 const https = require('https');
 const Bot = require('../../modules/Bot.js');
+const Tool = require('../../modules/Tool.js');
 
 module.exports = {
   name: 'instagram',
@@ -15,29 +16,17 @@ module.exports = {
 
     let url = `https://instagram.hanifdwyputra.xyz/?username=${username}`; // instagram scraper api
 
-    https.get(url, (res) => {
-      let body = "";
-
-      res.on("data", (chunk) => {
-        body += chunk;
+    Tool.httpsGet(url).then((output) => {
+      const latest = output.graphql.user.edge_owner_to_timeline_media.edges[0].node; // json tree for finding latest post
+      const post = latest.shortcode; // get ig post shortcode
+      client.sendMessage(Bot.translate("plugins.instagram.info", { // plugins > instagram > processed output line
+        user: data.user, // in 'en.json' this is related to "@{user}"
+        result: post // 'output' is url json result and 'img' is the specific line from json
+      }));
+    }).catch((err) => {
+      Bot.log(Bot.translate("plugins.instagram.error"), {
+        error: err
       });
-
-      res.on("end", () => {
-        try {
-          let json = JSON.parse(body);
-          const latest = json.graphql.user.edge_owner_to_timeline_media.edges[0].node; // json tree for finding latest post
-          const post = latest.shortcode; // get ig post shortcode
-          client.sendMessage(Bot.translate("plugins.instagram.info", { // plugins > instagram > processed output line
-            user: data.user, // in 'en.json' this is related to "@{user}"
-            result: post // 'output' is url json result and 'img' is the specific line from json
-          }));
-        } catch (error) {
-          console.error(error.message);
-        }
-      });
-
-    }).on('error', (err) => {
-      Bot.log(`Error: ${err.message}`);
     });
 
   },
