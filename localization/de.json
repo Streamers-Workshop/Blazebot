@@ -1,4 +1,165 @@
 {
+  "processors": {
+    "chatlog": {
+      "activated": "Chatlog Processor aktiviert.",
+      "deactivated": "Chatlog Processor deaktiviert."
+    },
+    "jsoncommands":{
+      "plugins":{
+        "create":{
+          "exists_error" : "{com} existiert bereits!",
+          "error_writing": "Fehler beim Schreiben {fileName} : {error}",
+          "no_args":"Du hast keine Antwort angegeben",
+          "created": "Befehl: {com} , wurde hinzugefügt.",
+          "activated": "jsoncommands - Create plugin wurde aktiviert.",
+          "deactivated": "jsoncommands - Create plugin wurde deaktiviert."
+        },
+        "edit":{
+          "edited":"Befehl {command}, wurde geändert.",
+          "error_writing": "Fehler beim Schreiben {fileName} : {error}",
+          "no_args":"Du hast keine Antwort angegeben",
+          "no_command":"{command} existiert nicht oder ist ein vorinstallierter Befehl",
+          "activated": "jsoncommands - Edit Plugin aktiviert",
+          "deactivated": "jsoncommands - Edit Plugin deaktiviert"
+        },
+        "delete":{
+          "no_command":"{command} existiert nicht oder ist ein vorinstallierter Befehl",
+          "error_writing": "Fehler beim Schreiben {fileName} : {error}",
+          "deleted":"Befehl {command}, wurde gelöscht",
+          "activated":"jsoncommands - Delete Plugin aktiviert",
+          "deactivated": "jsoncommands - Delete Plugin deaktiviert"
+        }
+      },
+      "activated": "Json Commands wurde aktiviert.",
+      "deactivated": "Json Commands wurde deaktiviert.",
+      "no_command": "{command} existiert nicht oder ist ein vorinstallierter Befehl",
+      "existsError": "{com} existiert bereits!",
+      "no_args" : "Du hast keine Antwort angegeben",
+      "errorEditing": "Du hast nicht angegeben was du ändern möchtest",
+      "errorWriting": "Fehler beim Schreiben {fileName} : {error}",
+      "created": "Befehl: {command}, wurde hinzugefügt.",
+      "edited": "Befehl {command}, wurde geändert.",
+      "deleted": "Befehl {command}, wurde gelöscht"
+    }
+  },
+  "plugins": {
+    "8ball":
+    {
+      "activated": "8-Ball Plugin aktiviert",
+      "deactivated": "8-ball Plugin deaktiviert"
+    },
+    "alerts":
+    {
+      "activated" : "Alerts wurden aktiviert",
+      "deactivated" : "Alerts wurden deaktiviert",
+      "error_writing" : "Fehler beim Schreiben {fileName} : {error}"
+    },
+    "bot": {
+      "activated": "Bot Information Plugin aktiviert",
+      "deactivated": "Bot Information Plugin deaktiviert",
+      "findme": "@{user} Hey!, du kannst mich auf https://github.com/Bioblaze/TrovoBot finden",
+      "questions": "@{user} Wenn du mich persönlich kontaktieren möchtest oder Fragen hast, kannst du uns gerne besuchen https://discord.gg/Kc7fyx2",
+      "wiki": "@{user} Sieh dir unser Wiki an, um weitere Informationen über die Standard-Befehle zu erhalten https://github.com/Bioblaze/TrovoBot/wiki/Default-Commands",
+      "consolecommand": "Dieser Bot wurde von Bioblaze Payne entwickelt",
+      "consolecommanddesc": "Informiert dich über den Bot selbst."
+    },
+    "google": {
+      "activated": "Google search wurde aktiviert",
+      "deactivated": "Google search wurde deaktiviert",
+      "processed": "@{user} - {result}",
+      "args": "Beispiel: = !google search <suchwort> , !google random"
+    },
+    "gamep": {
+      "activated": "game picker wurde aktiviert",
+      "deactivated": "game picker wurde deaktiviert",
+      "processed": "@{user} zufällig ausgewählt {result}",
+      "incorrect": "@{user} falsches Argument, Du musst 'pick' verwenden um den Game Randomizer zu starten"
+    },
+    "hydrate": {
+      "activated": "Hydrate wurde aktiviert",
+      "deactivated": "Hydrate wurde deaktiviert",
+      "error": "Hydrate Fehler: {error}",
+      "start": "Großartig, Ich werde dafür sorgen, dass der Streamer genug trinkt! 💧",
+      "interval": "Hey Streamer, Ich empfehle dir etwas Wasser zu trinken! Ich werde dich in 30 Minuten wieder daran erinnern"
+    },
+    "instagram": {
+      "activated": "IG wurde aktiviert",
+      "deactivated": "IG wurde deaktiviert",
+      "error": "IG Fehler: {error}",
+      "info": "@{user} hier ist der neueste Instagram-Beitrag des Streamers - https://www.instagram.com/p/{result}"
+    },
+    "shoutout": {
+      "activated": "Shout-out wurde aktiviert",
+      "deactivated": "Shout-out wurde deaktiviert",
+      "mentionuser": "Check out {mention} auf https://trovo.live/{user} - Ein/e wunderbare/r Streamer/in lasst etwas Liebe da!",
+      "mentionaccount": "Check out {account} at https://trovo.live/{account} - Ein/e wunderbare/r Streamer/in lasst etwas Liebe da!"
+    },
+    "say": {
+      "activated": "Say wurde aktiviert",
+      "deactivated": "Say wurde deaktiviert",
+      "nomessage": "Du musst eine Nachricht angeben."
+    },
+    "ping": {
+      "activated": "Ping wurde aktiviert",
+      "deactivated": "Ping wurde deaktiviert",
+      "pong": "@{user} Pong, wage ich zu sagen."
+    },
+    "time":
+    {
+      "activated":"Time Plugin wurde aktiviert",
+      "deactivated": "Time Plugin wurde deaktiviert",
+      "message" : "Die Ortszeit des Streamers ist: {time}"
+    },
+    "urbandictionary": {
+      "activated": "Urbandictionary wurde aktiviert",
+      "deactivated": "Urbandictionary wurde deaktiviert",
+      "error": "Urbandictionary Fehler: {error}",
+      "info": "@{user} {word} - {definition}"
+    },
+    "warzone": {
+      "activated": "Warzone Stats wurde aktiviert",
+      "deactivated": "Warzone Stats wurde deaktiviert",
+      "error": "Warzone Stats Fehler: {error}",
+      "info": "@{user} Hier sind meine Warzone-Statistiken:\r Abschüsse: {kills}\r Tode: {deaths}\rK/D Ratio: {kdr}\rSiege: {wins}\r Top 5 Platzierungen: {top5}\r Top 10 Platzierungen: {top10}\r Ich spielte {totma} Runde\r Im Durchschnitt lebe ich für: {avgLife}\r Ich bin derzeit Level: {level}"
+    },
+    "xkcd": {
+      "activated": "XKCD wurde aktiviert",
+      "deactivated": "XKCD wurde deaktiviert",
+      "error": "XKCD Fehler: {error}",
+      "processed": "@{user} - {result}"
+    }
+  },
+  "services": {
+    "discordrpc": {
+      "activated": "Discord RPC Service wurde aktiviert",
+      "deactivated": "Discord RPC Service wurde deaktiviert",
+      "rpcerror": "Problem mit Discord RPC, ist Discord verbunden?\r\nFehler: {error}",
+      "clearerr": "Problem beim Löschen der Aktivität für Discord RPC.\r\nFehler: {error}",
+      "streamstopped": "Der Stream wurde gestoppt, löschen der Discord RPC-Aktivität.",
+      "seterr": "Problem beim Festlegen der Aktivität in Discord RPC.\r\nFehler: {error}"
+    },
+    "obs": {
+      "activated": "OBS Service wurde aktiviert",
+      "deactivated": "OBS Service wurde deaktiviert",
+      "connected": "Verbunden mit OBS",
+      "retry_attempt": "Es kann keine Verbindung zu OBS hergestellt werden. Wiederverbindung wird versucht: {count} von {max}",
+      "stopping_retry": "Verbindungsversuche zu OBS wurden beendet.",
+      "no_source": "Quelle konnte nicht gefunden werden: {source} in Szene: {scene}"
+    },
+    "slobs":
+    {
+      "activated": "SLOBS Service wurde aktiviert",
+      "deactivated": "SLOBS Service wurde deaktiviert",
+      "error": "Slobs Fehler: {error}",
+      "close": "Slobs beendet. Grund: {close}",
+      "connected": "Verbunden mit SLOBS"
+    },
+    "http": {
+      "activated": "HTTP Overlay Module lauscht auf Port({settings.port})",
+      "deactivated": "HTTP Overlay wurde beendet.",
+      "failed_route": "[HTTP] ({route}) {pageID}.json wurde nicht gefunden, existiert es in {location}?\r\nFehler: {error}"
+    }
+  },
   "bot": {
     "cooldown": "Warte bitte noch {timeLeft} Sekunden bevor du `{name}` wieder benutzt.",
     "missing_permissions": "Du hast nicht die Berechtigung um diesen Command zu nutzen. Sorry.",
@@ -10,23 +171,25 @@
     "plugin": "PLUGIN",
     "status": "STATUS",
     "state": "ZUSTAND",
-    "plugin_load_access_error": "Fehler beim Zugriff aufs Plugin Verzeichnis ({directory})\r\nError: {err}",
+    "plugin_load_access_error": "Fehler beim Zugriff aufs Plugin Verzeichnis ({directory})\r\nFehler: {err}",
+    "plugin_unload_access_error": "Fehler beim Zugriff aufs Plugin Verzeichnis ({directory})\r\nFehler: {err}}",
     "active": "Aktiv",
     "inactive": "In-Aktiv",
     "loaded": "GELADEN",
-    "plugin_load_try_error": "Fehler beim Versuch Plugin ({name}) zu laden. located at: {dir}\r\nError: {err}",
+    "plugin_load_try_error": "Fehler beim Versuch Plugin ({name}) zu laden. located at: {dir}\r\nFehler: {err}",
+    "plugin_unload_try_error": "Fehler beim Versuch Plugin ({name}) zu laden. located at: {dir}\r\nFehler: {err}",																									   
     "get_plugin_error": "ungültige Plugin Anfrage. Überprüfe deine Schreibweise von: {plugin}",
     "get_processor_error": "ungültige Prozessor Anfrage. Überprüfe deine Schreibweise von: {processor}",
     "get_service_error": "ungültige Service Anfrage. Überprüfe deine Schreibweise von: {service}",
     "get_chat_command_error": "ungültige Command Anfrage. Überprüfe deine Schreibweise von: {command}",
     "processor": "PROZESSOR",
     "processors": "PROZESSOREN",
-    "processor_load_access_error": "Fehler beim Zugriff aufs Prozessor Verzeichnis ({directory})\r\nError: {err}",
-    "processor_load_try_error": "Fehler beim Versuch Prozessor({name}) zu laden. located at: {dir}\r\nError: {err}",
+    "processor_load_access_error": "Fehler beim Zugriff aufs Prozessor Verzeichnis ({directory})\r\nFehler: {err}",
+    "processor_load_try_error": "Fehler beim Versuch Prozessor({name}) zu laden. located at: {dir}\r\nFehler: {err}",
     "services": "Services",
     "service": "Service",
-    "service_load_access_error": "Fehler beim Zugriff aufs Service Verzeichnis ({directory})\r\nError: {err}",
-    "service_load_try_error": "Fehler beim Versuch Service({name}) zu laden. located at: {dir}\r\nError: {err}",
+    "service_load_access_error": "Fehler beim Zugriff aufs Service Verzeichnis ({directory})\r\nFehler: {err}",
+    "service_load_try_error": "Fehler beim Versuch Service({name}) zu laden. located at: {dir}\r\nFehler: {err}",
     "plugin_info_desc": "Gibt dir Informationen über ein Plugin innerhalb vom System~",
     "plugins_desc": "Zeigt eine Liste aller Plugins in Trovobot , die geladen wurden.",
     "plugin_reload_desc": "Lädt ein bestimmtes Plugin neu.",
@@ -45,10 +208,10 @@
     "clear_console": "Leert die Konsole bis auf die Kommandozeile",
     "plugin_already_active": "Plugin ist bereits aktiv.",
     "plugin_activated": "Plugin aktiviert & Einstellungsdatei aktualisiert.",
-    "plugin_activated_error": "Fehler beim aktivieren von Plugin({name})\r\nError: {e}",
+    "plugin_activated_error": "Fehler beim aktivieren von Plugin({name})\r\nFehler: {e}",
     "plugin_already_inactive": "Plugin ist bereits inaktiv.",
     "plugin_deactivated": "Plugin deaktiviert & Einstellungsdatei aktualisiert.",
-    "plugin_deactivated_error": "Fehler beim deaktivieren von Plugin({name})\r\nError: {e}",
+    "plugin_deactivated_error": "Fehler beim deaktivieren von Plugin({name})\r\nFehler: {e}",
     "plugins_deactivated": "Alle Plugins deaktiviert & Einstellungsdateien aktualisiert.",
     "plugins_activated": "Alle Plugins aktiviert & Einstellungsdateien aktualisiert.",
     "processor_info_desc": "Gibt dir Informationen über einen Prozessor im System~",
@@ -58,16 +221,16 @@
     "processor_deactivate_desc": "Deaktiviert einen Prozessor",
     "deactivate_all_processors_desc": "Deaktiviert alle Prozessoren",
     "activate_all_processors_desc": "Aktiviert alle Prozzesoren",
-	  "processor_already_active": "Prozessor ist bereits aktiv",
+    "processor_already_active": "Prozessor ist bereits aktiv",
     "processor_activated": "Prozessor aktiviert & Einstellungsdatei aktualisiert.",
-    "processor_activated_error": "Fehler beim aktivieren von Prozessor({name})\r\nError: {e}",
+    "processor_activated_error": "Fehler beim aktivieren von Prozessor({name})\r\nFehler: {e}",
     "processor_already_inactive": "Prozessor ist bereits inaktiv.",
     "processor_deactivated": "Prozessor deaktiviert & Einstellungsdatei aktualisiert.",
-    "processor_deactivated_error": "Fehler beim deaktivieren von Prozessor({name})\r\nError: {e}",
+    "processor_deactivated_error": "Fehler beim deaktivieren von Prozessor({name})\r\nFehler: {e}",
     "processors_deactivated": "Alle Prozessoren wurden deaktiviert & die Einstellungsdateien aktualisiert.",
     "processors_activated": "Alle Prozessoren wurden aktiviert & die Einstellugsdateien aktualisiert.",
-	  "reloaded_processor": "Prozessor~ neu geladen",
-	  "processor_name_invalid": "Es wurde kein Prozessor mit diesem Namen gefunden, Überprüfe ggf. deine Schreibweise.",
+    "reloaded_processor": "Prozessor~ neu geladen",
+    "processor_name_invalid": "Es wurde kein Prozessor mit diesem Namen gefunden, Überprüfe ggf. deine Schreibweise.",
     "service_info_desc": "Gibt dir Informationen über einen Service im System~",
     "services_desc": "Zeigt eine Liste aller Services in Trovobot, die geladen wurden.",
     "service_reload_desc": "Lädt einen bestimmten Service neu.",
@@ -75,23 +238,23 @@
     "service_deactivate_desc": "Deaktiviert einen Service.",
     "deactivate_all_services_desc": "Deaktiviert alle Service.",
     "activate_all_services_desc": "Aktiviert alle Service.",
-	  "service_already_active": "Service ist bereits aktiv.",
+    "service_already_active": "Service ist bereits aktiv.",
     "service_activated": "Service aktiviert & Einstellungsdatei aktualisiert.",
-    "service_activated_error": "Fehler beim aktivieren von Service({name})\r\nError: {e}",
+    "service_activated_error": "Fehler beim aktivieren von Service({name})\r\nFehler: {e}",
     "service_already_inactive": "Service ist bereits inaktiv.",
     "service_deactivated": "Service deaktiviert & Einstellungsdatei aktualisiert.",
-    "service_deactivated_error": "Fehler beim deaktivieren von Service({name})\r\nError: {e}",
+    "service_deactivated_error": "Fehler beim deaktivieren von Service({name})\r\nFehler: {e}",
     "services_deactivated": "Alle Service wurden deaktiviert & die Einstellungsdateien aktualisiert.",
     "services_activated": "Alle Service wurden aktiviert & die Einstellungsdateien aktualisiert.",
-	  "reloaded_service": "Service~ neu geladen",
-	  "service_name_invalid": "Es wurde kein Service mit diesem Namen gefunden, Überprüfe ggf. deine Schreibweise.",
+    "reloaded_service": "Service~ neu geladen",
+    "service_name_invalid": "Es wurde kein Service mit diesem Namen gefunden, Überprüfe ggf. deine Schreibweise.",
     "setlang_console": "Stellt die Systemsprache um",
     "setlang_invalid": "Die Sprache ist nicht verfügbar. Wähle eine aus dieser Liste: {langs}",
     "setlang_switch": "Die Sprache wurde von ({from}) auf ({to}) geändert.",
     "getlang_console": "Zeigt alle verfügbaren Sprachen im System an",
     "getlang_options": "Verfügbare Spracheinstellungen: {langs}",
     "setlang_saved": "Einstellungen aktualisiert.",
-    "setlang_save_error": "Fehler beim Speichern der Einstellungen\r\nError: {e}",
+    "setlang_save_error": "Fehler beim Speichern der Einstellungen\r\nFehler: {e}",
     "what_email": "Wie ist die E-Mail des Botaccounts?",
     "what_password": "Wie ist das Passwort des Botaccounts?",
     "what_name": "Wie ist der Name des Botaccounts?",
@@ -100,8 +263,8 @@
     "what_lang": "Welche Sprache ist die Standartsprache deines Botaccounts? Verfügbare Sprachen: {langs}",
     "acceptable_languages": "Nur folgende Sprachen sind möglich: {langs}",
     "setup_complete": "Konfiguration ist abgeschlossen, Einstellungen werden gespeichert.",
-    "setup_error_save": "Einstellungen konnten nicht eingerichtet und gespeichert werden\r\nError: {e}",
-    "setup_failed": "Konfiguration fehlgeschlagen\r\nError: {err}",
+    "setup_error_save": "Einstellungen konnten nicht eingerichtet und gespeichert werden\r\nFehler: {e}",
+    "setup_failed": "Konfiguration fehlgeschlagen\r\nFehler: {err}",
     "setup_console": "Ermöglicht das direkte Einrichten von Settings.json über die Konsole."
   }
 }
