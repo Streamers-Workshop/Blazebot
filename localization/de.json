@@ -110,6 +110,26 @@
       "deactivated": "Time Plugin wurde deaktiviert",
       "message" : "Die Ortszeit des Streamers ist: {time}"
     },
+    "poll": {
+      "activated": "Poll System wurde aktiviert",
+      "deactivated": "Poll System wurde deaktiviert",
+      "permissions": "Du hast keine berechtigung",
+      "pollstarted": "Ein Poll wurde gestartet, tippe !poll {votelist}",      
+      "startUsage": "Usage: !poll start <voteItem1> <voteItem2> ...",
+      "pollRunning": "Poll läuft bereits",      
+      "pollstopped": "Das Poll wurde beendet. Winner is:",
+      "results": "{voteItem}: {votes}",      
+      "pollNotRunning": "Zur Zeit läuft kein Poll!",      
+      "alreadyVoted": "Jeder darf nur einem voten. @{user}",
+      "startFailed": "Der start ist fehlgeschlagen versuch es erneut",
+      "missingargs": "Usage: !poll <voteItem> | getList | Moderator & creator: {commandlist}",
+      "somethingsWrong": "Irgendwas ist schief gegangen, versuch es noch einmal",
+      "itemNotInList": "{item} ist nicht in der Poll liste. Tippe: !poll getList um eine Liste zu bekommen.",    
+      "sameValues": "Die eintäge sollten nicht die gleichen sein! Der Poll wird gestoppt und resettet",
+      "uservoted": "Danke für dein vote. @{user}",
+      "voteReseted": "Der Poll wurde gestoppt und resettet!",
+      "winner": "{name} mit {votes} votes!"      
+    },
     "urbandictionary": {
       "activated": "Urbandictionary wurde aktiviert",
       "deactivated": "Urbandictionary wurde deaktiviert",
