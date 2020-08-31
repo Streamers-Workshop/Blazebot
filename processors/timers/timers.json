@@ -1,0 +1,9 @@
+{
+    "active": true,
+    
+    "timers":{
+        "name": "Test",
+        "message": "This is a test message",
+        "timer": 60
+    }
+}

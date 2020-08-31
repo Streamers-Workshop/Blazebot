@@ -145,6 +145,16 @@
           "draw": "The results are equal. You got your points back. @{user}",
           "win":"Congratulations, You won {playerBetH} points. @{user}"
         },
+        "gamble":
+        {
+          "activated": "Casino - Gamble Game Activated",
+          "deactivated": "Casino - Gamble Game Deactivated",
+          "error_bet": "Please enter a valid number or all.",
+          "banned": "We are sorry, you have been banned from our casino. @{user}",
+          "balance": "You don't have enough points to gamble. @{user}",
+          "min_bet": "Please enter a valid gamble amount. Minimum amount is 100 points. @{user}",
+          "win":"Congratulations, You won {win} points. @{user}"
+        },
         "slots":
         {
           "activated": "Casino - Slots Game Activated",
