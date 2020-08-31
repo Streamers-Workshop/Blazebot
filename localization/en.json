@@ -40,6 +40,49 @@
       "created": "Command: {command}, has been added.",
       "edited": "Command {command}, has been edited.",
       "deleted": "Command {command}, has been deleted"
+    },
+    "user_info":
+    {
+      "activated": "User Information has been Activated",
+      "deactivated" : "User Information has been Deactivated",
+      "plugins":
+      {
+        "adding":
+        {
+          "error_user": "Please @ a user to give them points. ex: !add @user 1000",
+          "success": "{user} has added {ammount} points to {receiver} balance. They now have: {points} points",
+          "activated": "Add Plugin activated",
+          "deactivated": "Add Plugin deactivated"
+        },
+        "give": 
+        {
+          "success": "{user} has given {ammount} points to {receiver}",
+          "insufficient_funds": "{user} you do not have enough points to give away. Please do !points to see your current points.",
+          "negative": "You cannot give a user negative points.",
+          "error_user": "Please @ a user to give them points. ex: !give @user 1000",
+          "activated": "Give Plugin activated",
+          "deactivated": "Give Plugin deactivated"
+        },
+        "points":
+        {
+          "activated": "Points Plugin has been activated",
+          "deactivated": "Points Plugins has been deactivated",
+          "message": "@{user} has {points} points."
+        },
+        "level":
+        {
+          "activated": "Level Plugin has been activated",
+          "deactivated": "Level Plugins has been deactivated",
+          "message": "@{user} is level: {level} (XP: {xp}/{goal})."
+        },
+        "seen":
+        {
+          "activated": "Seen Plugin Activated",
+          "deactivated":"Seen Plugin Deactivated",
+          "message": "@{user} was last seen: {seen}",
+          "no_args":"You didn't specify a user."
+        }
+      }
     }
   },
   "plugins": {
@@ -63,6 +106,69 @@
       "consolecommand": "This bot was created by Bioblaze Payne",
       "consolecommanddesc": "Tells you information about the Bot itself."
     },
+    "casino": {
+      "activated": "Casino Games Pack Activated",
+      "deactivated": "Casino Games Pack Deactivated",
+      "message": "Welcome to the casino, check out our games: Blackjack, dice, slots & wheel.",
+      "plugins":
+      {
+        "blackjack":
+        {
+          "activated": "Casino - Blackjack Game Activated",
+          "deactivated": "Casino - Blackjack Game Deactivated",
+          "you_lost": "Unfortunately you lost.",
+          "player_blackjack": "Blackjack! You have earned {playerBet} points.",
+          "player_hand": "Your hand: ${cards} (Total: ${total})",
+          "dealer_hand": "Dealers Hand: {dealer_hand}",
+          "dealerfinishdraw" : "The dealer has finished drawing cards and his hand contains: {dealerHandString}(Total: {dealerTotalH})",
+          "dealer_blackjack": "Dealer Blackjack! You lose",
+          "dealer_bust": "Dealer's hand passed 21. You won {playerBetH} Points.",
+          "instructions": "Please use '!blackjack stand' to keep your hand as is or '!blackjack hit' to be dealt an additional card.",
+          "draw": "The results are equal. You got your points back.",
+          "win": "Congratulations, You won {playerBetH} points.",
+          "no_points": "You don't have enough points to play.",
+          "new_hand": "Your new hand: {handString} (Total: {playerTotalH})",
+          "error_bet": "Please enter a valid number.",
+          "progress": "Please finish the game you started first.",
+          "banned": "We are sorry, you have been banned from our casino."
+        },
+        "dice": 
+        {
+          "activated": "Casino - Dice Game Activated",
+          "deactivated": "Casino - Dice Game Deactivated",
+          "error_bet": "Please enter a valid number.",
+          "banned": "We are sorry, you have been banned from our casino. @{user}",
+          "balance": "You don't have enough points to play. @{user}",
+          "min_bet": "Please enter a valid bet amount. Minimum amount is 20 points. @{user}",
+          "results": "Dice you rolled: {playerDice1}, {playerDice2} (Total: {playerTotal}).\nCasino dice: {dealerDice1}, {dealerDice2} (Total: {dealerTotal}).",
+          "lose": "Unfortunately you lost @{user}",
+          "draw": "The results are equal. You got your points back. @{user}",
+          "win":"Congratulations, You won {playerBetH} points. @{user}"
+        },
+        "slots":
+        {
+          "activated": "Casino - Slots Game Activated",
+          "deactivated": "Casino - Slots Game Deactivated",
+          "banned": "We are sorry, you have been banned from our casino. @{user}", 
+          "error_bet":"Please enter a valid number.",
+          "balance":"You don't have enough points to play. @{user}",
+          "min_bet":"Please enter a valid bet amount. Minimum amount is 100 points. @{user}",
+          "win": "Congratulations, You won {playerBet} points. @{user}"
+        },
+        "wheel":
+        {
+          "activated":"Casino - Wheel Game Activated",
+          "deactivated": "Casino - Wheel Game Deactivated",
+          "banned":"We are sorry, you have been banned from our casino. @{user}",
+          "typo": "Correct Usage: !wheel <bet amount> <1, 2, 5, 10, 20> @{user}",
+          "balance":"You don't have enough points to play. @{user}",
+          "min_bet":"Please enter a valid bet amount. Minimum amount is 100 points. @{user}",
+          "spun": "The wheel has been spun and it points ${wheel}. @{user}",
+          "win":"Congratulations, You won {playerBet} points. @{user}",
+          "lose":"Unfortunately you lost @{user}"
+        }
+      }
+    },
     "google": {
       "activated": "Google search has been Activated",
       "deactivated": "Google search has been Deactivated",
@@ -74,6 +180,13 @@
       "deactivated": "game picker has been Deactivated",
       "processed": "@{user} randomly picked {result}",
       "incorrect": "@{user} incorrect argument user must use 'pick' to initiate game randomizer"
+    },
+    "hydrate": {
+      "activated": "Hydrate has been Activated",
+      "deactivated": "Hydrate has been Deactivated",
+      "error": "Hydrate Error: {error}",
+      "start": "Great, I will make sure the streamer stays hydrated! 💧",
+      "interval": "Streamer, I recommend you drink some water! I will remind you again in 30 minutes"
     },
     "instagram": {
       "activated": "IG has been Activated",
@@ -102,6 +215,38 @@
       "activated":"Time Plugin has been Activated",
       "deactivated": "Time Plugin has been Deactivated",
       "message" : "The streamers local time is: {time}"
+    },
+    "poll": {
+      "activated": "Poll System aktivated",
+      "deactivated": "Poll System Deactivated",
+      "permissions": "You don't have permission to do that!",          
+      "pollstarted": "Poll started, type !poll {votelist}",      
+      "startUsage": "Usage: !poll start <voteItem1> <voteItem2> ...",
+      "pollRunning": "Poll already running",      
+      "pollstopped": "Poll is finished. Winner is:",
+      "results": "{voteItem}: {votes}",      
+      "pollNotRunning": "There is no poll running!",      
+      "alreadyVoted": "Only 1 vote for each User. @{user}",
+      "startFailed": "The start failed, please try again",
+      "missingargs": "Usage: !poll <voteItem> | getList | Moderator & creator: {commandlist}",
+      "somethingsWrong": "Something went wrong try again or contact the Streamer or the Mods",
+      "itemNotInList": "{item} is not in the Votelist. Type: !poll getList to see a list of items to vote for",    
+      "sameValues": "Vote items can't be the same Values poll will be reseted",
+      "uservoted": "Thanks for Voting. @{user}",
+      "voteReseted": "The vote has stopped and the List was cleared!",
+      "winner": "{name} with {votes} votes!"      
+    },
+    "urbandictionary": {
+      "activated": "Urbandictionary has been Activated",
+      "deactivated": "Urbandictionary has been Deactivated",
+      "error": "Urbandictionary Error: {error}",
+      "info": "@{user} {word} - {definition}"
+    },
+    "warzone": {
+      "activated": "Warzone Stats has been Activated",
+      "deactivated": "Warzone Stats has been Deactivated",
+      "error": "Warzone Stats Error: {error}",
+      "info": "@{user} Here are my Warzone Stats:\r Kills: {kills}\r Deaths: {deaths}\rK/D Ratio: {kdr}\rWins: {wins}\r Top 5 Placements: {top5}\r Top 10 Placements: {top10}\r I played {totma} rounds\r On average I live for: {avgLife}\r I am currently level {level}"
     },
     "xkcd": {
       "activated": "XKCD has been Activated",
