@@ -1,4 +1,5 @@
 const Bot = require('../../modules/Bot.js');
+var i = null;
 
 module.exports = {
   name: 'shout-out',
@@ -34,7 +35,7 @@ module.exports = {
           client.sendMessage(Bot.translate("plugins.shoutout.undefined"));
           return;
         }
-        setInterval(function() {
+        i=setInterval(function() {
           if (counter > 4) {
             return;
           }
@@ -56,6 +57,7 @@ module.exports = {
     Bot.log(Bot.translate("plugins.shoutout.activated"));
   },
   deactivate() {
+    clearInterval(i);
     Bot.log(Bot.translate("plugins.shoutout.deactivated"));
   }
 };
