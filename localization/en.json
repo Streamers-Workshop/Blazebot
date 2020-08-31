@@ -54,7 +54,7 @@
           "activated": "Add Plugin activated",
           "deactivated": "Add Plugin deactivated"
         },
-        "give": 
+        "give":
         {
           "success": "{user} has given {ammount} points to {receiver}",
           "insufficient_funds": "{user} you do not have enough points to give away. Please do !points to see your current points.",
@@ -132,7 +132,7 @@
           "progress": "Please finish the game you started first.",
           "banned": "We are sorry, you have been banned from our casino."
         },
-        "dice": 
+        "dice":
         {
           "activated": "Casino - Dice Game Activated",
           "deactivated": "Casino - Dice Game Deactivated",
@@ -159,7 +159,7 @@
         {
           "activated": "Casino - Slots Game Activated",
           "deactivated": "Casino - Slots Game Deactivated",
-          "banned": "We are sorry, you have been banned from our casino. @{user}", 
+          "banned": "We are sorry, you have been banned from our casino. @{user}",
           "error_bet":"Please enter a valid number.",
           "balance":"You don't have enough points to play. @{user}",
           "min_bet":"Please enter a valid bet amount. Minimum amount is 100 points. @{user}",
@@ -208,7 +208,10 @@
       "activated": "Shout-out has been Activated",
       "deactivated": "Shout-out has been Deactivated",
       "mentionuser": "Check out {mention} at https://trovo.live/{user} - They are an awesome streamer and deserve some community love!",
-      "mentionaccount": "Check out {account} at https://trovo.live/{account} - They are an awesome streamer and deserve some community love!"
+      "mentionaccount": "Check out {account} at https://trovo.live/{account} - They are an awesome streamer and deserve some community love!",
+      "args": "Example Usage: = !so default <username> , !so raid <username>",
+      "raid": "This is a raid. Go to the channel of @{raidedChannel} now. --> https://trovo.live/{raidedChannel}",
+      "undefined": "Username is missing. Try again"
     },
     "say": {
       "activated": "Say has been Activated",
@@ -229,22 +232,22 @@
     "poll": {
       "activated": "Poll System aktivated",
       "deactivated": "Poll System Deactivated",
-      "permissions": "You don't have permission to do that!",          
-      "pollstarted": "Poll started, type !poll {votelist}",      
+      "permissions": "You don't have permission to do that!",
+      "pollstarted": "Poll started, type !poll {votelist}",
       "startUsage": "Usage: !poll start <voteItem1> <voteItem2> ...",
-      "pollRunning": "Poll already running",      
+      "pollRunning": "Poll already running",
       "pollstopped": "Poll is finished. Winner is:",
-      "results": "{voteItem}: {votes}",      
-      "pollNotRunning": "There is no poll running!",      
+      "results": "{voteItem}: {votes}",
+      "pollNotRunning": "There is no poll running!",
       "alreadyVoted": "Only 1 vote for each User. @{user}",
       "startFailed": "The start failed, please try again",
       "missingargs": "Usage: !poll <voteItem> | getList | Moderator & creator: {commandlist}",
       "somethingsWrong": "Something went wrong try again or contact the Streamer or the Mods",
-      "itemNotInList": "{item} is not in the Votelist. Type: !poll getList to see a list of items to vote for",    
+      "itemNotInList": "{item} is not in the Votelist. Type: !poll getList to see a list of items to vote for",
       "sameValues": "Vote items can't be the same Values poll will be reseted",
       "uservoted": "Thanks for Voting. @{user}",
       "voteReseted": "The vote has stopped and the List was cleared!",
-      "winner": "{name} with {votes} votes!"      
+      "winner": "{name} with {votes} votes!"
     },
     "urbandictionary": {
       "activated": "Urbandictionary has been Activated",
