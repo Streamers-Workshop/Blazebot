@@ -41,14 +41,14 @@ Bot.loadLocalizationFiles(path.resolve(__dirname, 'localization')).then(() => {
 const cooldowns = new Map();
 
 client.on('chatEvent', (type, data) => {
-   //Bot.log(util.inspect(data, false, null, true /* enable colors */))
+   //Bot.log(`chatEvent/r/n` + util.inspect(data, false, null, true /* enable colors */))
   if (data.user === Bot.settings.trovo.name && type === 'userJoined') return;
 
   Bot.triggerEvents(data.chatType, client, data);
 });
 
 client.on('chatMessage', (message) => {
-  //Bot.log(util.inspect(message, false, null, true /* enable colors */))
+  //Bot.log(`chatMessage/r/n` + util.inspect(message, false, null, true /* enable colors */))
   Bot.processProcessors(message, client).then((skip) => {
     if (skip) return;
     if (!message || message.user === undefined) return;

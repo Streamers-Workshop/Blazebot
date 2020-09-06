@@ -21,7 +21,7 @@
     "random-words": "^1.1.1",
     "slobs.js": "^1.0.11",
     "socket.io": "^2.3.0",
-    "trovo.js": "^1.8.2",
+    "trovo.js": "^1.8.3",
     "vorpal": "^1.12.0",
     "ws": "^7.3.1"
   },
@@ -31,10 +31,26 @@
   },
   "keywords": [],
   "funding": {
-    "type": "patreon",
-    "url": "https://www.patreon.com/BioblazePayne"
+    "type": "group",
+    "url": "https://liberapay.com/StreamersWorkshop"
   },
-  "author": "Bioblaze Payne <bioblazepayne@gmail.com> (https://github.com/Bioblaze)",
+  "author": {
+    "name": "Randolph `Bioblaze Payne` Aarseth",
+    "email": "bioblazepayne@gmail.com",
+    "url": "https://github.com/Bioblaze"
+  },
   "license": "Apache-2.0",
-  "description": ""
+  "description": "",
+  "contributors": [
+    {
+      "name": "Bioblaze Payne",
+      "email": "bioblazepayne@gmail.com",
+      "url": "https://github.com/Bioblaze"
+    },
+    {
+      "name": "Bulllox",
+      "email": "bullloxstreaming@web.de",
+      "url": "https://github.com/bulllox"
+    }
+  ]
 }
