@@ -266,6 +266,19 @@
       "deactivated": "XKCD has been Deactivated",
       "error": "XKCD Error: {error}",
       "processed": "@{user} - {result}"
+    },
+    "giveaway": 
+    {
+      "activated": "Giveaway activated",
+      "deactivated": "Giveaway deactivated",
+      "started": "Giveaway started you have {h}:{m}:{s} to type !join",
+      "runningGiveaway": "You still have time to type !join",
+      "winner": "The Giveaway winner is {user}",
+      "noOneJoined": "No one Joined the Giveaway",
+      "noTime": "You need to set a Time for the Giveaway",
+      "userExists": "You can only join the Giveaway 1 Time",
+      "userJoined": "User {username} joined the Giveaway",
+      "notRunning": "There is no Giveaway at the moment"
     }
   },
   "services": {
