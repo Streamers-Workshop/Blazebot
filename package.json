@@ -4,7 +4,7 @@
   "main": "index.js",
   "dependencies": {
     "ascii-table": "0.0.9",
-    "chance": "^1.1.6",
+    "chance": "^1.1.7",
     "clear": "^0.1.0",
     "colors": "^1.4.0",
     "discord-rpc": "^3.1.3",
