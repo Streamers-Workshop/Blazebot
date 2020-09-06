@@ -25,7 +25,7 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 version="2.0.0"
 nodeLTS="12.18.3"
-link="https://github.com/Bioblaze/TrovoBot/archive/${version}.zip"
+link="https://github.com/Streamers-Workshop/TrovoBot/archive/${version}.zip"
 
 # Script can be executed only in linux
 #linux=$(echo "$OSTYPE" | grep "linux")

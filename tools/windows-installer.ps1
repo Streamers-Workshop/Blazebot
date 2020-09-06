@@ -45,7 +45,7 @@ iex "refreshenv"
 
 Write-Host "Downloading TrovoBot..."
 
-Invoke-WebRequest -Uri "https://github.com/Bioblaze/TrovoBot/archive/master.zip" -OutFile "$($Env:temp)\trovobot_setup\master.zip"
+Invoke-WebRequest -Uri "https://github.com/Streamers-Workshop/TrovoBot/archive/master.zip" -OutFile "$($Env:temp)\trovobot_setup\master.zip"
 
 Write-Host "Setting up TrovoBot..."
 
