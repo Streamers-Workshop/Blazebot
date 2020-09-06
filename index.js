@@ -2,7 +2,6 @@ const path = require('path');
 const util = require('util');
 
 const trovojs = require('trovo.js');
-const BottomBar = require('inquirer/lib/ui/bottom-bar');
 
 var DEV = false;
 
@@ -117,7 +116,7 @@ client.on('chatMessage', (message) => {
       client.sendMessage(Bot.translate("bot.contact_creator"));
     }
   }).catch((e) => {
-    console.log(e);
+    Bot.log(e);
     if (e) {
       client.sendMessage(Bot.translate("bot.process_error", {
         err: e

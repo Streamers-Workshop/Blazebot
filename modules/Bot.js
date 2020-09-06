@@ -1113,9 +1113,100 @@ Bot.prototype.defaultFallbackLocalization = () => {
       "chatlog": {
         "activated": "Chatlog Processor Activated.",
         "deactivated": "Chatlog Processor Deactivated."
+      },
+      "jsoncommands":{
+        "plugins":{
+          "create":{
+            "exists_error" : "{com} already exists!",
+            "error_writing": "Error writing {fileName} : {error}",
+            "no_args":"You didn't specify a response",
+            "created": "Command: {com} , has been added.",
+            "activated": "jsoncommands - Create plugin has been Activated.",
+            "deactivated": "jsoncommands - Create plugin has been Activated."
+          },
+          "edit":{
+            "edited":"Command {command}, has been edited.",
+            "error_writing": "Error writing {fileName} : {error}",
+            "no_args":"You didn't specify a response",
+            "no_command":"{command} doesn't exist or is a pre-installed command",
+            "activated": "jsoncommands - Edit Plugin Activated",
+            "deactivated": "jsoncommands - Edit Plugin Deactivated"
+          },
+          "delete":{
+            "no_command":"{command} doesn't exist or is a pre-installed command",
+            "error_writing": "Error writing {fileName} : {error}",
+            "deleted":"Command {command}, has been deleted",
+            "activated":"jsoncommands - Delete Plugin Activated",
+            "deactivated": "jsoncommands - Delete Plugin Deactivated"
+          }
+        },
+        "activated": "Json Commands has been Activated.",
+        "deactivated": "Json Commands has been Deactivated.",
+        "no_command": "{command} doesn't exist or is a pre-installed command",
+        "existsError": "{com} already exists!",
+        "no_args" : "You didn't specify a response",
+        "errorEditing": "You didn't specify what you'd like to edit the command to.",
+        "errorWriting": "Error writing {fileName} : {error}",
+        "created": "Command: {command}, has been added.",
+        "edited": "Command {command}, has been edited.",
+        "deleted": "Command {command}, has been deleted"
+      },
+      "user_info":
+      {
+        "activated": "User Information has been Activated",
+        "deactivated" : "User Information has been Deactivated",
+        "plugins":
+        {
+          "adding":
+          {
+            "error_user": "Please @ a user to give them points. ex: !add @user 1000",
+            "success": "{user} has added {ammount} points to {receiver} balance. They now have: {points} points",
+            "activated": "Add Plugin activated",
+            "deactivated": "Add Plugin deactivated"
+          },
+          "give":
+          {
+            "success": "{user} has given {ammount} points to {receiver}",
+            "insufficient_funds": "{user} you do not have enough points to give away. Please do !points to see your current points.",
+            "negative": "You cannot give a user negative points.",
+            "error_user": "Please @ a user to give them points. ex: !give @user 1000",
+            "activated": "Give Plugin activated",
+            "deactivated": "Give Plugin deactivated"
+          },
+          "points":
+          {
+            "activated": "Points Plugin has been activated",
+            "deactivated": "Points Plugins has been deactivated",
+            "message": "@{user} has {points} points."
+          },
+          "level":
+          {
+            "activated": "Level Plugin has been activated",
+            "deactivated": "Level Plugins has been deactivated",
+            "message": "@{user} is level: {level} (XP: {xp}/{goal})."
+          },
+          "seen":
+          {
+            "activated": "Seen Plugin Activated",
+            "deactivated":"Seen Plugin Deactivated",
+            "message": "@{user} was last seen: {seen}",
+            "no_args":"You didn't specify a user."
+          }
+        }
       }
     },
     "plugins": {
+      "8ball":
+      {
+        "activated": "8-Ball Plugin Activated",
+        "deactivated": "8-ball Plugin Deactivated"
+      },
+      "alerts":
+      {
+        "activated" : "Alerts have been Activated",
+        "deactivated" : "Alerts have been Deactivated",
+        "error_writing" : "Error writing {fileName} : {error}"
+      },
       "bot": {
         "activated": "Bot Information Plugin Activated",
         "deactivated": "Bot Information Plugin Deactivated",
@@ -1125,11 +1216,112 @@ Bot.prototype.defaultFallbackLocalization = () => {
         "consolecommand": "This bot was created by Bioblaze Payne",
         "consolecommanddesc": "Tells you information about the Bot itself."
       },
+      "casino": {
+        "activated": "Casino Games Pack Activated",
+        "deactivated": "Casino Games Pack Deactivated",
+        "message": "Welcome to the casino, check out our games: Blackjack, dice, slots & wheel.",
+        "plugins":
+        {
+          "blackjack":
+          {
+            "activated": "Casino - Blackjack Game Activated",
+            "deactivated": "Casino - Blackjack Game Deactivated",
+            "you_lost": "Unfortunately you lost.",
+            "player_blackjack": "Blackjack! You have earned {playerBet} points.",
+            "player_hand": "Your hand: ${cards} (Total: ${total})",
+            "dealer_hand": "Dealers Hand: {dealer_hand}",
+            "dealerfinishdraw" : "The dealer has finished drawing cards and his hand contains: {dealerHandString}(Total: {dealerTotalH})",
+            "dealer_blackjack": "Dealer Blackjack! You lose",
+            "dealer_bust": "Dealer's hand passed 21. You won {playerBetH} Points.",
+            "instructions": "Please use '!blackjack stand' to keep your hand as is or '!blackjack hit' to be dealt an additional card.",
+            "draw": "The results are equal. You got your points back.",
+            "win": "Congratulations, You won {playerBetH} points.",
+            "no_points": "You don't have enough points to play.",
+            "new_hand": "Your new hand: {handString} (Total: {playerTotalH})",
+            "error_bet": "Please enter a valid number.",
+            "progress": "Please finish the game you started first.",
+            "banned": "We are sorry, you have been banned from our casino."
+          },
+          "dice":
+          {
+            "activated": "Casino - Dice Game Activated",
+            "deactivated": "Casino - Dice Game Deactivated",
+            "error_bet": "Please enter a valid number.",
+            "banned": "We are sorry, you have been banned from our casino. @{user}",
+            "balance": "You don't have enough points to play. @{user}",
+            "min_bet": "Please enter a valid bet amount. Minimum amount is 20 points. @{user}",
+            "results": "Dice you rolled: {playerDice1}, {playerDice2} (Total: {playerTotal}).\nCasino dice: {dealerDice1}, {dealerDice2} (Total: {dealerTotal}).",
+            "lose": "Unfortunately you lost @{user}",
+            "draw": "The results are equal. You got your points back. @{user}",
+            "win":"Congratulations, You won {playerBetH} points. @{user}"
+          },
+          "gamble":
+          {
+            "activated": "Casino - Gamble Game Activated",
+            "deactivated": "Casino - Gamble Game Deactivated",
+            "error_bet": "Please enter a valid number or all.",
+            "banned": "We are sorry, you have been banned from our casino. @{user}",
+            "balance": "You don't have enough points to gamble. @{user}",
+            "min_bet": "Please enter a valid gamble amount. Minimum amount is 100 points. @{user}",
+            "win":"Congratulations, You won {win} points. @{user}"
+          },
+          "slots":
+          {
+            "activated": "Casino - Slots Game Activated",
+            "deactivated": "Casino - Slots Game Deactivated",
+            "banned": "We are sorry, you have been banned from our casino. @{user}",
+            "error_bet":"Please enter a valid number.",
+            "balance":"You don't have enough points to play. @{user}",
+            "min_bet":"Please enter a valid bet amount. Minimum amount is 100 points. @{user}",
+            "win": "Congratulations, You won {playerBet} points. @{user}"
+          },
+          "wheel":
+          {
+            "activated":"Casino - Wheel Game Activated",
+            "deactivated": "Casino - Wheel Game Deactivated",
+            "banned":"We are sorry, you have been banned from our casino. @{user}",
+            "typo": "Correct Usage: !wheel <bet amount> <1, 2, 5, 10, 20> @{user}",
+            "balance":"You don't have enough points to play. @{user}",
+            "min_bet":"Please enter a valid bet amount. Minimum amount is 100 points. @{user}",
+            "spun": "The wheel has been spun and it points ${wheel}. @{user}",
+            "win":"Congratulations, You won {playerBet} points. @{user}",
+            "lose":"Unfortunately you lost @{user}"
+          }
+        }
+      },
+      "google": {
+        "activated": "Google search has been Activated",
+        "deactivated": "Google search has been Deactivated",
+        "processed": "@{user} - {result}",
+        "args": "Example Usage: = !google search <word> , !google random"
+      },
+      "gamep": {
+        "activated": "game picker has been Activated",
+        "deactivated": "game picker has been Deactivated",
+        "processed": "@{user} randomly picked {result}",
+        "incorrect": "@{user} incorrect argument user must use 'pick' to initiate game randomizer"
+      },
+      "hydrate": {
+        "activated": "Hydrate has been Activated",
+        "deactivated": "Hydrate has been Deactivated",
+        "error": "Hydrate Error: {error}",
+        "start": "Great, I will make sure the streamer stays hydrated! 💧",
+        "interval": "Streamer, I recommend you drink some water! I will remind you again in 30 minutes"
+      },
+      "instagram": {
+        "activated": "IG has been Activated",
+        "deactivated": "IGhas been Deactivated",
+        "error": "IG Error: {error}",
+        "info": "@{user} streamer's latest instagram post - https://www.instagram.com/p/{result}"
+      },
       "shoutout": {
         "activated": "Shout-out has been Activated",
         "deactivated": "Shout-out has been Deactivated",
         "mentionuser": "Check out {mention} at https://trovo.live/{user} - They are an awesome streamer and deserve some community love!",
-        "mentionaccount": "Check out {account} at https://trovo.live/{account} - They are an awesome streamer and deserve some community love!"
+        "mentionaccount": "Check out {account} at https://trovo.live/{account} - They are an awesome streamer and deserve some community love!",
+        "args": "Example Usage: = !so default <username> , !so raid <username>",
+        "raid": "This is a raid. Go to the channel of @{raidedChannel} now. --> https://trovo.live/{raidedChannel}",
+        "undefined": "Username is missing. Try again"
       },
       "say": {
         "activated": "Say has been Activated",
@@ -1140,6 +1332,63 @@ Bot.prototype.defaultFallbackLocalization = () => {
         "activated": "Ping has been Activated",
         "deactivated": "Ping has been Deactivated",
         "pong": "@{user} Pong I dare say."
+      },
+      "time":
+      {
+        "activated":"Time Plugin has been Activated",
+        "deactivated": "Time Plugin has been Deactivated",
+        "message" : "The streamers local time is: {time}"
+      },
+      "poll": {
+        "activated": "Poll System aktivated",
+        "deactivated": "Poll System Deactivated",
+        "permissions": "You don't have permission to do that!",
+        "pollstarted": "Poll started, type !poll {votelist}",
+        "startUsage": "Usage: !poll start <voteItem1> <voteItem2> ...",
+        "pollRunning": "Poll already running",
+        "pollstopped": "Poll is finished. Winner is:",
+        "results": "{voteItem}: {votes}",
+        "pollNotRunning": "There is no poll running!",
+        "alreadyVoted": "Only 1 vote for each User. @{user}",
+        "startFailed": "The start failed, please try again",
+        "missingargs": "Usage: !poll <voteItem> | getList | Moderator & creator: {commandlist}",
+        "somethingsWrong": "Something went wrong try again or contact the Streamer or the Mods",
+        "itemNotInList": "{item} is not in the Votelist. Type: !poll getList to see a list of items to vote for",
+        "sameValues": "Vote items can't be the same Values poll will be reseted",
+        "uservoted": "Thanks for Voting. @{user}",
+        "voteReseted": "The vote has stopped and the List was cleared!",
+        "winner": "{name} with {votes} votes!"
+      },
+      "urbandictionary": {
+        "activated": "Urbandictionary has been Activated",
+        "deactivated": "Urbandictionary has been Deactivated",
+        "error": "Urbandictionary Error: {error}",
+        "info": "@{user} {word} - {definition}"
+      },
+      "warzone": {
+        "activated": "Warzone Stats has been Activated",
+        "deactivated": "Warzone Stats has been Deactivated",
+        "error": "Warzone Stats Error: {error}",
+        "info": "@{user} Here are my Warzone Stats:\r Kills: {kills}\r Deaths: {deaths}\rK/D Ratio: {kdr}\rWins: {wins}\r Top 5 Placements: {top5}\r Top 10 Placements: {top10}\r I played {totma} rounds\r On average I live for: {avgLife}\r I am currently level {level}"
+      },
+      "xkcd": {
+        "activated": "XKCD has been Activated",
+        "deactivated": "XKCD has been Deactivated",
+        "error": "XKCD Error: {error}",
+        "processed": "@{user} - {result}"
+      },
+      "giveaway": 
+      {
+        "activated": "Giveaway activated",
+        "deactivated": "Giveaway deactivated",
+        "started": "Giveaway started you have {h}:{m}:{s} to type !join",
+        "runningGiveaway": "You still have time to type !join",
+        "winner": "The Giveaway winner is {user}",
+        "noOneJoined": "No one Joined the Giveaway",
+        "noTime": "You need to set a Time for the Giveaway",
+        "userExists": "You can only join the Giveaway 1 Time",
+        "userJoined": "User {username} joined the Giveaway",
+        "notRunning": "There is no Giveaway at the moment"
       }
     },
     "services": {
@@ -1156,7 +1405,16 @@ Bot.prototype.defaultFallbackLocalization = () => {
         "deactivated": "OBS Service Deactivated",
         "connected": "Connected to OBS",
         "retry_attempt": "Unable to connect to OBS. Attempting to reconnect: {count} of {max}",
-        "stopping_retry": "Stopping OBS connection attempts"
+        "stopping_retry": "Stopping OBS connection attempts",
+        "no_source": "Couldn't find Source: {source} in Scene: {scene}"
+      },
+      "slobs":
+      {
+        "activated": "SLOBS Service Activated",
+        "deactivated": "SLOBS Service Deactivated",
+        "error": "Slobs Error: {error}",
+        "close": "Slobs Closed. Reason: {close}",
+        "connected": "Connected to SLOBS"
       },
       "http": {
         "activated": "HTTP Overlay Module Started on Port({settings.port})",
@@ -1176,10 +1434,12 @@ Bot.prototype.defaultFallbackLocalization = () => {
       "status": "STATUS",
       "state": "STATE",
       "plugin_load_access_error": "Error Accessing Plugin Directory ({directory})\r\nError: {err}",
+      "plugin_unload_access_error": "Error Accessing a Plugin Directory ({directory})\r\nError: {err}",
       "active": "Active",
       "inactive": "In-active",
       "loaded": "LOADED",
       "plugin_load_try_error": "Error Attempting to Load Plugin({name}) located at: {dir}\r\nError: {err}",
+      "plugin_unload_try_error": "Error Attempting to Load Plugin({name}) located at: {dir}\r\nError: {err}",
       "get_plugin_error": "Invalid Plugin Requested. Check your spelling for Plugin: {plugin}",
       "get_processor_error": "Invalid Processor Requested. Check your spelling for Processor: {processor}",
       "get_service_error": "Invalid Service Requested. Check your spelling for Service: {service}",
@@ -1223,7 +1483,7 @@ Bot.prototype.defaultFallbackLocalization = () => {
       "processor_deactivate_desc": "Deactivates a Processor.",
       "deactivate_all_processors_desc": "Deactivates all Processors.",
       "activate_all_processors_desc": "Activates all Processors.",
-  	  "processor_already_active": "Processor already Active, cannot active processor.",
+      "processor_already_active": "Processor already Active, cannot active processor.",
       "processor_activated": "Activated Processor, and updated Settings file for the Processor.",
       "processor_activated_error": "Error while trying to Activate Processor({name})\r\nError: {e}",
       "processor_already_inactive": "Processor already Inactive, cannot deactivate processor.",
@@ -1231,8 +1491,8 @@ Bot.prototype.defaultFallbackLocalization = () => {
       "processor_deactivated_error": "Error while trying to Deactivate Processor({name})\r\nError: {e}",
       "processors_deactivated": "All Processors Deactivated, and updated the Settings file for each Processor.",
       "processors_activated": "All Processors Activated, and updated the Settings file for each Processor.",
-  	  "reloaded_processor": "Reloaded Processor~",
-  	  "processor_name_invalid": "No Processor found by that name, please check your Spelling and try again.",
+      "reloaded_processor": "Reloaded Processor~",
+      "processor_name_invalid": "No Processor found by that name, please check your Spelling and try again.",
       "service_info_desc": "Gives you information on a Service within the System~",
       "services_desc": "Displays a List of all Services within Trovobot, that are LOADED.",
       "service_reload_desc": "Reloads a specific Service.",
@@ -1240,7 +1500,7 @@ Bot.prototype.defaultFallbackLocalization = () => {
       "service_deactivate_desc": "Deactivates a Service.",
       "deactivate_all_services_desc": "Deactivates all Services.",
       "activate_all_services_desc": "Activates all Services.",
-  	  "service_already_active": "Service already Active, cannot active service.",
+      "service_already_active": "Service already Active, cannot active service.",
       "service_activated": "Activated Service, and updated Settings file for the Service.",
       "service_activated_error": "Error while trying to Activate Service({name})\r\nError: {e}",
       "service_already_inactive": "Service already Inactive, cannot deactivate service.",
@@ -1248,8 +1508,8 @@ Bot.prototype.defaultFallbackLocalization = () => {
       "service_deactivated_error": "Error while trying to Deactivate Service({name})\r\nError: {e}",
       "services_deactivated": "All Services Deactivated, and updated the Settings file for each Service.",
       "services_activated": "All Services Activated, and updated the Settings file for each Service.",
-  	  "reloaded_service": "Reloaded Service~",
-  	  "service_name_invalid": "No Service found by that name, please check your Spelling and try again.",
+      "reloaded_service": "Reloaded Service~",
+      "service_name_invalid": "No Service found by that name, please check your Spelling and try again.",
       "setlang_console": "Sets the Language in the System",
       "setlang_invalid": "That is a invalid Language Option please try one of these Options: {langs}",
       "setlang_switch": "Changed Language to ({to}) from Language ({from})",
@@ -1269,7 +1529,8 @@ Bot.prototype.defaultFallbackLocalization = () => {
       "setup_failed": "Failed to Setup\r\nError: {err}",
       "setup_console": "Allows you to Setup the Settings.json from the Console directly."
     }
-  });
+  }
+  );
 }
 
 module.exports = (() => {

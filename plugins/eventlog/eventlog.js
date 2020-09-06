@@ -5,6 +5,7 @@ const Bot = require('../../modules/Bot.js');
 
 const settings = require('./eventlog.json');
 
+var save_interval = null;
 
 var events = {};
 
@@ -17,21 +18,38 @@ module.exports = {
   permissions: [], // This is for Permissisons depending on the Platform.
   cooldown: 60, // this is Set in Seconds, how long between the next usage of this command.
   execute(client, data) {
-    if (settings.use_data_folder) {
-      
-    } else {
-
-    }
+    events.log.push(data);
   },
   activate() {
     if (settings.use_data_folder) {
-      events = require(path.join(Bot.data, 'eventlogs', 'eventlogs.json'));
+      try {
+        events = require(path.join(Bot.data, 'eventlogs', 'eventlogs.json'));
+      } catch(e) {
+        events = {};
+      }
     } else {
       events = require(path.join(__dirname, 'eventlogs.json'));
     }
+    if (events.log == undefined) {
+      events.log = [];
+    }
+    save_interval = setInterval(function() {
+      try {
+        var dir = null;
+        if (settings.use_data_folder) {
+          dir = path.join(Bot.data, 'eventlogs', 'eventlogs.json');
+        } else {
+          dir = path.join(__dirname, 'eventlogs.json');
+        }
+        fs.writeFileSync(dir, JSON.stringify(events, null, 2));
+      } catch(e) {
+        Bot.log(e);
+      }
+    }, 5000);
     Bot.log(Bot.translate("plugins.bot.activated"))
   },
   deactivate() {
     Bot.log(Bot.translate("plugins.bot.deactivated"))
+    clearInterval(save_interval);
   }
 };
