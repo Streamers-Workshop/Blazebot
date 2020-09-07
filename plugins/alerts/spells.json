@@ -1,0 +1,87 @@
+{
+    "active": true,
+    "spelltest": false,
+    "testspellName": "On Fire",
+    "spells": {
+        "On Fire": {
+            "scene": "-ALERTS-",
+            "source": "ON_FIRE",
+            "delay": 5,
+            "message": "Thanks you {{user}} for the Spell!"
+        },
+        "Stay Safe": {
+            "scene": "-ALERTS-",
+            "source": "STAYSAFE",
+            "delay": 5,
+            "message": "Thanks you {{user}} for the Spell!"
+        },
+        "Rose": {
+            "scene": "-ALERTS-",
+            "source": "ROSE",
+            "delay": 5,
+            "message": "Thanks you {{user}} for the Spell!"
+        },
+        "HYPE": {
+            "scene": "-ALERTS-",
+            "source": "HYPE",
+            "delay": 5,
+            "message": "Thanks you {{user}} for the Spell!"
+        },
+        "Bravo!": {
+            "scene": "-ALERTS-",
+            "source": "BRAVO",
+            "delay": 5,
+            "message": "Thanks you {{user}} for the Spell!"
+        },
+        "Cake": {
+            "scene": "-ALERTS-",
+            "source": "Cake",
+            "delay": 5,
+            "message": "Thanks you {{user}} for the Spell!"
+        },
+        "Winner": {
+            "scene": "-ALERTS-",
+            "source": "WINNER",
+            "delay": 5,
+            "message": "Thanks you {{user}} for the Spell!"
+        },
+        "Shiny Unicorn": {
+            "scene": "-ALERTS-",
+            "source": "SHINY",
+            "delay": 5,
+            "message": "Thanks you {{user}} for the Spell!"
+        },
+        "GGWP": {
+            "scene": "-ALERTS-",
+            "source": "GG",
+            "delay": 5,
+            "message": "Thanks you {{user}} for the Spell!"
+        },
+        "Cash Bang": {
+            "scene": "-ALERTS-",
+            "source": "SPELL",
+            "delay": 5,
+            "message": "Thanks you {{user}} for the Spell!"
+        },
+        "EZ": {
+            "scene": "-ALERTS-",
+            "source": "SPELL",
+            "delay": 5,
+            "message": "Thanks you {{user}} for the Spell!"
+        },
+        "Top1": {
+            "scene": "-ALERTS-",
+            "source": "SPELL",
+            "delay": 5,
+            "message": "Thanks you {{user}} for the Spell!"
+        },
+        "Fam Star": {
+            "scene": "-ALERTS-",
+            "source": "SPELL",
+            "delay": 5,
+            "message": "Thanks you {{user}} for the Spell!"
+        }
+        
+    }
+
+}
