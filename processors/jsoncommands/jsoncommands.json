@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "commands": {
     "test": "Hello, @{{data.user}} how are you?"
   }
