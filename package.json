@@ -4,6 +4,7 @@
   "main": "index.js",
   "dependencies": {
     "ascii-table": "0.0.9",
+    "chalk": "^4.1.0",
     "chance": "^1.1.7",
     "clear": "^0.1.0",
     "colors": "^1.4.0",
@@ -11,6 +12,7 @@
     "ejs": "^3.1.5",
     "express": "^4.17.1",
     "figlet": "^1.5.0",
+    "glob": "^7.1.6",
     "handlebars": "^4.7.6",
     "inquirer": "^7.3.3",
     "localizify": "^2.0.0",
