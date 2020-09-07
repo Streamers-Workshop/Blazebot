@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "test": true,
   "alerts": {
     "follow": {
@@ -22,7 +22,7 @@
       "active": true,
       "scene": "-ALERTS-",
       "source": "SPELL",
-      "delay": 10,
+      "delay": 5,
       "message": "Thank you {{user}} for the Spells!",
       "httpMessage": "has cast a spell!"
     },
