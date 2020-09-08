@@ -1,0 +1,14 @@
+{
+    "nodifications": [
+        {
+            "message": "Test",
+            "delay": 10,
+            "msgCounter": 5
+        },
+        {
+            "message": "Test2",
+            "delay": 10,
+            "msgCounter": 10
+        }
+    ]
+}
