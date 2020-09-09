@@ -17,7 +17,7 @@ module.exports = {
         {
             if (userInfo[data.user].points > data.args[1] && data.args[1] > 0)
             {
-                userInfo[data.user].points = (parseInt(userInfo[data.user].points) - parseInt(data.args[1]));
+                //userInfo[data.user].points = (parseInt(userInfo[data.user].points) - parseInt(data.args[1]));
                 userInfo[data.args[0].substr(1)].points = parseInt(userInfo[data.args[0].substr(1)].points) + parseInt(data.args[1]);
                 client.sendMessage(Bot.translate("processors.user_info.plugins.give.success", 
                 {
