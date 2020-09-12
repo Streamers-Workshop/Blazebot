@@ -142,7 +142,9 @@ module.exports = {
       var source = "";
       var delay = "";
       var message = "";
-      if (spellSettings.active) {
+      
+      //If seperateSpells = true user will be able to use Alerts for each spell
+      if (settings.spell.seperateSpells) {
         if (spellSettings.spelltest) {
           var spellname = spellSettings.testspellName;
           
