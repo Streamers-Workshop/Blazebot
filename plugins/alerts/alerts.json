@@ -20,7 +20,7 @@
     },
     "spell": {
       "active": true,
-      "seperateSpells": true,
+      "seperateSpells": false,
       "scene": "-ALERTS-",
       "source": "SPELL",
       "delay": 5,
