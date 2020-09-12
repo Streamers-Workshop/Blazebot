@@ -6,79 +6,92 @@
             "scene": "-ALERTS-",
             "source": "ON_FIRE",
             "delay": 5,
-            "message": "Thanks you {{user}} for the Spell!"
+            "message": "Thanks you {{user}} for the Spell!",
+            "httpMessage": "has cast a spell!"
         },
         "Stay Safe": {
             "scene": "-ALERTS-",
             "source": "STAYSAFE",
             "delay": 5,
-            "message": "Thanks you {{user}} for the Spell!"
+            "message": "Thanks you {{user}} for the Spell!",
+            "httpMessage": "has cast a spell!"
         },
         "Rose": {
             "scene": "-ALERTS-",
             "source": "ROSE",
             "delay": 5,
-            "message": "Thanks you {{user}} for the Spell!"
+            "message": "Thanks you {{user}} for the Spell!",
+            "httpMessage": "has cast a spell!"
         },
         "HYPE": {
             "scene": "-ALERTS-",
             "source": "HYPE",
             "delay": 5,
-            "message": "Thanks you {{user}} for the Spell!"
+            "message": "Thanks you {{user}} for the Spell!",
+            "httpMessage": "has cast a spell!"
         },
         "Bravo!": {
             "scene": "-ALERTS-",
             "source": "BRAVO",
             "delay": 5,
-            "message": "Thanks you {{user}} for the Spell!"
+            "message": "Thanks you {{user}} for the Spell!",
+            "httpMessage": "has cast a spell!"
         },
         "Cake": {
             "scene": "-ALERTS-",
             "source": "Cake",
             "delay": 5,
-            "message": "Thanks you {{user}} for the Spell!"
+            "message": "Thanks you {{user}} for the Spell!",
+            "httpMessage": "has cast a spell!"
         },
         "Winner": {
             "scene": "-ALERTS-",
             "source": "WINNER",
             "delay": 5,
-            "message": "Thanks you {{user}} for the Spell!"
+            "message": "Thanks you {{user}} for the Spell!",
+            "httpMessage": "has cast a spell!"
         },
         "Shiny Unicorn": {
             "scene": "-ALERTS-",
             "source": "SHINY",
             "delay": 5,
-            "message": "Thanks you {{user}} for the Spell!"
+            "message": "Thanks you {{user}} for the Spell!",
+            "httpMessage": "has cast a spell!"
         },
         "GGWP": {
             "scene": "-ALERTS-",
             "source": "GG",
             "delay": 5,
-            "message": "Thanks you {{user}} for the Spell!"
+            "message": "Thanks you {{user}} for the Spell!",
+            "httpMessage": "has cast a spell!"
         },
         "Cash Bang": {
             "scene": "-ALERTS-",
             "source": "SPELL",
             "delay": 5,
-            "message": "Thanks you {{user}} for the Spell!"
+            "message": "Thanks you {{user}} for the Spell!",
+            "httpMessage": "has cast a spell!"
         },
         "EZ": {
             "scene": "-ALERTS-",
             "source": "SPELL",
             "delay": 5,
-            "message": "Thanks you {{user}} for the Spell!"
+            "message": "Thanks you {{user}} for the Spell!",
+            "httpMessage": "has cast a spell!"
         },
         "Top1": {
             "scene": "-ALERTS-",
             "source": "SPELL",
             "delay": 5,
-            "message": "Thanks you {{user}} for the Spell!"
+            "message": "Thanks you {{user}} for the Spell!",
+            "httpMessage": "has cast a spell!"
         },
         "Fam Star": {
             "scene": "-ALERTS-",
             "source": "SPELL",
             "delay": 5,
-            "message": "Thanks you {{user}} for the Spell!"
+            "message": "Thanks you {{user}} for the Spell!",
+            "httpMessage": "has cast a spell!"
         }
         
     }

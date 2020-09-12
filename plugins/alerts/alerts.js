@@ -142,7 +142,8 @@ module.exports = {
       var source = "";
       var delay = "";
       var message = "";
-      
+      var httpMessage = "";
+
       //If seperateSpells = true user will be able to use Alerts for each spell
       if (settings.alerts.spell.seperateSpells) {
         if (spellSettings.spelltest) {
@@ -153,12 +154,13 @@ module.exports = {
             source = spellSettings.spells[spellname].source;
             delay = spellSettings.spells[spellname].delay;
             message = spellSettings.spells[spellname].message;
+            httpMessage = spellSettings.spells[spellname].httpMessage;
           } else {
-            Bot.log(`Cant find ${spellname} triggering default spell`);
             scene = settings.alerts.spell.scene;
             source = settings.alerts.spell.source;
             delay = settings.alerts.spell.delay;
             message = settings.alerts.spell.message;
+            httpMessage = settings.alerts.spell.httpMessage;
           }
         } else {
           var spellName = data['content'].name;
@@ -167,11 +169,13 @@ module.exports = {
             source = spellSettings.spells[spellName].source;
             delay = spellSettings.spells[spellName].delay;
             message = spellSettings.spells[spellName].message;
+            httpMessage = spellSettings.spells[spellname].httpMessage;
           } else {
             scene = settings.alerts.spell.scene;
             source = settings.alerts.spell.source;
             delay = settings.alerts.spell.delay;
             message = settings.alerts.spell.message;
+            httpMessage = settings.alerts.spell.httpMessage;
           }
         }
       } else {
@@ -179,15 +183,15 @@ module.exports = {
         source = settings.alerts.spell.source;
         delay = settings.alerts.spell.delay;
         message = settings.alerts.spell.message;
+        httpMessage = settings.alerts.spell.httpMessage;
       }
-      Bot.log(scene);
       var template = Handlebars.compile(message);
       client.sendMessage(template({
         user: data.user,
       }));
       obsToggle(scene, source, delay);
       slobsToggle(source, delay);
-      https("spells", data.user, settings.alerts.spell.httpMessage);
+      https("spell", data.user, httpMessage);
     }
   },
   activate() {
