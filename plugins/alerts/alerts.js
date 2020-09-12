@@ -144,7 +144,7 @@ module.exports = {
       var message = "";
       
       //If seperateSpells = true user will be able to use Alerts for each spell
-      if (settings.spell.seperateSpells) {
+      if (settings.alerts.spell.seperateSpells) {
         if (spellSettings.spelltest) {
           var spellname = spellSettings.testspellName;
           
