@@ -32,10 +32,11 @@ function write2File(fileName, data)
 function obsToggle(scene, source, delay)
 {
     const obs = Bot.getService('obs-controller');
-    if (obs.output() !== null)
+    if (obs.output() !== null){
         obs.toggleSource(scene,source);
         setTimeout(function a() {obs.toggleSource(scene,source); }
                                                             , delay * 1000);
+    }
 
 }
 function slobsToggle(source, delay)
