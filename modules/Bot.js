@@ -1314,6 +1314,12 @@ Bot.prototype.defaultFallbackLocalization = () => {
         "error": "IG Error: {error}",
         "info": "@{user} streamer's latest instagram post - https://www.instagram.com/p/{result}"
       },
+      "socialblade": {
+        "activated": "Social Blade Statistics have been Activated",
+        "deactivated": "Social Blade Statistics have been Deactivated",
+        "processed": "@{user} - {result}",
+        "error": "Social Blade Error: {error}"
+      },	  
       "shoutout": {
         "activated": "Shout-out has been Activated",
         "deactivated": "Shout-out has been Deactivated",

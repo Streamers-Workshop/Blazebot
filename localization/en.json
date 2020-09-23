@@ -195,6 +195,12 @@
       "raidmessage": "This is a raid. Go to the channel of @{raidedChannel} now. --> https://trovo.live/{raidedChannel}",
       "undefined": "Username is missing. Try again"
     },
+    "socialblade": {
+      "activated": "Social Blade Statistics have been Activated",
+      "deactivated": "Social Blade Statistics have been Deactivated",
+      "processed": "@{user} - {result}",
+      "error": "Social Blade Error: {error}"
+    },	
     "shoutout": {
       "activated": "Shout-out has been Activated",
       "deactivated": "Shout-out has been Deactivated",
