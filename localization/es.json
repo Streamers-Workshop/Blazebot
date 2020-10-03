@@ -26,6 +26,13 @@
       "deactivated": "Say ha sido Desactivado",
       "nomessage": "Tienes que poner un mensaje."
     },
+      "timed-messages": {
+      "activated": "Timed-messages ha sido Activado",
+      "deactivated": "Timed-messages ha sido Desactivado",
+      "error": "Timed-messages el error: {error}",
+      "start": "Timed Messages activado!",
+	  "stop": "Timed Messages desactivado!"
+    },
     "ping": {
       "activated": "Ping ha sido Activado",
       "deactivated": "Ping ha sido Desactivado",
