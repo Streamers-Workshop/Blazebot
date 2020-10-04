@@ -1,6 +1,6 @@
 {
   "name": "trovobot",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "main": "index.js",
   "dependencies": {
     "ascii-table": "0.0.9",
@@ -21,7 +21,7 @@
     "random-words": "^1.1.1",
     "slobs.js": "^1.0.11",
     "socket.io": "^2.3.0",
-    "trovo.js": "^1.8.9",
+    "trovo.js": "^1.9.1",
     "vorpal": "^1.12.0",
     "ws": "^7.3.1"
   },
