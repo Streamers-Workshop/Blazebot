@@ -7,7 +7,7 @@ var DEV = false;
 
 const Bot = require(path.join(__dirname, 'modules', 'Bot.js'));
 
-const client = new trovojs.BrowserClient({ logger: Bot.log });
+const client = new trovojs.SocketClient({ logger: Bot.log });
 
 Bot.setClient(client);
 Bot.setRoot(path.resolve(__dirname));
@@ -134,4 +134,6 @@ client.login(
   Bot.settings.trovo.page,
   Bot.settings.trovo.email,
   Bot.settings.trovo.password,
+  Bot.settings.owner.email || null,
+  Bot.settings.owner.password || null
 );
