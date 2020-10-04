@@ -7,7 +7,7 @@ var DEV = false;
 
 const Bot = require(path.join(__dirname, 'modules', 'Bot.js'));
 
-const client = new trovojs.SocketClient({ logger: Bot.log });
+const client = new trovojs.BrowserClient({ logger: Bot.log, headless: !DEV });
 
 Bot.setClient(client);
 Bot.setRoot(path.resolve(__dirname));
@@ -46,7 +46,6 @@ client.on('chatEvent', (type, data) => {
 
   Bot.triggerEvents(data.chatType, client, data);
 });
-
 client.on('chatMessage', (message) => {
   //Bot.log(`chatMessage/r/n` + util.inspect(message, false, null, true /* enable colors */))
   Bot.processProcessors(message, client).then((skip) => {

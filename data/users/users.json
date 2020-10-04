@@ -7,10 +7,32 @@
         "level": 2,
         "vip": false,
         "playingBlackjack": false,
-        "blackjackHand": [
-        ],
-        "blackjackDealerHand": [
-        ],
+        "blackjackHand": [],
+        "blackjackDealerHand": [],
+        "blackjackBet": 0
+    },
+    "Bioblaze": {
+        "points": 1010,
+        "xp": 7,
+        "last_message": "test",
+        "last_seen": "Sat Oct 03 2020 20:32:41 GMT-0700 (Pacific Daylight Time)",
+        "level": 1,
+        "vip": false,
+        "playingBlackjack": false,
+        "blackjackHand": [],
+        "blackjackDealerHand": [],
+        "blackjackBet": 0
+    },
+    "YourRadio": {
+        "points": 1000,
+        "xp": 0,
+        "last_message": "Thank you Bioblaze for the Spells!",
+        "last_seen": "Sat Oct 03 2020 20:18:21 GMT-0700 (Pacific Daylight Time)",
+        "level": 1,
+        "vip": false,
+        "playingBlackjack": false,
+        "blackjackHand": [],
+        "blackjackDealerHand": [],
         "blackjackBet": 0
     }
 }
