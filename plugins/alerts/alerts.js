@@ -44,7 +44,7 @@ function slobsToggle(source, delay) {
   if (slobsSettting.active) {
     if(slobs !== null) {
       slobs.toggleSource(null, source);
-      Bot.log(`Hiding after ${delay} seconds`)
+      Bot.log(`Hiding Alert after ${delay} seconds`)
       setTimeout(() => {
         slobs.toggleSource(null, source);
       }, delay * 1000);
@@ -135,14 +135,13 @@ module.exports = {
     else if ((data.chatType === SPELL ||
       (data.args !== undefined && data.args[0] === "spell" && settings.test))
       && settings.alerts.spell.active) {
-      Bot.log("activating");
       write2File("latest-spell.txt", data.user);
       const spellSettings = JSON.parse(fs.readFileSync(path.join(__dirname, 'spells.json'), "utf8"));
       var scene = "";
       var source = "";
       var delay = "";
-      var message = "";
-      
+      var httpMessage = "";
+
       //If seperateSpells = true user will be able to use Alerts for each spell
       if (settings.alerts.spell.seperateSpells) {
         if (spellSettings.spelltest) {
@@ -152,13 +151,17 @@ module.exports = {
             scene = spellSettings.spells[spellname].scene;
             source = spellSettings.spells[spellname].source;
             delay = spellSettings.spells[spellname].delay;
-            message = spellSettings.spells[spellname].message;
+            if(spellSettings.spells[spellname].httpMessage != undefined) {
+              httpMessage = spellSettings.spells[spellname].httpMessage;
+            }
           } else {
-            Bot.log(`Cant find ${spellname} triggering default spell`);
             scene = settings.alerts.spell.scene;
             source = settings.alerts.spell.source;
             delay = settings.alerts.spell.delay;
-            message = settings.alerts.spell.message;
+            if(settings.alerts.spell.httpMessage != undefined) {
+              httpMessage = settings.alerts.spell.httpMessage;
+            }
+           
           }
         } else {
           var spellName = data['content'].name;
@@ -166,28 +169,37 @@ module.exports = {
             scene = spellSettings.spells[spellName].scene;
             source = spellSettings.spells[spellName].source;
             delay = spellSettings.spells[spellName].delay;
-            message = spellSettings.spells[spellName].message;
+            if(spellSettings.spells[spellName].httpMessage != undefined) {
+              httpMessage = spellSettings.spells[spellName].httpMessage;
+            }
+            
           } else {
             scene = settings.alerts.spell.scene;
             source = settings.alerts.spell.source;
             delay = settings.alerts.spell.delay;
-            message = settings.alerts.spell.message;
+            if(settings.alerts.spell.httpMessage != undefined) {
+              httpMessage = settings.alerts.spell.httpMessage;
+            }
+            
           }
         }
       } else {
         scene = settings.alerts.spell.scene;
         source = settings.alerts.spell.source;
         delay = settings.alerts.spell.delay;
-        message = settings.alerts.spell.message;
+        if(settings.alerts.spell.httpMessage != undefined) {
+          httpMessage = settings.alerts.spell.httpMessage;
+        }
       }
-      Bot.log(scene);
-      var template = Handlebars.compile(message);
+      var template = Handlebars.compile(httpMessage);
       client.sendMessage(template({
         user: data.user,
       }));
       obsToggle(scene, source, delay);
       slobsToggle(source, delay);
-      https("spells", data.user, settings.alerts.spell.httpMessage);
+      if(httpMessage != "") {
+        https("spell", data.user, httpMessage);
+      }
     }
   },
   activate() {
