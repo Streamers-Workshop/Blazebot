@@ -141,24 +141,28 @@ module.exports = {
       var scene = "";
       var source = "";
       var delay = "";
-      var message = "";
+      var httpMessage = null;
       
       //If seperateSpells = true user will be able to use Alerts for each spell
       if (settings.alerts.spell.seperateSpells) {
         if (spellSettings.spelltest) {
-          var spellname = spellSettings.testspellName;
+          var spellName = spellSettings.testspellName;
           
-          if (spellSettings.spells.hasOwnProperty(spellname)) {
-            scene = spellSettings.spells[spellname].scene;
-            source = spellSettings.spells[spellname].source;
-            delay = spellSettings.spells[spellname].delay;
-            message = spellSettings.spells[spellname].message;
+          if (spellSettings.spells.hasOwnProperty(spellName)) {
+            scene = spellSettings.spells[spellName].scene;
+            source = spellSettings.spells[spellName].source;
+            delay = spellSettings.spells[spellName].delay;
+            if(spellSettings.spells[spellName].message != undefined) {
+              httpMessage = spellSettings.spells[spellName].message;
+            }
           } else {
-            Bot.log(`Cant find ${spellname} triggering default spell`);
+            Bot.log(`Cant find ${spellName} triggering default spell`);
             scene = settings.alerts.spell.scene;
             source = settings.alerts.spell.source;
             delay = settings.alerts.spell.delay;
-            message = settings.alerts.spell.message;
+            if(settings.alerts.spell.message != undefined) {
+              httpMessage = settings.alerts.spell.message;
+            }
           }
         } else {
           var spellName = data['content'].name;
@@ -166,19 +170,26 @@ module.exports = {
             scene = spellSettings.spells[spellName].scene;
             source = spellSettings.spells[spellName].source;
             delay = spellSettings.spells[spellName].delay;
-            message = spellSettings.spells[spellName].message;
+            // Check if Spell has HttpMessage
+            if(spellSettings.spells[spellName].message != undefined) {
+              httpMessage = spellSettings.spells[spellName].message;
+            }
           } else {
             scene = settings.alerts.spell.scene;
             source = settings.alerts.spell.source;
             delay = settings.alerts.spell.delay;
-            message = settings.alerts.spell.message;
+            if(settings.alerts.spell.message != undefined) {
+              httpMessage = settings.alerts.spell.message;
+            }
           }
         }
       } else {
         scene = settings.alerts.spell.scene;
         source = settings.alerts.spell.source;
         delay = settings.alerts.spell.delay;
-        message = settings.alerts.spell.message;
+        if(settings.alerts.spell.message != undefined){
+          httpMessage = settings.alerts.spell.message;
+        }
       }
       Bot.log(scene);
       var template = Handlebars.compile(message);
@@ -187,7 +198,9 @@ module.exports = {
       }));
       obsToggle(scene, source, delay);
       slobsToggle(source, delay);
-      https("spells", data.user, settings.alerts.spell.httpMessage);
+      if(httpMessage != null) {
+        https("spells", data.user, httpMessage);
+      }
     }
   },
   activate() {
