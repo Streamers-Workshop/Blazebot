@@ -84,7 +84,7 @@ module.exports = {
 
   add(client, user) {
     if(active == true) {
-      if(entrees.includes(entrees)) {
+      if(entrees.includes(user)) {
          client.sendMessage(Bot.translate("plugins.giveaway.userExists"));
          return false;
       }
