@@ -272,6 +272,12 @@
       "userExists": "You can only join the Giveaway 1 Time",
       "userJoined": "User {username} joined the Giveaway",
       "notRunning": "There is no Giveaway at the moment"
+    },
+    "flip": {
+      "activated" : "Flip activated",
+      "deactivated" : "Flip deactivated",
+      "error" : "Flip Error {error}",
+      "outcome" : "The Coin is {outcome}"
     }
   },
   "services": {
