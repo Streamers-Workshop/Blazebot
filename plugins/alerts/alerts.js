@@ -29,6 +29,20 @@ function write2File(fileName, data) {
   });
 }
 
+function append2File(fileName, data) {
+  if (typeof (data) !== "string") {
+    data = data.toString();
+  }
+  fs.appendFileSync(path.join(Bot.root, 'labels', fileName), data + "\n", (err) => {
+    if (err) {
+      Bot.log(Bot.translate("plugins.alerts.error_writing", {
+        fileName: fileName,
+        error: err
+      }));
+    }
+  });
+}
+
 function obsToggle(scene, source, delay) {
   const obs = Bot.getService('obs-controller');
   if (obsSetting.active) {
@@ -81,6 +95,7 @@ module.exports = {
       Bot.log("Following");
       ++followCount;
       write2File("latest-follow.txt", data.user);
+      append2File("latest-followers.txt", data.user)
       write2File("follow-count.txt", followCount);
       var scene = settings.alerts.follow.scene;
       var source = settings.alerts.follow.source;
