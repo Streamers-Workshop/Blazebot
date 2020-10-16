@@ -1,4 +1,4 @@
 {
     "active": true,
-    "message": "The stream has been live for: @{{uptime}}"
+    "message": "The stream has been live for: {{uptime}}"
 }

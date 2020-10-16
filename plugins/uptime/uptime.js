@@ -1,6 +1,7 @@
 const Handlebars = require('handlebars');
 const Bot = require('../../modules/Bot.js');
 const obsSetting = require('../../services/obs/obs.json');
+const uptimeSetting = require('./uptime.json');
 
 module.exports = {
     name: 'uptime',
@@ -18,11 +19,11 @@ module.exports = {
             obs.uptime().then(data => {
                 if (data.streaming === true) {
                     const time = data.streamTimecode.split(':');
-                    const message = `${time[0]}h, ${time[1]}min, ${time[2].substr(0, 2)}secs`;
+                    const uptime = `${time[0]}h, ${time[1]}min, ${time[2].substr(0, 2)}secs`;
 
-                    var template = Handlebars.compile(message);
+                    var template = Handlebars.compile(uptimeSetting.message);
                     client.sendMessage(template({
-                        uptime: message,
+                        uptime: uptime
                     }));
                 }
                 else {
