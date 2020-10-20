@@ -246,7 +246,7 @@
       "activated": "Warzone Stats has been Activated",
       "deactivated": "Warzone Stats has been Deactivated",
       "error": "Warzone Stats Error: {error}",
-      "info": "@{user} Here are my Warzone Stats:\r Kills: {kills}\r Deaths: {deaths}\rK/D Ratio: {kdr}\rWins: {wins}\r Top 5 Placements: {top5}\r Top 10 Placements: {top10}\r I played {totma} rounds\r On average I live for: {avgLife}\r I am currently level {level}"
+      "info": "@{user} Here are my Warzone Stats: Kills: {kills} / Deaths: {deaths} / K/D Ratio: {kdr} / Wins: {wins} / Top 5 Placements: {top5} / Top 10 Placements: {top10} / I played {totma} rounds / On average I live for: {avgLife} / I am currently level {level}"
     },
       "timed-messages": {
       "activated": "Timed-messages has been Activated",
