@@ -73,6 +73,9 @@ module.exports = {
 			});
 	
   },
+  uptime() {
+	return obs.send('GetStreamingStatus');
+  },
   activate() {
 		if (!obs) {
 			obs = new OBSWebSocket();
