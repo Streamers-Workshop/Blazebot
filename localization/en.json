@@ -183,6 +183,12 @@
       "start": "Great, I will make sure the streamer stays hydrated! 💧",
       "interval": "Streamer, I recommend you drink some water! I will remind you again in 30 minutes"
     },
+	"hug": {
+      "activated": "Hug has been Activated",
+      "deactivated": "Hug has been Deactivated",
+      "mentionuser": "Aww...{hugger} is hugging {mention}",
+      "mentionaccount": "Aww...{hugger} is hugging {account}"
+    },
     "instagram": {
       "activated": "IG has been Activated",
       "deactivated": "IGhas been Deactivated",
