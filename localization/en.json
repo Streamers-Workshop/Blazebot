@@ -236,6 +236,11 @@
       "voteReseted": "The vote has stopped and the List was cleared!",
       "winner": "{name} with {votes} votes!"
     },
+    "uptime": {
+      "activated": "Uptime has been Activated",
+      "deactivated": "Uptime has been Deactivated",
+      "error": "Currently the OBS plugin is not enabled. Please contact the bot owner to check into this."
+    },
     "urbandictionary": {
       "activated": "Urbandictionary has been Activated",
       "deactivated": "Urbandictionary has been Deactivated",
