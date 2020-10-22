@@ -251,7 +251,7 @@
       "activated": "Warzone Stats Activado",
       "deactivated": "Warzone Stats Desactivado",
       "error": "Warzone Stats Error: {error}",
-      "info": "@{user} Aqui estan mis stats en Warzone:\r Bajas: {kills}\r Muertes: {deaths}\rK/D Ratio: {kdr}\rWins: {wins}\r Top 5: {top5}\r Top 10 : {top10}\r Jugue {totma} rondas\r De media vivo: {avgLife}\r Soy nivel {level}"
+      "info": "@{user} Aqui estan mis stats en Warzone: Bajas: {kills} / Muertes: {deaths} / K/D Ratio: {kdr} / Wins: {wins} / Top 5: {top5} / Top 10 : {top10} / Jugue {totma} rondas / De media vivo: {avgLife} / Soy nivel {level}"
     },
     "timed-messages": {
       "activated": "Timed-messages Activado",
