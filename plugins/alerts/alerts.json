@@ -34,6 +34,14 @@
       "delay": 10,
       "message": "Welcome {{user}} , hope you enjoy the stream!",
       "httpMessage": "has joined the stream!"
+    },
+    "raid": {
+      "active": true,
+      "scene": "-ALERTS-",
+      "source": "RAID",
+      "delay": 10,
+      "message": "Thanks {{user}} for the Raid!",
+      "httpMessage": "has raided the stream!"
     }
   }
 }
