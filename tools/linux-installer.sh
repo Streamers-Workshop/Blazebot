@@ -23,7 +23,7 @@
 ################################################################
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-version="2.0.0"
+version="2.0.2"
 nodeLTS="12.18.3"
 link="https://github.com/Streamers-Workshop/TrovoBot/archive/${version}.zip"
 
@@ -51,25 +51,21 @@ help(){
 
 # Check OS
 function checkos(){
-    if [ -f /etc/redhat-release ];then
-        OS='CentOS'
-    elif [ ! -z "`cat /etc/issue | grep bian`" ];then
-        OS='Debian'
-    elif [ ! -z "`cat /etc/issue | grep Ubuntu`" ];then
-        OS='Ubuntu'
-    elif [[ ! -z "$(uname)" == "Darwin" ]]; then
-        OS='Darwin'
-    else
-        echo "Not support OS, Please reinstall OS and retry!"
-        exit 1
-    fi
+if [[ "$(uname)" == "$1" ]]; then
+    echo true
+  else
+    echo false
+  fi
 }
+
+IS_MAC=$(checkos "Darwin")
+IS_LINUX=$(checkos "Linux")
 
 macinstall(){
   color
   curlDL="curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash"
 
-  if [[ ! "$OS" == 'Ubuntu' || ! "$OS" == 'Debian' || "$OS" == 'Darwin' ]]; then
+  if [[ "$IS_MAC" = true ]]; then
   touch ~/.bash_profile # create bash_profile
     touch ~/.bashrc # create bashrc
   touch ~/.zshrc # create zshrc
@@ -91,7 +87,7 @@ macinstall(){
 
 
   source ~/.bash_profile
-  elif [[ "$OS" == 'Ubuntu' || "$OS" == 'Debian' || ! "$OS" == 'Darwin' ]]; then
+  elif [[ "$IS_MAC" = false ]]; then
     echo "${RED} This option is for MacOS not Linux based distros, re-run script and choose correct menu option ${NC}"
   fi
 }
@@ -176,7 +172,7 @@ then
    echo "${GRN} $pkg already installed.  Skipping. ${NC}"
 else
    echo "${RED} $pkg was not found, installing... ${NC}" 2>&1
- elif [[ ! -z "$(uname)" == "Darwin" ]]; then
+ elif [[ ! -z "$(uname)" == "Mac" ]]; then
    sudo -v; sudo apt-get --allow -y install $c 2>/dev/null
 fi
 done
@@ -244,7 +240,7 @@ function manageMenu() {
 }
 
 checkos
-if [[ "$OS" == 'Ubuntu' || "$OS" == 'Debian' || "$OS" == 'Darwin'  ]]; then
+if [[ "$IS_MAC" = true || "$IS_LINUX" = true ]]; then
 # non-gui arguments
 while (( "$#" )); do
   case $1 in
@@ -264,7 +260,7 @@ done
 
 manageMenu
 
-elif [[ ! "$OS" == 'Ubuntu' || ! "$OS" == 'Debian' || "$OS" == 'Darwin' ]]; then
-  color
-  echo "${RED} This script does not support your operating system' ${NC}"
+elif [[ "$IS_MAC" = false && "$IS_LINUX" = false ]]; then
+  echo "Unsupported OS"
+  exit 1
 fi
