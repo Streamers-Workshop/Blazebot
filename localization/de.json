@@ -248,6 +248,14 @@
 		  "error":"Warzone Stats Fehler: {error}",
 		  "info":"@{user} Hier sind meine Warzone-Statistiken: Abschüsse: {kills} / Tode: {deaths} / K/D Ratio: {kdr} / Siege: {wins} / Top 5 Platzierungen: {top5} / Top 10 Platzierungen: {top10} / Ich spielte {totma} Runde / Im Durchschnitt lebe ich für: {avgLife} / Ich bin derzeit Level: {level}"
 	   },
+	   "valorant": {
+                 "activated": "Valorant Stats wurde aktiviert",
+                 "deactivated": "Valorant Stats wurde deaktiviert",
+                 "error": "Valorant Stats Fehler: {error}",
+	         "err": "Wir konnten den Spieler nicht finden!",
+	         "example": "Beispiel: = !valorant-stats Nickname#TAG",
+                 "info": "@{user} Hier sind meine Valorant-Statistiken: Aktueller Rang: {rank} / K/D Ratio: {kdr}% / Sieg Ratio: {kdrg} / Siege: {wins} / Abschüsse: {kills} / Tode: {deaths} / Meisten Abschüsse in einem Match: {mKills} / Gespielte Matches: {totma}"
+           },
 	   "timed-messages":{
 		  "activated":"Timed-messages wurde aktiviert",
 		  "deactivated":"Timed-messages wurde deaktiviert",
