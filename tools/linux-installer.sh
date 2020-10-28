@@ -172,8 +172,7 @@ then
    echo "${GRN} $pkg already installed.  Skipping. ${NC}"
 else
    echo "${RED} $pkg was not found, installing... ${NC}" 2>&1
- elif [[ ! -z "$(uname)" == "Mac" ]]; then
-   sudo -v; sudo apt-get --allow -y install $c 2>/dev/null
+   sudo -v; sudo apt-get --allow -y install $pkg 2>/dev/null
 fi
 done
 
