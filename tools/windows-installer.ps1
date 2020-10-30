@@ -13,7 +13,7 @@ Write-Host "Setting up Temp Directory...."
 
 Write-Host "Downloading Node.js......"
 
-if ((Get-WmiObject win32_operatingsystem | select osarchitecture).osarchitecture -like "64*")
+if ((Get-WmiObject win32_operatingsystem | select osarchitecture).osarchitecture -like "64*"){
   Invoke-WebRequest -Uri "https://nodejs.org/dist/v12.18.2/node-v12.18.2-x64.msi" -OutFile "$($Env:temp)\trovobot_setup\nodejs.msi"
 } else {
   Invoke-WebRequest -Uri "https://nodejs.org/dist/v12.18.2/node-v12.18.2-x86.msi" -OutFile "$($Env:temp)\trovobot_setup\nodejs.msi"
@@ -31,7 +31,7 @@ Write-Host "Launching the chocolatey.ps1 File....."
 
 & "$($Env:temp)\trovobot_setup\chocolatey.ps1"
 
-Write-House "Refreshing Env..."
+Write-Host "Refreshing Env..."
 
 $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 
