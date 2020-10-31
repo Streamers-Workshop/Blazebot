@@ -9,6 +9,7 @@ const slobsSettting = require("../../services/slobs/slobs.json");
 var settings = null;
 var followCount = 0;
 var subCount = 0;
+var prepend = require('prepend')
 //EVENT TYPES
 const FOLLOW = 5003;
 const SUBS = 5001;
@@ -34,7 +35,7 @@ function append2File(fileName, data) {
   if (typeof (data) !== "string") {
     data = data.toString();
   }
-  fs.appendFileSync(path.join(Bot.root, 'labels', fileName), data + "\n", (err) => {
+  prepend(path.join(Bot.root, 'labels', fileName), data, (err) => {
     if (err) {
       Bot.log(Bot.translate("plugins.alerts.error_writing", {
         fileName: fileName,
