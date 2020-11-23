@@ -14,9 +14,9 @@ Write-Host "Setting up Temp Directory...."
 Write-Host "Downloading Node.js......"
 
 if ((Get-WmiObject win32_operatingsystem | Select-Object osarchitecture).osarchitecture -like "64*") {
-  Invoke-WebRequest -Uri "https://nodejs.org/dist/v12.18.2/node-v12.18.2-x64.msi" -OutFile "$($Env:temp)\trovobot_setup\nodejs.msi"
+  Invoke-WebRequest -Uri "https://nodejs.org/dist/latest-fermium/node-v14.15.0-x64.msi" -OutFile "$($Env:temp)\trovobot_setup\nodejs.msi"
 } else {
-  Invoke-WebRequest -Uri "https://nodejs.org/dist/v12.18.2/node-v12.18.2-x86.msi" -OutFile "$($Env:temp)\trovobot_setup\nodejs.msi"
+  Invoke-WebRequest -Uri "https://nodejs.org/dist/latest-fermium/node-v14.15.0-x86.msi" -OutFile "$($Env:temp)\trovobot_setup\nodejs.msi"
 }
 
 Write-Host "Download Complete! Now Installing Node.js.........."
