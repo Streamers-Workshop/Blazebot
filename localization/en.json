@@ -28,6 +28,11 @@
           "deleted": "Command {command}, has been deleted",
           "activated": "jsoncommands - Delete Plugin Activated",
           "deactivated": "jsoncommands - Delete Plugin Deactivated"
+        },
+	"cmds": {
+          "activated": "jsoncommands - CMDS Plugin Activated",
+          "deactivated": "jsoncommands - CMDS Plugin Deactivated",
+          "result": "Your List of Commands : {commandList}"
         }
       },
       "activated": "Json Commands has been Activated.",
