@@ -283,6 +283,14 @@
       "deactivated" : "Flip deactivated",
       "error" : "Flip Error {error}",
       "outcome" : "The Coin is {outcome}"
+    },
+    "rps": {
+      "activated": "rps activated",
+      "deactivated": "rps deactivated",
+      "objectResultWin": "{objectResult} - Congrats @{playerUser} :gg . {points} Points have been added - New Balance {balancePoints}",
+      "objectResultLose": "{objectResult} - Better luck next time @{playerUser} :wink ",
+      "invalidData": "{value} : Invalid - Type Rock, Paper or Scissors",
+      "error": "rps error {error}"
     }
   },
   "services": {
