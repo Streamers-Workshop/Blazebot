@@ -1,0 +1,24 @@
+{
+  "active": true,
+  "points": 50,
+  "objects": [
+    "Rock",
+    "Paper",
+    "Scissors",
+    "Scissors",
+    "Paper",
+    "Rock",
+    "Scissors",
+    "Rock",
+    "Paper",
+    "Rock",
+    "Paper",
+    "Rock",
+    "Scissors",
+    "Paper",
+    "Scissors",
+    "Rock",
+    "Paper",
+    "Paper"
+  ]
+}
