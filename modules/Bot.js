@@ -541,16 +541,21 @@ Bot.prototype.loadConsoleCommands = () => {
       }]).then((answers) => {
         try {
           var settings = {
-            "prefix": answers.prefix,
-            "trovo": {
-              "email": answers.email,
-              "password": answers.password,
-              "name": answers.name,
-              "page": answers.page
-            },
-            "lang": answers.lang,
-            "console": true
-          };
+              prefix: answers.prefix,
+              trovo: {
+                email: answers.email,
+                password: answers.password,
+                name: answers.name,
+                page: answers.page,
+              },
+              owner: {
+                name: "",
+                email: "",
+                password: "",
+              },
+              lang: answers.lang,
+              console: true,
+            };
           fs.writeFileSync(path.resolve(instance.settingsfile), JSON.stringify(settings, null, 2));
           delete require.cache[require.resolve(path.resolve(instance.settingsfile))];
           instance.settings = require(path.resolve(instance.settingsfile));
