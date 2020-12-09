@@ -3,5 +3,10 @@
 ## Created by: Bioblaze Payne
 
 ### What this is.
+Command for creator or moderators to say something as the bot.
 
-No idea. This is Copy/Pasta for quickiness sakes.
+### Trigger
+!say
+
+ex:
+!say Message
