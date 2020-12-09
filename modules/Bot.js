@@ -375,7 +375,7 @@ Bot.prototype.loadSettings = async (directory) => {
     instance.settings = require(directory);
     instance.settingsfile = directory;
     if (instance.settings.console) {
-      vorpal.delimiter('\r\nTrovobot$'.underline.italic.grey).show();
+      vorpal.delimiter('\r\nBlazebot$'.underline.italic.grey).show();
     }
     vorpal.log('Settings Loaded....');
   } catch(e) {
