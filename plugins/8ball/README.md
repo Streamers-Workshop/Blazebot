@@ -8,5 +8,5 @@
 ### Trigger.
 !8ball <question>
 
-ex: !8ball will I win?
+ex: !8ball Will I win?
 
