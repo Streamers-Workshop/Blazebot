@@ -32,8 +32,8 @@ module.exports = {
 				var result = ( Math.random() - Math.random() ); //min, max                           
 				
 				//limit to just the bet
-				if ( (result) <= 0.51) { client.sendMessage(`${data.user}, you lost your bet of ${bet}. You have, ${userInfo[data.user].points} points left.`); }
-				else if (result > 0.51) //12.5% chance to win
+				if ( (result) <= 0.11) { client.sendMessage(`${data.user}, you lost your bet of ${bet}. You have, ${userInfo[data.user].points} points left.`); }
+				else if (result > 0.11) //12.5% chance to win
 				{
 				//combining outcomes		
 				userInfo[data.user].points = userInfo[data.user].points + (bet * 3);
