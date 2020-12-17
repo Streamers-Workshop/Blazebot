@@ -1,6 +1,6 @@
 # Plugin
 
-## Created by: chiLee98
+## Created by: IAmNotTheLeo
 
 ### What this is.
 
