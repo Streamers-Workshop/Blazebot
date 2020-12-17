@@ -291,6 +291,13 @@
       "objectResultLose": "{objectResult} - Better luck next time @{playerUser} :wink ",
       "invalidData": "{value} : Invalid - Type Rock, Paper or Scissors",
       "error": "rps error {error}"
+    },
+    "leaderboard": {
+      "activated": "leaderboard activated",
+      "deactivated": "leaderboard deactivated",
+      "typeData": "Either type !lb level or points to display leaderboard",
+      "lbOutput": "| {resultOutput}",
+      "enoughUsers": "Not Enough Trovo Users for leaderboard"
     }
   },
   "services": {
