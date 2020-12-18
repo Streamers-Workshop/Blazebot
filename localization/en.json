@@ -340,7 +340,8 @@
       "deactivated": "OBS Service Deactivated",
       "connected": "Connected to OBS",
       "retry_attempt": "Unable to connect to OBS. Attempting to reconnect: {count} of {max}",
-      "stopping_retry": "Stopping OBS connection attempts",
+      "stopping_retry": "\nStopping OBS connection attempts:",
+      "solutionOBS": "Make sure to have OBS open and/or check if OBS Websocket is installed",
       "no_source": "Couldn't find Source: {source} in Scene: {scene}"
     },
     "slobs": {
