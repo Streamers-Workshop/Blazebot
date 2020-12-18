@@ -64,6 +64,10 @@
           "activated": "Give Plugin activated",
           "deactivated": "Give Plugin deactivated"
         },
+		"hug": {
+		  "activated": "Hug plugin has activated",
+		  "deactivated": "Hug plugin has deactivated"
+		},
         "points": {
           "activated": "Points Plugin has been activated",
           "deactivated": "Points Plugins has been deactivated",
@@ -79,7 +83,16 @@
           "deactivated": "Seen Plugin Deactivated",
           "message": "@{user} was last seen: {seen}",
           "no_args": "You didn't specify a user."
-        }
+        },
+		"gambler": {
+		  "activated": "Gamble Plugin activated",
+		  "deactivated": "Gamble Plugin deactivated"
+		},
+		"vip": {
+		  "activated": "VIP Plugin activated",
+		  "deactivated": "VIP Plugin deactivated"
+		}
+		}
       }
     }
   },
