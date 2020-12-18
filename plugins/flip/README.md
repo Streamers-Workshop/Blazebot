@@ -1,6 +1,6 @@
 # Plugin
 
-## Created by: chiLee98
+## Created by: IAmNotTheLeo
 
 ### What this is.
 Flip a Coin.
@@ -9,3 +9,4 @@ Flip a Coin.
 !flip
 
 ex: !flip
+
