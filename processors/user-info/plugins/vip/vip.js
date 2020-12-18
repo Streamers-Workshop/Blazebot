@@ -21,7 +21,7 @@ module.exports = {
             if (data.args[1] !== undefined && (data.args.length > 1 && data.args[1] === `revoke`)) {
                 userInfo[viewer].vip = false;
             }
-            Bot.log(viewer); Bot.log(userInfo[viewer].vip);
+            Bot.log(`${viewer}`); Bot.log(`${userInfo[viewer].vip}`);
         }
         else {
             Bot.log(`Things did not go well in the vip plugin`);
@@ -29,10 +29,10 @@ module.exports = {
     },
     activate() {
         userInfo = require(path.join(Bot.data, "users/users.json"));
-        Bot.log(Bot.translate("VIP plugin activated"))
+        Bot.log(Bot.translate("processors.user_info.plugins.vip.activated"))
     },
     deactivate() {
         userInfo = null;
-        Bot.log(Bot.translate("VIP plugin deactivated"))
+        Bot.log(Bot.translate("processors.user_info.plugins.vip.deactivated"))
     }
 };
