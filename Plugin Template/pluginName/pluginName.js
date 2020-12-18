@@ -65,8 +65,10 @@ module.exports = {
 			}	
     }
   },
-  activate() {
-    userInfo = require(path.join(Bot.data, "users/users.json"));
+	activate() {
+	//says what file to require (This example needs to see the users data from the user_info process)
+	userInfo = require(path.join(Bot.data, "users/users.json"));
+	//Add your bots call into the localization > en.json OR the language of your choice
     Bot.log(Bot.translate("processors.user_info.plugins.gambler.activated"))
   },
   deactivate() {
