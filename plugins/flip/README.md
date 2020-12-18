@@ -5,8 +5,6 @@
 ### What this is.
 Flip a Coin.
 
-
-Flip a Coin
 ### Trigger.
 !flip
 
