@@ -3,9 +3,92 @@
     "chatlog": {
       "activated": "Procesador del Chatlog Activado.",
       "deactivated": "Procesador del Chatlog Desactivado."
+    
+  },
+  "jsoncommands": {
+      "plugins": {
+        "create": {
+          "exists_error": "¡{com} ya existe!",
+          "error_writing": "Error escribriendo {fileName} : {error}",
+          "no_args": "No especificaste una respuesta",
+          "created": "Comando: {com} , fue añadido.",
+          "activated": "jsoncommands - Crear plugins Activado.",
+          "deactivated": "jsoncommands - Crear plugins Desactivado."
+        },
+        "edit": {
+          "edited": "Comando {command}, fue editado.",
+          "error_writing": "Error al escribir {fileName} : {error}",
+          "no_args": "No especificaste una respuesta",
+          "no_command": "{command} no existe o es un comando pre-instalado",
+          "activated": "jsoncommands - Editar Plugin Activado",
+          "deactivated": "jsoncommands - Editar Plugin Desactivado"
+        },
+        "delete": {
+          "no_command": "{command} no existe o es un comando pre-instalado",
+          "error_writing": "Error al escribir {fileName} : {error}",
+          "deleted": "Comando {command}, fue eliminado",
+          "activated": "jsoncommands - Eliminar Plugin Activado",
+          "deactivated": "jsoncommands - Eliminar Plugin Desactivado"
+        }
+      },
+      "activated": "Json Commands Activado.",
+      "deactivated": "Json Commands Desactivado.",
+      "no_command": "{command} no existe o es un comando pre-instalado",
+      "existsError": "¡{com} ya existe!",
+      "no_args": "no especificaste una respuesta",
+      "errorEditing": "No especificaste que quieres editar del comando.",
+      "errorWriting": "Error al escribir {fileName} : {error}",
+      "created": "Commando: {command}, fue añadido.",
+      "edited": "Commando {command}, fue creado.",
+      "deleted": "Commando {command}, fue eliminado"
+    },
+   "user_info": {
+      "activated": "User Information Activado",
+      "deactivated": "User Information Desactivado",
+      "plugins": {
+        "adding": {
+          "error_user": "Porfavor usa @ al usuario que quieras darle puntos. ej: !add @usuario 1000",
+          "success": "{user} le dieron {ammount} puntos de {receiver} . Ahora tiene: {points} puntos",
+          "activated": "Add Plugin Activado",
+          "deactivated": "Add Plugin Desactivado"
+        },
+        "give": {
+          "success": "{user} le dieron {ammount} puntos de {receiver}",
+          "insufficient_funds": "{user} no tienes los suficientes puntos para dar. Por favor usa !points para ver cuantos puntos tienes.",
+          "negative": "No pueder dar puntos negativos a un usuario.",
+          "error_user": "Porfavor usa @ al usuario que quieras darle puntos. ej: !give @usuario 1000",
+          "activated": "Give Plugin Activado",
+          "deactivated": "Give Plugin Desactivado"
+        },
+        "points": {
+          "activated": "Points Plugin Activado",
+          "deactivated": "Points Plugins Desactivado",
+          "message": "@{user} tienes {points} puntos."
+        },
+        "level": {
+          "activated": "Level Plugin Activado",
+          "deactivated": "Level Plugins Desactivado",
+          "message": "@{user} es nivel: {level} (XP: {xp}/{goal})."
+        },
+        "seen": {
+          "activated": "Seen Plugin Activado",
+          "deactivated": "Seen Plugin Desactivado",
+          "message": "@{user} fue ultima ves visto: {seen}",
+          "no_args": "No especificaste el usuario."
+        }
+      }
     }
   },
   "plugins": {
+    "8ball": {
+      "activated": "8-Ball Activado",
+      "deactivated": "8-ball Desactivado"
+    },
+	"alerts": {
+      "activated": "Alerts Activada",
+      "deactivated": "Alerts Desactivada",
+      "error_writing": "Error al escribir {fileName} : {error}"
+    },
     "bot": {
       "activated": "Plugin de la Información del Bot Activado",
       "deactivated": "Plugin de la Información del Bot Desactivado",
@@ -15,29 +98,195 @@
       "consolecommand": "Este bot ha sido creado por Bioblaze Payne",
       "consolecommanddesc": "Te da la información del Bot."
     },
+	"casino": {
+      "activated": "Casino Games Pack Activado",
+      "deactivated": "Casino Games Pack Desactivado",
+      "message": "Bienvenido al casino, mira nuestros juegos: Blackjack, dados, maquinas & la rueda.",
+      "plugins": {
+        "blackjack": {
+          "activated": "Casino - Blackjack Game Activado",
+          "deactivated": "Casino - Blackjack Game Desactivado",
+          "you_lost": "Desgraciadamente perdiste..",
+          "player_blackjack": "¡Blackjack! Ganaste {playerBet} puntos.",
+          "player_hand": "Tu mano: ${cards} (Total: ${total})",
+          "dealer_hand": "Mano del dealer: {dealer_hand}",
+          "dealerfinishdraw": "El dealer ha finalizado repartir las cartas y tu mano contiene : {dealerHandString}(Total: {dealerTotalH})",
+          "dealer_blackjack": "¡Dealer Blackjack! perdiste",
+          "dealer_bust": "La mano del dealer pasa los 21. Ganaste {playerBetH} Puntos.",
+          "instructions": "Por favor usa '!blackjack stand' para quedarte con la mano o '!blackjack hit' para pedir una carta adicional.",
+          "draw": "Los resultados son iguales. se te devuelven los puntos.",
+          "win": "Felicidades, Ganaste {playerBetH} puntos.",
+          "no_points": "No tienes los puntos necesarios para jugar.",
+          "new_hand": "Tu nueva mano: {handString} (Total: {playerTotalH})",
+          "error_bet": "Por favor ingrese un número válido.",
+          "progress": "Please finish the game you started first.",
+          "banned": "We are sorry, you have been banned from our casino.",
+		  "lose": "Desafortunadamente perdiste @{user}"
+        },
+    "dice": {
+          "activated": "Casino - Dice Game Activado",
+          "deactivated": "Casino - Dice Game Deactivated",
+          "error_bet": "Por favor ingrese un número válido.",
+          "banned": "Lo lamentamos, estas suspendido de nuestro casino. @{user}",
+          "balance": "No tienes los puntos necesarios para jugar. @{user}",
+          "min_bet": "Por favor ingrese un monto de apuesta válida. Monto mínimo es 20 puntos. @{user}",
+          "results": "Tiras los dados: {playerDice1}, {playerDice2} (Total: {playerTotal}).\nCasino dice: {dealerDice1}, {dealerDice2} (Total: {dealerTotal}).",
+          "lose": "Desafortunadamente perdiste @{user}",
+          "draw": "Los resultados son iguales. Se te devuelven los puntos. @{user}",
+          "win": "Felicidades, Ganaste {playerBetH} puntos. @{user}",
+		  "lose": "Desafortunadamente perdiste @{user}"
+        },
+    "gamble": {
+          "activated": "Casino - Gamble Game Activado",
+          "deactivated": "Casino - Gamble Game Desactivado",
+          "error_bet": "Por favor ingrese un número válido o todo'(all)'.",
+          "banned": "Lo lamentamos, estas suspendido de nuestro casino. @{user}",
+          "balance": "No tienes los puntos necesarios para jugar. @{user}",
+          "min_bet": "Por favor ingrese un monto de apuesta válida. Monto mínimo es 100 puntos. @{user}",
+          "win": "Felicidades, Ganaste {win} puntos. @{user}",
+		  "lose": "Desafortunadamente perdiste @{user}"
+        },
+    "slots": {
+          "activated": "Casino - Slots Game Activado",
+          "deactivated": "Casino - Slots Game Desactivado",
+          "banned": "Lo lamentamos, estas suspendido de nuestro casino. @{user}",
+          "error_bet": "Por favor ingrese un número válido.",
+          "balance": "No tienes los puntos necesarios para jugar. @{user}",
+          "min_bet": "Por favor ingrese un monto de apuesta válida. Monto mínimo es 100 puntos. @{user}",
+          "win": "Felicidades, Ganaste {playerBet} puntos. @{user}",
+		  "lose": "Desafortunadamente perdiste @{user}"
+        },
+    "wheel": {
+          "activated": "Casino - Wheel Game Activado",
+          "deactivated": "Casino - Wheel Game Desactivado",
+          "banned": "Lo lamentamos, estas suspendido de nuestro casino. @{user}",
+          "typo": "Uso correcto: !wheel <monto de apuesta> <1, 2, 5, 10, 20> @{user}",
+          "balance": "No tienes los puntos necesarios para jugar. @{user}",
+          "min_bet": "Por favor ingrese un monto de apuesta válida. Monto mínimo es 100 puntos. @{user}",
+          "spun": "La rueda fue girada y apunta a ${wheel}. @{user}",
+          "win": "Felicidades, Ganaste {playerBet} puntos. @{user}",
+          "lose": "Desafortunadamente perdiste @{user}"
+        }
+      }
+    },
+    "google": {
+      "activated": "Google search Activada",
+      "deactivated": "Google search Desactivada",
+      "processed": "@{user} - {result}",
+      "args": "Ejemplo de uso: = !google search <palabra> , !google random"
+    },
+    "gamep": {
+      "activated": "game picker Activado",
+      "deactivated": "game picker Desactivado",
+      "processed": "@{user} aleatoriamente eligió {result}",
+      "incorrect": "@{user} Argumento de usuario incorrecto debe usar 'pick' para iniciar game randomizer"
+    },
+    "hydrate": {
+      "activated": "Hydrate Activado",
+      "deactivated": "Hydrate Desactivado",
+      "error": "Hydrate Error: {error}",
+      "start": "Genial, ¡me aseguraré que el streamer se hidrate! 💧",
+      "interval": "Streamer, ¡Recomiendo que bebas un poco de agua! Te lo recordaré cada 30 minutos"
+    },
+    "instagram": {
+      "activated": "IG Activado",
+      "deactivated": "IG Desactivado",
+      "error": "IG Error: {error}",
+      "info": "@{user} la ultima publicación de instagram del streamer es - https://www.instagram.com/p/{result}"
+    },
+    "raid": {
+      "activated": "Raid Activada",
+      "deactivated": "Raid Desactivada",
+      "raidmessage": "Esta es una raid. Ve al canal de @{raidedChannel} ahora. --> https://trovo.live/{raidedChannel}",
+      "undefined": "El nombre de usuario no esta, intenta de nuevo"
+    },
     "shoutout": {
-      "activated": "Shout-out ha sido Activado",
-      "deactivated": "Shout-out ha sido Desactivado",
+      "activated": "Shout-out Activado",
+      "deactivated": "Shout-out Desactivado",
       "mentionuser": "Echa un vistazo a {mention} en https://trovo.live/{user} - ¡Es un increible streamer y se merece un poco de amor de la comunidad!",
       "mentionaccount": "Echa un vistazo a {account} en https://trovo.live/{account} - ¡Es un increible streamer y se merece un poco de amor de la comunidad!"
     },
     "say": {
-      "activated": "Say ha sido Activado",
-      "deactivated": "Say ha sido Desactivado",
+      "activated": "Say Activado",
+      "deactivated": "Say Desactivado",
       "nomessage": "Tienes que poner un mensaje."
-    },
-      "timed-messages": {
-      "activated": "Timed-messages ha sido Activado",
-      "deactivated": "Timed-messages ha sido Desactivado",
-      "error": "Timed-messages el error: {error}",
-      "start": "Timed Messages activado!",
-	  "stop": "Timed Messages desactivado!"
-    },
-    "ping": {
-      "activated": "Ping ha sido Activado",
-      "deactivated": "Ping ha sido Desactivado",
+    },   
+	"ping": {
+      "activated": "Ping Activado",
+      "deactivated": "Ping Desactivado",
       "pong": "@{user} Pong me atrevo a decir."
+    },
+	"time": {
+      "activated": "Time Plugin Activado",
+      "deactivated": "Time Plugin Desactivado",
+      "message": "La hora local del streamer es: {time}"
+    },
+    "poll": {
+      "activated": "Poll System Activado",
+      "deactivated": "Poll System Desactivado",
+      "permissions": "¡No tienes permiso para hacer eso!",
+      "pollstarted": "Iniciando encuesta, escribe !poll {votelist}",
+      "startUsage": "Modo de uso: !poll start <voteItem1> <voteItem2> ...",
+      "pollRunning": "La encuesta ya esta en marcha",
+      "pollstopped": "La encuesta ha finalizado. El ganador es:",
+      "results": "{voteItem}: {votes}",
+      "pollNotRunning": "¡No hay ninguna encuesta en marcha!",
+      "alreadyVoted": "Solo un voto por usuario. @{user}",
+      "startFailed": "El inicio fallo, por favor intente de nuevo",
+      "missingargs": "Modo de uso: !poll <voteItem> | getList | Moderator & creator: {commandlist}",
+      "somethingsWrong": "Algo salió mal intenta de nuevo o contacta al Streamer o a los Mods",
+      "itemNotInList": "{item} no esta en la lista de voto. Escribe: !poll getList para ver la lista de los items para votar",
+      "sameValues": "Los items de votos no pueden tener válores iguales, la encuesta se reiniciara",
+      "uservoted": "Gracias por votar. @{user}",
+      "voteReseted": "¡La votación se paro y la lista fue borrada!",
+      "winner": "¡{name} con {votes} votos!"
+    },
+    "urbandictionary": {
+      "activated": "Urbandictionary Activado",
+      "deactivated": "Urbandictionary Desactivado",
+      "error": "Urbandictionary Error: {error}",
+      "info": "@{user} {word} - {definition}"
+    },
+    "warzone": {
+      "activated": "Warzone Stats Activado",
+      "deactivated": "Warzone Stats Desactivado",
+      "error": "Warzone Stats Error: {error}",
+      "info": "@{user} Aqui estan mis stats en Warzone: Bajas: {kills} / Muertes: {deaths} / K/D Ratio: {kdr} / Wins: {wins} / Top 5: {top5} / Top 10 : {top10} / Jugue {totma} rondas / De media vivo: {avgLife} / Soy nivel {level}"
+    },
+    "timed-messages": {
+      "activated": "Timed-messages Activado",
+      "deactivated": "Timed-messages Desactivado",
+      "error": "Timed-messages Error: {error}",
+      "start": "Timed Messages Activado!",
+	  "stop": "Timed Messages Desactivado!"
+    },
+	"xkcd": {
+      "activated": "XKCD Activado",
+      "deactivated": "XKCD Desactivado",
+      "error": "XKCD Error: {error}",
+      "processed": "@{user} - {result}"
+    },
+    "giveaway": {
+      "activated": "Giveaway Activado",
+      "deactivated": "Giveaway Deactivated",
+      "started": "Sorteo empezado Tienes {h}:{m}:{s} para escribir !join",
+      "runningGiveaway": "Aún tienes tiempo para escribir !join",
+      "winner": "El ganador del sorteo es {user}",
+      "noOneJoined": "Nadie se unió al sorteo",
+      "noTime": "Necesitas poner un tiempo para el sorteo",
+      "userExists": "Solo puedes ingresar al sorteo una vez",
+      "userJoined": "usuario {username} Se unió al sorteo",
+      "notRunning": "No hay ningún sorteo de momento"
+    },
+    "flip": {
+      "activated" : "Flip Activado",
+      "deactivated" : "Flip Desactivado",
+      "error" : "Flip Error {error}",
+      "outcome" : "La moneda es : {outcome}"
     }
+ 
+ 
+ 
   },
   "services": {
     "discordrpc": {
@@ -98,7 +347,7 @@
     "plugin_deactivate_desc": "Desactiva un Plugin.",
     "deactivate_all_plugins_desc": "Desactiva todos los Plugins.",
     "activate_all_plugins_desc": "Activa todos los Plugins.",
-    "ready": "\r\n¡Bot cargado y listo para modear!",
+    "ready": "\r\n¡Bot cargado y listo para moderar!",
     "plugin_name_invalid": "No se encontró ningún Plugin con ese nombre, porfavor comprueba como lo has escrito y repite otra vez.",
     "reloaded_plugin": "Plugin Recargado~",
     "reloaded_chat_plugin": "Plugin de Chat Recargado~",

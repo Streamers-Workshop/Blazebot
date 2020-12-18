@@ -21,7 +21,7 @@
 
 ## About
 
-TrovoBot is a powerful [Node.js](https://nodejs.org) Chatbot utilizing [Trovo.js](https://github.com/Bioblaze/Trovo.js) this allows you to create powerful interactive bots quickly and easily with TrovoBot for the Trovo Platform.
+**Blazebot** is a powerful [Node.js](https://nodejs.org) Chatbot which utilizes the [Trovo.js](https://github.com/Bioblaze/Trovo.js) module allowing you to create powerful interactive chatbots quickly, and easily for the Trovo Platform.
 
 
 ## Chatbot Usage
@@ -30,21 +30,23 @@ TrovoBot is a powerful [Node.js](https://nodejs.org) Chatbot utilizing [Trovo.js
 
 Open the `settings.json` and edit the values listed within.
 
-* prefix: This is the Prefix your bot will respond too i.e. !pong so '!' is the prefix
-* trovo.email: Is the Email of the Account you will be logging into.
-* trovo.password: Is the Password of the Account you will be loggin into.
-* trovo.page: Will be the Page the Bot will be operating in. Needs to be in the format `https://trovo.live/<username>`
-* trovo.name: Account name of your bot
+* **prefix**: This is the Prefix your bot will respond too i.e. !pong so, '!' is the prefix.
+* **trovo.email**: The Email of the Account the bot will be logging into.
+* **trovo.password**: The Password of the Account the bot will be loggin' into.
+* **trovo.page**: The Page where the Bot will be operating on. Needs to be in the format, `https://trovo.live/<username>`
+* <strong>trovo.name</strong>: The Name of the Account the bot will use.
 
 
 ## Setup
 
 Video: [How to Setup TrovoBot](https://www.youtube.com/watch?v=iqK9VnynclM)
 
-> Fill in the Values inside of the `settings.json` file then continue.
-> Open Commandline Console, and type the steps listed below.
-> Type: `npm install` ~ Once installation has completed continue.
-> To start the Bot type: `node ./index.js`
+1. Install [Node.js](nodejs.org) and Chocolatey offered during installation. 
+2. Download the code as a .zip, and unpack into a folder where you want the bot to run from. 
+3. Fill in the Values inside of the `settings.json` file as explained above in [Chatbot Usage](#chatbot-usage).
+4. Open command prompt, change the directory by `cd <folder-address>` change the folder-address to the one you made in <strong>step 2</strong>.
+5. Type, `npm install` to install the required packages for the bot. 
+6. Once completed type, `node ./index.js` to start Blazebot.
 > Alternately in the "bat" folder, after you setup the`.env` file, run `install-deps.bat` then run `startup-bot.bat`
 
 ## Reporting a bug
@@ -53,12 +55,12 @@ Before creating an issue, please ensure that it hasn't already been reported/sug
 
 ## Plugin Development / Contributing
 
-All develops are welcome to make Pull Requests with Plugins you've created!
+All developers are welcome to make [Pull Requests](https://www.digitalocean.com/community/tutorials/how-to-create-a-pull-request-on-github) with Plugins you've created!
 
 The following infos are meant for developers. If you have any questions feel free to join our Discord (link above) and ask questions.
-If you would like to contribute in any way (bugfixes, features, etc.) please adhere to the following points
+If you would like to contribute in any way (bugfixes, features, etc.) please adhere to the following points:
 
-* Fork this repository, create a feature branch, do your changes in this feature branch and then create a Pull Request from that. Your pull request needs to be auto-mergeable. Therefore if there were any intermediate commits on the project since you created the feature branch, please resolve the conflicts by e.g. rebasing your branch.
+* Fork this repository, create a feature branch, do your changes in this feature branch, and then create a Pull Request from that. Your pull request needs to be auto-mergeable. Therefore, if there were any intermediate commits on the project since you created the feature branch, please resolve the conflicts by e.g. rebasing your branch.
 * The project exploded in the first couple of days (feature and commit wise) which resulted in a messy code base. That's why we decided to use Prettier & ESLint. Before creating a Pull Request your code has to match these requirements. To display any errors run
 `node ./node_modules/eslint/bin/eslint.js .`
 
@@ -66,16 +68,19 @@ This will display all errors and warnings. Most of these things can probably be 
 `node ./node_modules/eslint/bin/eslint.js . --fix`
 
 ### Chat Command Plugin Example
-* The folder structure for plugins is the following: `plugins/<pluginname>`. Inside the `<pluginname>` folder you need to put a file caled `<pluginname>.js` with your plugin. Optionally you can add a `settings.json` and a `README.md` file.
+* The folder structure for plugins is the following: `plugins/<pluginname>`. Inside the `<pluginname>` folder you need to put a file called `<pluginname>.js` with your plugin. Optionally you can add a `settings.json` and a `README.md` file.
 
-TODO: Add plugin template
+Plugin example inside `Plugin Template` in the github.
 
 ## Help
 
-If you don't understand something in the documentation, you are experiencing problems, or you just need a gentle
-nudge in the right direction, please don't hesitate to join our official [Trovo.js Server](https://discord.gg/Kc7fyx2).
+If you don't understand something in the documentation, you are experiencing problems, or you just need a gentle nudge in the right direction, please don't hesitate to join our official discord: [Streamer's Workshop](https://discord.gg/Kc7fyx2).
 
 ## OBS Plugin
+More info can be found on the wiki page, [OBS Alerts](https://github.com/Bioblaze/TrovoBot/wiki/OBS-Alerts).
+
+## SLOBS Plugin
+More info can be found on the wiki page, [SLOBS Alerts setup](https://github.com/Bioblaze/TrovoBot/wiki/SLOBS-Alerts-setup).
 
 ## HTTP Overlay Plugin
 
