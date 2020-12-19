@@ -1,19 +1,18 @@
 const Bot = require('../../../../modules/Bot.js');
 var path = require('path');
 var userInfo = null;
-
+var viewer = null;
 
 module.exports = {
-    name: 'vip', // Name of the Plugin
+    name: 'vip', 
     description: "Sets given viewer's vip status",
     author: "Praxem",
     license: "Apache-2.0",
-    command: 'vip', // This is the Command that is typed into Chat!
-    permissions: ['moderator', 'creator'], // This is for Permissisons depending on the Platform. 'moderator' or 'creator'
-    cooldown: 1, // this is Set in Seconds, how long between the next usage of this command.
+    command: 'vip', 
+    permissions: ['moderator', 'creator'], 
+    cooldown: 1,
     execute(client, data) {
-        var viewer;
-
+        
         if (data.args.length > 0 && data.args[0].charAt(0) == '@') {
             viewer = data.args[0].substr(1);
             userInfo[viewer].vip = true;
@@ -21,7 +20,10 @@ module.exports = {
             if (data.args[1] !== undefined && (data.args.length > 1 && data.args[1] === `revoke`)) {
                 userInfo[viewer].vip = false;
             }
-            Bot.log(`${viewer}`); Bot.log(`${userInfo[viewer].vip}`);
+            Bot.log({
+                user: viewer,
+                vip: userInfo[viewer].vip
+            });
         }
         else {
             Bot.log(`Things did not go well in the vip plugin`);

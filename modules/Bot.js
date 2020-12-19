@@ -1202,6 +1202,10 @@ Bot.prototype.defaultFallbackLocalization = () => {
                     {
                         "activated": "Gamble Plugin activated",
                         "deactivated": "Gamble Plugin deactivated"
+                    },
+                    "vip": {
+                        "activated": "VIP Plugin activated",
+                        "deactivated": "VIP Plugin deactivated"
                     }
                 }
             }
