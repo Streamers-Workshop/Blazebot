@@ -29,7 +29,7 @@
           "activated": "jsoncommands - Delete Plugin Activated",
           "deactivated": "jsoncommands - Delete Plugin Deactivated"
         },
-	"cmds": {
+        "cmds": {
           "activated": "jsoncommands - CMDS Plugin Activated",
           "deactivated": "jsoncommands - CMDS Plugin Deactivated",
           "result": "Your List of Commands : {commandList}"
@@ -64,10 +64,10 @@
           "activated": "Give Plugin activated",
           "deactivated": "Give Plugin deactivated"
         },
-		"hug": {
-		  "activated": "Hug plugin has activated",
-		  "deactivated": "Hug plugin has deactivated"
-		},
+        "hug": {
+          "activated": "Hug plugin has activated",
+          "deactivated": "Hug plugin has deactivated"
+        },
         "points": {
           "activated": "Points Plugin has been activated",
           "deactivated": "Points Plugins has been deactivated",
@@ -84,15 +84,14 @@
           "message": "@{user} was last seen: {seen}",
           "no_args": "You didn't specify a user."
         },
-		"gambler": {
-		  "activated": "Gamble Plugin activated",
-		  "deactivated": "Gamble Plugin deactivated"
-		},
-		"vip": {
-		  "activated": "VIP Plugin activated",
-		  "deactivated": "VIP Plugin deactivated"
-		}
-		}
+        "gambler": {
+          "activated": "Gamble Plugin activated",
+          "deactivated": "Gamble Plugin deactivated"
+        },
+        "vip": {
+          "activated": "VIP Plugin activated",
+          "deactivated": "VIP Plugin deactivated"
+        }
       }
     }
   },
@@ -279,12 +278,12 @@
       "example": "Example Usage: = !valorant-stats Nickname#TAG",
       "info": "@{user} here are your Valorant stats: Current Rank: {rank} / K/D Ratio: {kdr}% / Win Ratio: {kdrg} / Total Wins: {wins} / Total Kills: {kills} / Total Deaths: {deaths} / Most Kills in a Match: {mKills} / Total Matches: {totma}"
     },
-      "timed-messages": {
+    "timed-messages": {
       "activated": "Timed-messages has been Activated",
       "deactivated": "Timed-messages has been Deactivated",
       "error": "Timed-messages Error: {error}",
       "start": "Timed Messages Activated!",
-	  "stop": "Timed Messages Deactivated!"
+      "stop": "Timed Messages Deactivated!"
     },
     "xkcd": {
       "activated": "XKCD has been Activated",
@@ -305,10 +304,10 @@
       "notRunning": "There is no Giveaway at the moment"
     },
     "flip": {
-      "activated" : "Flip activated",
-      "deactivated" : "Flip deactivated",
-      "error" : "Flip Error {error}",
-      "outcome" : "The Coin is {outcome}"
+      "activated": "Flip activated",
+      "deactivated": "Flip deactivated",
+      "error": "Flip Error {error}",
+      "outcome": "The Coin is {outcome}"
     },
     "rps": {
       "activated": "rps activated",
