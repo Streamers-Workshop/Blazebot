@@ -25,11 +25,8 @@ module.exports = {
             points: userInfo[data.user].points
           }));
     }
-    
-    
   },
   activate() {
-    
     userInfo = require(path.join(Bot.data, "users/users.json"));
     Bot.log(Bot.translate("processors.user_info.plugins.points.activated"))
   },

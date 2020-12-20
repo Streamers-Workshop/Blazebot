@@ -1,9 +1,9 @@
 # Plugin
 
-## Created by: Krammy
+## Created by: Krammy, Revised by: Praxem
 
 ### What this is.
-Add points to a user. Only usable by mods and creator.
+Add points to a user. Only usable by creator.
 
 ### Trigger.
 !add @user <points>

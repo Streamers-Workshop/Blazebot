@@ -12,14 +12,11 @@ module.exports = {
     permissions: ['moderator', 'creator'], 
     cooldown: 1,
     execute(client, data) {
-        
         if (data.args.length > 0 && data.args[0].charAt(0) == '@') {
             viewer = data.args[0].substr(1);
-            userInfo[viewer].vip = true;
-
-            if (data.args[1] !== undefined && (data.args.length > 1 && data.args[1] === `revoke`)) {
+            if (data.args[1] !== undefined && data.args[1] === `revoke`) {
                 userInfo[viewer].vip = false;
-            }
+            } else { userInfo[viewer].vip = true; }
             Bot.log({
                 user: viewer,
                 vip: userInfo[viewer].vip
