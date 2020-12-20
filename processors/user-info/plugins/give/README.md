@@ -1,6 +1,6 @@
 # Plugin
 
-## Created by: Krammy
+## Created by: Krammy revised by: Praxem
 
 ### What this is.
 Give some of your points to a user.

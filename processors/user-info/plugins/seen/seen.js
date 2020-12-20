@@ -23,11 +23,8 @@ module.exports = {
     {
         client.sendMessage(Bot.translate("processors.user_info.plugins.seen.no_args"));
     }
-    
-    
   },
   activate() {
-    
     userInfo = require(path.join(Bot.data, "users/users.json"));
     Bot.log(Bot.translate("processors.user_info.plugins.seen.activated"))
   },
