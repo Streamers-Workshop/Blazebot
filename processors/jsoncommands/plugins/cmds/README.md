@@ -3,7 +3,7 @@
 ## Created by: IAmNotTheLeo
 
 ### What this is.
-Displays the jsoncommands on Trovo chat.
+Displays the jsoncommands on console.
 
 ### Trigger.
 !cmds
