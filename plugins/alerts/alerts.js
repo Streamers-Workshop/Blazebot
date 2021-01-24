@@ -209,7 +209,7 @@ module.exports = {
 
                 var d = new Date();
                 var perviousSpellTime = Number(read4File("latest-spell-time.txt"));
-                var currentSpellTime = Number((d.getHours * 60) + d.getMinutes);
+                var currentSpellTime = Number((d.getHours() * 60) + d.getMinutes());
 
                 write2File("latest-spell-time.txt", currentSpellTime);
 
