@@ -27,7 +27,7 @@
       "message": "Thank you {{user}} for the Spells!",
       "spellChatSpamProtect": true,
       "spellChatSpamProtectFilterSeparateSpells": true,
-      "spellChatSpamDelay": 5,
+      "spellChatSpamDelay": 2,
       "httpMessage": "has cast a spell!"
     },
     "joined": {
