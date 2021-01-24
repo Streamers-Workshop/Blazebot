@@ -233,10 +233,10 @@ module.exports = {
 
             // Check if the spell is same as pervious spell
 
-            var sameSpellTest = true;
+            var sameSpellTest = settings.alerts.spell.seperateSpells;
 
-            if(settings.alerts.spell.seperateSpells && settings.alerts.spell.spellChatSpamProtectFilterSeparateSpells) {
-                var lastSpellName = read4File("latest-spell-name");
+            if(settings.alerts.spell.spellChatSpamProtectFilterSeparateSpells) {
+                var lastSpellName = read4File("latest-spell-name.txt");
                 var currentSpellName = data['content'].name;
                 write2File("latest-spell-name.txt", currentSpellName);
 
@@ -302,7 +302,9 @@ module.exports = {
             obsToggle(scene, source, delay);
             slobsToggle(source, delay);
 
-            if (timeTest && userTest && sameSpellTest) {
+            // Only don't send chat alert if the same user is sending tons of same spell within the timeDelay time limit
+
+            if (timeTest || userTest || sameSpellTest) {
                 https("spell", data.user, httpMessage);
             }
         }
