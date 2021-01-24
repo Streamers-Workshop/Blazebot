@@ -222,6 +222,13 @@ module.exports = {
             
             var userTest = true;
 
+            perviousSpellCaster = read4File("lates-spell.txt")
+            currentSpellCaster = data.user;
+            write2File("latest-spell.txt", data.user);
+
+            if (perviousSpellCaster == currentSpellCaster) {
+                userTest = false;
+            }
 
 
             // Check if the spell is same as pervious spell
@@ -239,7 +246,7 @@ module.exports = {
             }
 
             Bot.log("activating");
-            write2File("latest-spell.txt", data.user);
+
             const spellSettings = JSON.parse(fs.readFileSync(path.join(__dirname, 'spells.json'), "utf8"));
             var scene = "";
             var source = "";
@@ -294,7 +301,10 @@ module.exports = {
             }));
             obsToggle(scene, source, delay);
             slobsToggle(source, delay);
-            https("spell", data.user, httpMessage);
+
+            if (timeTest && userTest && sameSpellTest) {
+                https("spell", data.user, httpMessage);
+            }
         }
     },
     activate() {
