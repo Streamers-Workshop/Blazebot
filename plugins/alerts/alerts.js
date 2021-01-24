@@ -45,6 +45,17 @@ function append2File(fileName, data) {
     });
 }
 
+function read4File(fileName) {
+    return fs.readFileSync(path.join(Bot.root, 'labels', fileName), (err) => {
+        if (err) {
+            Bot.log(Bot.translate("plugins.alerts.error_writing", {
+                fileName: fileName,
+                error: err
+            }));
+        }
+    });
+}
+
 function obsToggle(scene, source, delay) {
     const obs = Bot.getService('obs-controller');
     if (obsSetting.active) {
@@ -188,6 +199,45 @@ module.exports = {
         else if ((data.chatType === SPELL ||
             (data.args !== undefined && data.args[0] === "spell" && settings.test))
             && settings.alerts.spell.active) {
+
+            // Check if the in chat alert has to be sent, by default we always send the chat alerts.
+
+            var timeTest = true;
+
+            if (settings.alerts.spell.spellChatSpamProtect) {
+                var timeDelay = Number(settings.alerts.spell.spellChatSpamDelay);
+
+                var d = new Date();
+                var perviousSpellTime = Number(read4File("latest-spell-time.txt"));
+                var currentSpellTime = Number((d.getHours * 60) + d.getMinutes);
+
+                write2File("latest-spell-time.txt", currentSpellTime);
+
+                if ((currentSpellTime-perviousSpellTime) >= timeDelay) {
+                    timeTest = true
+                } else timeTest = false
+            }
+            
+            // Check if the same user is sending the spell
+            
+            var userTest = true;
+
+
+
+            // Check if the spell is same as pervious spell
+
+            var sameSpellTest = true;
+
+            if(settings.alerts.spell.seperateSpells && settings.alerts.spell.spellChatSpamProtectFilterSeparateSpells) {
+                var lastSpellName = read4File("latest-spell-name");
+                var currentSpellName = data['content'].name;
+                write2File("latest-spell-name.txt", currentSpellName);
+
+                if (lastSpellName == currentSpellName) {
+                    sameSpellTest = false
+                }
+            }
+
             Bot.log("activating");
             write2File("latest-spell.txt", data.user);
             const spellSettings = JSON.parse(fs.readFileSync(path.join(__dirname, 'spells.json'), "utf8"));
