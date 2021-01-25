@@ -45,6 +45,17 @@ function append2File(fileName, data) {
     });
 }
 
+function read4File(fileName) {
+    return fs.readFileSync(path.join(Bot.root, 'labels', fileName), (err) => {
+        if (err) {
+            Bot.log(Bot.translate("plugins.alerts.error_writing", {
+                fileName: fileName,
+                error: err
+            }));
+        }
+    });
+}
+
 function obsToggle(scene, source, delay) {
     const obs = Bot.getService('obs-controller');
     if (obsSetting.active) {
@@ -188,8 +199,54 @@ module.exports = {
         else if ((data.chatType === SPELL ||
             (data.args !== undefined && data.args[0] === "spell" && settings.test))
             && settings.alerts.spell.active) {
-            Bot.log("activating");
+
+            // Check if the in chat alert has to be sent, by default we always send the chat alerts.
+
+            var timeTest = true;
+
+            if (settings.alerts.spell.spellChatSpamProtect) {
+                var timeDelay = Number(settings.alerts.spell.spellChatSpamDelay);
+
+                var d = new Date();
+                var perviousSpellTime = Number(read4File("latest-spell-time.txt"));
+                var currentSpellTime = Number((d.getHours() * 60) + d.getMinutes());
+
+                write2File("latest-spell-time.txt", currentSpellTime);
+
+                if ((currentSpellTime-perviousSpellTime) >= timeDelay) {
+                    timeTest = true
+                } else timeTest = false
+            }
+            
+            // Check if the same user is sending the spell
+            
+            var userTest = true;
+
+            perviousSpellCaster = read4File("lates-spell.txt")
+            currentSpellCaster = data.user;
             write2File("latest-spell.txt", data.user);
+
+            if (perviousSpellCaster == currentSpellCaster) {
+                userTest = false;
+            }
+
+
+            // Check if the spell is same as pervious spell
+
+            var sameSpellTest = settings.alerts.spell.seperateSpells;
+
+            if(settings.alerts.spell.spellChatSpamProtectFilterSeparateSpells) {
+                var lastSpellName = read4File("latest-spell-name.txt");
+                var currentSpellName = data['content'].name;
+                write2File("latest-spell-name.txt", currentSpellName);
+
+                if (lastSpellName == currentSpellName) {
+                    sameSpellTest = false
+                }
+            }
+
+            Bot.log("activating");
+
             const spellSettings = JSON.parse(fs.readFileSync(path.join(__dirname, 'spells.json'), "utf8"));
             var scene = "";
             var source = "";
@@ -244,7 +301,12 @@ module.exports = {
             }));
             obsToggle(scene, source, delay);
             slobsToggle(source, delay);
-            https("spell", data.user, httpMessage);
+
+            // Only don't send chat alert if the same user is sending tons of same spell within the timeDelay time limit
+
+            if (timeTest || userTest || sameSpellTest) {
+                https("spell", data.user, httpMessage);
+            }
         }
     },
     activate() {
