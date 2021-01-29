@@ -222,7 +222,7 @@ module.exports = {
             
             var userTest = true;
 
-            perviousSpellCaster = read4File("lates-spell.txt")
+            perviousSpellCaster = read4File("latest-spell.txt")
             currentSpellCaster = data.user;
             write2File("latest-spell.txt", data.user);
 
