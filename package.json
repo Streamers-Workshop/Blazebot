@@ -27,7 +27,7 @@
     "socket.io": "^3.0.4",
     "trovo.js": "^1.9.6",
     "vorpal": "^1.12.0",
-    "ws": "^7.4.1"
+    "ws": "^7.4.2"
   },
   "devDependencies": {},
   "scripts": {
