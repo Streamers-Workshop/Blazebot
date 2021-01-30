@@ -93,7 +93,7 @@ function https(_page, _user, _message) {
 module.exports = {
     name: 'alerts', // Name of the Plugin
     description: "Trigger for all the alerts.",
-    author: "Made by Krammy, Modified alert: Praxem",
+    author: "Made by Krammy, Modified alert: Praxem, Spam Protection: MarkoBogSRB",
     license: "Apache-2.0",
     permissions: ['creator'], // This is for Permissisons depending on the Platform.
     event: [FOLLOW, SUBS, JOINED, SPELL, RAID], // Type Event
@@ -222,26 +222,25 @@ module.exports = {
             
             var userTest = true;
 
-            perviousSpellCaster = read4File("latest-spell.txt")
+            perviousSpellCaster = String(read4File("latest-spell.txt"))
             currentSpellCaster = data.user;
-            write2File("latest-spell.txt", data.user);
-
             if (perviousSpellCaster == currentSpellCaster) {
                 userTest = false;
             }
-
+            write2File("latest-spell.txt", data.user);
 
             // Check if the spell is same as pervious spell
 
             var sameSpellTest = settings.alerts.spell.seperateSpells;
-
             if(settings.alerts.spell.spellChatSpamProtectFilterSeparateSpells) {
-                var lastSpellName = read4File("latest-spell-name.txt");
+                var lastSpellName = String(read4File("latest-spell-name.txt"));
                 var currentSpellName = data['content'].name;
                 write2File("latest-spell-name.txt", currentSpellName);
 
                 if (lastSpellName == currentSpellName) {
                     sameSpellTest = false
+                } else {
+                    sameSpellTest = true
                 }
             }
 
@@ -279,7 +278,7 @@ module.exports = {
                         source = spellSettings.spells[spellName].source;
                         delay = spellSettings.spells[spellName].delay;
                         message = spellSettings.spells[spellName].message;
-                        httpMessage = spellSettings.spells[spellname].httpMessage;
+                        httpMessage = spellSettings.spells[spellName].httpMessage;
                     } else {
                         scene = settings.alerts.spell.scene;
                         source = settings.alerts.spell.source;
@@ -295,16 +294,17 @@ module.exports = {
                 message = settings.alerts.spell.message;
                 httpMessage = settings.alerts.spell.httpMessage;
             }
-            var template = Handlebars.compile(message);
-            client.sendMessage(template({
-                user: data.user,
-            }));
-            obsToggle(scene, source, delay);
-            slobsToggle(source, delay);
 
             // Only don't send chat alert if the same user is sending tons of same spell within the timeDelay time limit
 
             if (timeTest || userTest || sameSpellTest) {
+                var template = Handlebars.compile(message);
+                client.sendMessage(template({
+                    user: data.user,
+                }));
+
+                obsToggle(scene, source, delay);
+                slobsToggle(source, delay);
                 https("spell", data.user, httpMessage);
             }
         }
