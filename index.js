@@ -1,11 +1,15 @@
 const path = require('path');
 const util = require('util');
+const fs = require('fs');
 
 const trovojs = require('trovo.js');
 
 var DEV = false;
 
 const Bot = require(path.join(__dirname, 'modules', 'Bot.js'));
+
+const cookiesJson = fs.readFileSync("cookies.json");
+const cookies = JSON.parse(cookiesJson);
 
 const client = new trovojs.BrowserClient({ logger: Bot.log, headless: !DEV });
 
@@ -133,6 +137,7 @@ client.login(
   Bot.settings.trovo.page,
   Bot.settings.trovo.email,
   Bot.settings.trovo.password,
+  cookies,
   Bot.settings.owner.email || null,
   Bot.settings.owner.password || null
 );
