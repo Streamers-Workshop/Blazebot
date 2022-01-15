@@ -17,7 +17,7 @@
     "handlebars": "^4.7.6",
     "inquirer": "^7.3.3",
     "localizify": "^2.0.0",
-    "marked": "^1.2.8",
+    "marked": "^4.0.10",
     "marked-terminal": "^4.1.0",
     "obs-websocket-js": "^4.0.2",
     "prepend": "^1.0.2",
